@@ -8,14 +8,15 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Plus, Search, Trash2, Coffee, Sun, Moon, Cookie, PenLine } from 'lucide-react';
+import { Plus, Search, Trash2, Coffee, Sun, Moon, Cookie, PenLine, Clock } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
 
-const mealConfig: { type: MealType; label: string; icon: typeof Coffee }[] = [
-  { type: 'breakfast', label: 'Breakfast', icon: Coffee },
-  { type: 'lunch', label: 'Lunch', icon: Sun },
-  { type: 'dinner', label: 'Dinner', icon: Moon },
-  { type: 'snacks', label: 'Snacks', icon: Cookie },
+const mealConfig: { type: MealType; label: string; icon: typeof Coffee; gradient: string }[] = [
+  { type: 'breakfast', label: 'Breakfast', icon: Coffee, gradient: 'from-amber-500/10 to-orange-500/5' },
+  { type: 'lunch', label: 'Lunch', icon: Sun, gradient: 'from-primary/10 to-emerald-500/5' },
+  { type: 'dinner', label: 'Dinner', icon: Moon, gradient: 'from-indigo-500/10 to-purple-500/5' },
+  { type: 'snacks', label: 'Snacks', icon: Cookie, gradient: 'from-pink-500/10 to-rose-500/5' },
 ];
 
 export default function MealLogger() {
@@ -23,12 +24,19 @@ export default function MealLogger() {
   const dateStr = formatDate(selectedDate);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
         Meals — {selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
       </h2>
-      {mealConfig.map(meal => (
-        <MealSection key={meal.type} meal={meal} entries={getEntriesForMeal(dateStr, meal.type)} dateStr={dateStr} />
+      {mealConfig.map((meal, index) => (
+        <motion.div
+          key={meal.type}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: index * 0.05 }}
+        >
+          <MealSection meal={meal} entries={getEntriesForMeal(dateStr, meal.type)} dateStr={dateStr} />
+        </motion.div>
       ))}
     </div>
   );
@@ -41,72 +49,74 @@ function MealSection({ meal, entries, dateStr }: {
   const totalCal = entries.reduce((s, e) => s + calculateEntryNutrients(e).calories, 0);
 
   return (
-    <div className="rounded-lg border border-border bg-card p-4 shadow-card">
+    <div className={cn('rounded-xl border border-border bg-gradient-to-br p-4 shadow-card', meal.gradient)}>
       <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <meal.icon className="h-4 w-4 text-primary" />
-          <span className="font-medium text-sm text-foreground">{meal.label}</span>
+        <div className="flex items-center gap-2.5">
+          <div className="p-1.5 rounded-lg bg-card/80">
+            <meal.icon className="h-4 w-4 text-primary" />
+          </div>
+          <span className="font-semibold text-sm text-foreground">{meal.label}</span>
           {entries.length > 0 && (
-            <span className="text-xs text-muted-foreground">{totalCal} kcal</span>
+            <span className="text-xs text-muted-foreground bg-card/60 px-2 py-0.5 rounded-full">{totalCal} kcal</span>
           )}
         </div>
         <AddFoodDialog mealType={meal.type} dateStr={dateStr} onAdd={addFoodEntry} />
       </div>
-      {entries.length === 0 ? (
-        <p className="text-xs text-muted-foreground italic">No foods logged yet</p>
-      ) : (
-        <div className="space-y-2">
-          {entries.map(entry => {
-            const n = calculateEntryNutrients(entry);
-            return (
-              <div key={entry.id} className="flex items-center justify-between rounded-md bg-secondary/40 px-3 py-2">
-                <div>
-                  <p className="text-sm font-medium text-foreground">{entry.foodItem.name}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {entry.quantity}g · {n.calories} kcal · P:{n.protein}g · C:{n.carbs}g · F:{n.fats}g
-                  </p>
-                </div>
-                <button onClick={() => removeFoodEntry(dateStr, entry.id)} className="p-1 rounded hover:bg-destructive/10">
-                  <Trash2 className="h-3.5 w-3.5 text-destructive" />
-                </button>
-              </div>
-            );
-          })}
-        </div>
-      )}
+      <AnimatePresence>
+        {entries.length === 0 ? (
+          <p className="text-xs text-muted-foreground italic">Tap + to log what you ate</p>
+        ) : (
+          <div className="space-y-1.5">
+            {entries.map(entry => {
+              const n = calculateEntryNutrients(entry);
+              return (
+                <motion.div
+                  key={entry.id}
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="flex items-center justify-between rounded-lg bg-card/80 backdrop-blur-sm px-3 py-2"
+                >
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium text-foreground truncate">{entry.foodItem.name}</p>
+                    <p className="text-[11px] text-muted-foreground">
+                      {entry.quantity}g · <span className="text-info">{n.calories} kcal</span> · P:{n.protein}g · C:{n.carbs}g · F:{n.fats}g
+                    </p>
+                  </div>
+                  <button onClick={() => removeFoodEntry(dateStr, entry.id)} className="p-1.5 rounded-lg hover:bg-destructive/10 transition-colors ml-2">
+                    <Trash2 className="h-3.5 w-3.5 text-destructive" />
+                  </button>
+                </motion.div>
+              );
+            })}
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
-/** Parse free-text like "100g rice, 2 roti, 150g biryani" into food entries */
 function parseTextInput(text: string): { name: string; quantity: number }[] {
   const lines = text.split(/[,\n]+/).map(s => s.trim()).filter(Boolean);
   const results: { name: string; quantity: number }[] = [];
-  
   for (const line of lines) {
-    // Match patterns: "100g rice", "100 g rice", "rice 100g", "2 roti", "rice"
     const matchQtyFirst = line.match(/^(\d+)\s*g?\s+(.+)$/i);
     const matchQtyLast = line.match(/^(.+?)\s+(\d+)\s*g?$/i);
-    
     if (matchQtyFirst) {
       results.push({ quantity: parseInt(matchQtyFirst[1]), name: matchQtyFirst[2].trim() });
     } else if (matchQtyLast) {
       results.push({ quantity: parseInt(matchQtyLast[2]), name: matchQtyLast[1].trim() });
     } else {
-      // No quantity specified, default to 100g
       results.push({ quantity: 100, name: line.trim() });
     }
   }
   return results;
 }
 
-/** Find best matching food from database */
 function findBestMatch(query: string) {
   const q = query.toLowerCase();
-  // Try exact-ish match first
   let match = foodDatabase.find(f => f.name.toLowerCase().includes(q));
   if (!match) {
-    // Try matching each word
     const words = q.split(/\s+/);
     match = foodDatabase.find(f => words.some(w => w.length > 2 && f.name.toLowerCase().includes(w)));
   }
@@ -116,11 +126,12 @@ function findBestMatch(query: string) {
 function AddFoodDialog({ mealType, dateStr, onAdd }: {
   mealType: MealType; dateStr: string; onAdd: (date: string, entry: FoodEntry) => void;
 }) {
+  const { recentFoods } = useAppState();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [quantity, setQuantity] = useState(100);
   const [freeText, setFreeText] = useState('');
-  const [parsedItems, setParsedItems] = useState<{ name: string; quantity: number; matched?: typeof foodDatabase[0]; }[]>([]);
+  const [parsedItems, setParsedItems] = useState<{ name: string; quantity: number; matched?: typeof foodDatabase[0] }[]>([]);
   const results = searchFoods(query);
 
   const handleAdd = (food: typeof results[0], qty?: number) => {
@@ -139,16 +150,11 @@ function AddFoodDialog({ mealType, dateStr, onAdd }: {
 
   const handleParseText = () => {
     const items = parseTextInput(freeText);
-    const withMatches = items.map(item => ({
-      ...item,
-      matched: findBestMatch(item.name),
-    }));
-    setParsedItems(withMatches);
+    setParsedItems(items.map(item => ({ ...item, matched: findBestMatch(item.name) })));
   };
 
   const handleAddAllParsed = () => {
-    const matched = parsedItems.filter(p => p.matched);
-    matched.forEach(item => {
+    parsedItems.filter(p => p.matched).forEach(item => {
       onAdd(dateStr, {
         id: `${Date.now()}-${Math.random()}-${item.name}`,
         foodItem: item.matched!,
@@ -164,28 +170,31 @@ function AddFoodDialog({ mealType, dateStr, onAdd }: {
   return (
     <Dialog open={open} onOpenChange={(v) => { setOpen(v); if (!v) { setParsedItems([]); setFreeText(''); setQuery(''); } }}>
       <DialogTrigger asChild>
-        <button className="flex items-center gap-1 text-xs font-medium text-primary hover:text-primary/80 transition-colors">
-          <Plus className="h-3.5 w-3.5" /> Add
+        <button className="flex items-center gap-1 text-xs font-medium text-primary hover:text-primary/80 transition-colors bg-card/80 px-2.5 py-1.5 rounded-lg">
+          <Plus className="h-3.5 w-3.5" /> Add Food
         </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md max-h-[85vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Add Food</DialogTitle>
+          <DialogTitle className="flex items-center gap-2">Add Food <span className="text-xs font-normal text-muted-foreground capitalize">to {mealType}</span></DialogTitle>
         </DialogHeader>
         <Tabs defaultValue="write" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="write" className="flex items-center gap-1.5">
-              <PenLine className="h-3.5 w-3.5" /> Write What You Ate
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="write" className="flex items-center gap-1 text-xs">
+              <PenLine className="h-3 w-3" /> Write
             </TabsTrigger>
-            <TabsTrigger value="search" className="flex items-center gap-1.5">
-              <Search className="h-3.5 w-3.5" /> Search Foods
+            <TabsTrigger value="search" className="flex items-center gap-1 text-xs">
+              <Search className="h-3 w-3" /> Search
+            </TabsTrigger>
+            <TabsTrigger value="recent" className="flex items-center gap-1 text-xs">
+              <Clock className="h-3 w-3" /> Recent
             </TabsTrigger>
           </TabsList>
 
           {/* Write Tab */}
           <TabsContent value="write" className="space-y-3 mt-3">
             <p className="text-xs text-muted-foreground">
-              Type what you ate. Example: <span className="text-foreground font-medium">100g biryani, 2 roti, 150g keema</span>
+              Type what you ate: <span className="text-foreground font-medium">100g biryani, 2 roti, 150g keema</span>
             </p>
             <Textarea
               placeholder={"100g chicken biryani\n2 roti\n150g shami kebab\n1 chai"}
@@ -198,22 +207,20 @@ function AddFoodDialog({ mealType, dateStr, onAdd }: {
             </Button>
 
             {parsedItems.length > 0 && (
-              <div className="space-y-2 border border-border rounded-lg p-3 bg-secondary/20">
+              <div className="space-y-2 border border-border rounded-xl p-3 bg-secondary/20">
                 <p className="text-xs font-semibold text-muted-foreground uppercase">Results</p>
                 {parsedItems.map((item, i) => (
                   <div key={i} className={cn(
-                    "flex items-center justify-between rounded-md px-3 py-2 text-sm",
+                    "flex items-center justify-between rounded-lg px-3 py-2 text-sm",
                     item.matched ? "bg-card" : "bg-destructive/10"
                   )}>
-                    <div>
-                      <p className="font-medium text-foreground">
-                        {item.quantity}g {item.name}
-                      </p>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-medium text-foreground">{item.quantity}g {item.name}</p>
                       {item.matched ? (
                         <p className="text-xs text-muted-foreground">
-                          Matched: {item.matched.name} → {Math.round(item.matched.nutrients.calories * item.quantity / item.matched.servingSize)} kcal · 
-                          P:{(item.matched.nutrients.protein * item.quantity / item.matched.servingSize).toFixed(1)}g · 
-                          C:{(item.matched.nutrients.carbs * item.quantity / item.matched.servingSize).toFixed(1)}g · 
+                          → {item.matched.name}: {Math.round(item.matched.nutrients.calories * item.quantity / item.matched.servingSize)} kcal ·
+                          P:{(item.matched.nutrients.protein * item.quantity / item.matched.servingSize).toFixed(1)}g ·
+                          C:{(item.matched.nutrients.carbs * item.quantity / item.matched.servingSize).toFixed(1)}g ·
                           F:{(item.matched.nutrients.fats * item.quantity / item.matched.servingSize).toFixed(1)}g
                         </p>
                       ) : (
@@ -221,15 +228,13 @@ function AddFoodDialog({ mealType, dateStr, onAdd }: {
                       )}
                     </div>
                     {item.matched && (
-                      <button onClick={() => handleAdd(item.matched!, item.quantity)} className="text-xs text-primary font-medium hover:underline whitespace-nowrap ml-2">
-                        Add
-                      </button>
+                      <button onClick={() => handleAdd(item.matched!, item.quantity)} className="text-xs text-primary font-medium hover:underline ml-2">Add</button>
                     )}
                   </div>
                 ))}
                 {parsedItems.some(p => p.matched) && (
-                  <Button onClick={handleAddAllParsed} size="sm" className="w-full mt-2">
-                    Add All Matched ({parsedItems.filter(p => p.matched).length} items)
+                  <Button onClick={handleAddAllParsed} size="sm" className="w-full mt-1">
+                    Add All ({parsedItems.filter(p => p.matched).length} items)
                   </Button>
                 )}
               </div>
@@ -237,35 +242,55 @@ function AddFoodDialog({ mealType, dateStr, onAdd }: {
           </TabsContent>
 
           {/* Search Tab */}
-          <TabsContent value="search" className="space-y-4 mt-3">
+          <TabsContent value="search" className="space-y-3 mt-3">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search foods..."
-                value={query}
-                onChange={e => setQuery(e.target.value)}
-                className="pl-9"
-              />
+              <Input placeholder="Search Pakistani foods..." value={query} onChange={e => setQuery(e.target.value)} className="pl-9" />
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground whitespace-nowrap">Quantity (g):</span>
+              <span className="text-xs text-muted-foreground whitespace-nowrap">Qty (g):</span>
               <Input type="number" value={quantity} onChange={e => setQuantity(+e.target.value)} className="h-8 w-24" />
             </div>
             <div className="max-h-60 overflow-y-auto space-y-1">
-              {results.map(food => (
+              {results.slice(0, 20).map(food => (
                 <button
                   key={food.id}
                   onClick={() => handleAdd(food)}
-                  className="w-full flex items-center justify-between rounded-md px-3 py-2.5 hover:bg-secondary transition-colors text-left"
+                  className="w-full flex items-center justify-between rounded-lg px-3 py-2.5 hover:bg-secondary transition-colors text-left"
                 >
-                  <div>
-                    <p className="text-sm font-medium text-foreground">{food.name}</p>
-                    <p className="text-xs text-muted-foreground">{food.category} · {food.servingSize}{food.servingUnit} serving</p>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium text-foreground truncate">{food.name}</p>
+                    <p className="text-xs text-muted-foreground">{food.category} · {food.servingSize}{food.servingUnit}</p>
                   </div>
-                  <span className="text-xs font-medium text-primary">{Math.round(food.nutrients.calories * quantity / food.servingSize)} kcal</span>
+                  <span className="text-xs font-medium text-primary ml-2">{Math.round(food.nutrients.calories * quantity / food.servingSize)} kcal</span>
                 </button>
               ))}
             </div>
+          </TabsContent>
+
+          {/* Recent Tab */}
+          <TabsContent value="recent" className="space-y-3 mt-3">
+            {recentFoods.length === 0 ? (
+              <p className="text-xs text-muted-foreground italic py-4 text-center">No recent foods yet. Start logging!</p>
+            ) : (
+              <div className="space-y-1">
+                {recentFoods.map((entry, i) => (
+                  <button
+                    key={`${entry.foodItem.id}-${i}`}
+                    onClick={() => handleAdd(entry.foodItem, entry.quantity)}
+                    className="w-full flex items-center justify-between rounded-lg px-3 py-2.5 hover:bg-secondary transition-colors text-left"
+                  >
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium text-foreground truncate">{entry.foodItem.name}</p>
+                      <p className="text-xs text-muted-foreground">{entry.quantity}g · {entry.mealType}</p>
+                    </div>
+                    <span className="text-xs font-medium text-primary ml-2">
+                      {Math.round(entry.foodItem.nutrients.calories * entry.quantity / entry.foodItem.servingSize)} kcal
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
           </TabsContent>
         </Tabs>
       </DialogContent>

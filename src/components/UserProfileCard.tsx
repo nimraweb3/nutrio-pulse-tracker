@@ -3,7 +3,8 @@ import { calculateBMR, calculateTDEE, calculateTargetCalories, calculateTargetNu
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Droplets, Flame, Target, Activity } from 'lucide-react';
+import { Droplets, Flame, Target, Activity, User } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function UserProfileCard() {
   const { profile, setProfile } = useAppState();
@@ -13,15 +14,23 @@ export default function UserProfileCard() {
   const water = waterIntake(profile.weight);
 
   const stats = [
-    { label: 'BMR', value: `${bmr}`, unit: 'kcal', icon: Flame },
-    { label: 'TDEE', value: `${tdee}`, unit: 'kcal', icon: Activity },
-    { label: 'Target', value: `${targetCal}`, unit: 'kcal', icon: Target },
-    { label: 'Water', value: `${water}`, unit: 'L/day', icon: Droplets },
+    { label: 'BMR', value: `${bmr}`, unit: 'kcal', icon: Flame, color: 'text-destructive' },
+    { label: 'TDEE', value: `${tdee}`, unit: 'kcal', icon: Activity, color: 'text-warning' },
+    { label: 'Target', value: `${targetCal}`, unit: 'kcal', icon: Target, color: 'text-primary' },
+    { label: 'Water', value: `${water}`, unit: 'L/day', icon: Droplets, color: 'text-info' },
   ];
 
   return (
-    <div className="rounded-lg border border-border bg-card p-5 shadow-card">
-      <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">Your Profile</h2>
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="rounded-xl border border-border bg-card p-5 shadow-card"
+    >
+      <div className="flex items-center gap-2 mb-4">
+        <User className="h-4 w-4 text-primary" />
+        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Your Profile</h2>
+      </div>
 
       <div className="grid grid-cols-2 gap-3 mb-5">
         <div>
@@ -72,17 +81,23 @@ export default function UserProfileCard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        {stats.map(s => (
-          <div key={s.label} className="flex items-center gap-2 rounded-md bg-secondary/50 p-3">
-            <s.icon className="h-4 w-4 text-primary" />
+      <div className="grid grid-cols-2 gap-2.5">
+        {stats.map((s, i) => (
+          <motion.div
+            key={s.label}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1 + i * 0.05 }}
+            className="flex items-center gap-2 rounded-xl bg-secondary/50 p-3"
+          >
+            <s.icon className={`h-4 w-4 ${s.color}`} />
             <div>
-              <p className="text-xs text-muted-foreground">{s.label}</p>
-              <p className="text-sm font-bold text-foreground">{s.value} <span className="font-normal text-xs text-muted-foreground">{s.unit}</span></p>
+              <p className="text-[10px] text-muted-foreground">{s.label}</p>
+              <p className="text-sm font-bold text-foreground">{s.value} <span className="font-normal text-[10px] text-muted-foreground">{s.unit}</span></p>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
