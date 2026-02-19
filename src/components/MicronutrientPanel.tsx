@@ -1,5 +1,7 @@
 import { useAppState } from '@/context/AppContext';
 import { formatDate, sumNutrients, calculateTargetNutrients } from '@/utils/nutritionCalculations';
+import { motion } from 'framer-motion';
+import { Pill } from 'lucide-react';
 
 const micronutrients = [
   { key: 'vitaminA', label: 'Vitamin A', unit: 'mcg' },
@@ -27,10 +29,18 @@ export default function MicronutrientPanel() {
   const target = calculateTargetNutrients(profile);
 
   return (
-    <div className="rounded-lg border border-border bg-card p-5 shadow-card">
-      <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">Micronutrients</h2>
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: 0.1 }}
+      className="rounded-xl border border-border bg-card p-5 shadow-card"
+    >
+      <div className="flex items-center gap-2 mb-4">
+        <Pill className="h-4 w-4 text-primary" />
+        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Micronutrients</h2>
+      </div>
       <div className="space-y-2">
-        {micronutrients.map(mn => {
+        {micronutrients.map((mn, i) => {
           const c = consumed[mn.key] as number;
           const t = target[mn.key] as number;
           const pct = t > 0 ? Math.min((c / t) * 100, 100) : 0;
@@ -40,18 +50,20 @@ export default function MicronutrientPanel() {
             <div key={mn.key} className="flex items-center gap-3">
               <span className="text-xs text-foreground w-20 truncate">{mn.label}</span>
               <div className="flex-1 h-1.5 rounded-full bg-secondary overflow-hidden">
-                <div
-                  className={`h-full rounded-full transition-all duration-500 ${isHigh ? 'bg-destructive' : isLow ? 'bg-warning' : 'bg-primary'}`}
-                  style={{ width: `${pct}%` }}
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${pct}%` }}
+                  transition={{ duration: 0.5, delay: i * 0.03 }}
+                  className={`h-full rounded-full ${isHigh ? 'bg-destructive' : isLow ? 'bg-warning' : 'bg-primary'}`}
                 />
               </div>
-              <span className="text-[10px] text-muted-foreground w-20 text-right">
+              <span className="text-[10px] text-muted-foreground w-24 text-right">
                 {c}{mn.unit} / {t}{mn.unit}
               </span>
             </div>
           );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useAppState } from '@/context/AppContext';
 import { formatDate } from '@/utils/nutritionCalculations';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
 
 export default function DailyCalendar() {
   const { selectedDate, setSelectedDate, dayLogs } = useAppState();
@@ -21,19 +22,27 @@ export default function DailyCalendar() {
   const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   return (
-    <div className="rounded-lg border border-border bg-card p-4 shadow-card">
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="rounded-xl border border-border bg-card p-4 shadow-card"
+    >
       <div className="flex items-center justify-between mb-3">
-        <button onClick={() => setWeekOffset(w => w - 1)} className="p-1 rounded hover:bg-secondary">
+        <button onClick={() => setWeekOffset(w => w - 1)} className="p-1.5 rounded-lg hover:bg-secondary transition-colors">
           <ChevronLeft className="h-4 w-4 text-muted-foreground" />
         </button>
-        <span className="text-sm font-medium text-foreground">
-          {startOfWeek.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
-        </span>
-        <button onClick={() => setWeekOffset(w => w + 1)} className="p-1 rounded hover:bg-secondary">
+        <div className="flex items-center gap-1.5">
+          <Calendar className="h-3.5 w-3.5 text-primary" />
+          <span className="text-sm font-semibold text-foreground">
+            {startOfWeek.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+          </span>
+        </div>
+        <button onClick={() => setWeekOffset(w => w + 1)} className="p-1.5 rounded-lg hover:bg-secondary transition-colors">
           <ChevronRight className="h-4 w-4 text-muted-foreground" />
         </button>
       </div>
-      <div className="grid grid-cols-7 gap-1">
+      <div className="grid grid-cols-7 gap-1.5">
         {days.map((d, i) => {
           const dateStr = formatDate(d);
           const isToday = formatDate(today) === dateStr;
@@ -41,13 +50,17 @@ export default function DailyCalendar() {
           const hasEntries = (dayLogs[dateStr]?.entries?.length || 0) > 0;
 
           return (
-            <button
+            <motion.button
               key={dateStr}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedDate(d)}
               className={cn(
-                'flex flex-col items-center p-2 rounded-lg transition-all',
-                isSelected ? 'bg-primary text-primary-foreground' : 'hover:bg-secondary',
-                isToday && !isSelected && 'ring-1 ring-primary'
+                'flex flex-col items-center py-2.5 px-1 rounded-xl transition-all duration-200',
+                isSelected
+                  ? 'gradient-primary text-primary-foreground shadow-md'
+                  : 'hover:bg-secondary',
+                isToday && !isSelected && 'ring-2 ring-primary/50 bg-primary/5'
               )}
             >
               <span className={cn('text-[10px] font-medium', isSelected ? 'text-primary-foreground/80' : 'text-muted-foreground')}>
@@ -59,10 +72,10 @@ export default function DailyCalendar() {
               {hasEntries && (
                 <div className={cn('w-1.5 h-1.5 rounded-full mt-0.5', isSelected ? 'bg-primary-foreground' : 'bg-primary')} />
               )}
-            </button>
+            </motion.button>
           );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 }
