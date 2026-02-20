@@ -252,17 +252,32 @@ function AddFoodDialog({ mealType, dateStr, onAdd }: {
               <Input type="number" value={quantity} onChange={e => setQuantity(+e.target.value)} className="h-8 w-24" />
             </div>
             <div className="max-h-60 overflow-y-auto space-y-1">
-              {results.slice(0, 20).map(food => (
+              {results.slice(0, 30).map(food => (
                 <button
                   key={food.id}
                   onClick={() => handleAdd(food)}
                   className="w-full flex items-center justify-between rounded-lg px-3 py-2.5 hover:bg-secondary transition-colors text-left"
                 >
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium text-foreground truncate">{food.name}</p>
-                    <p className="text-xs text-muted-foreground">{food.category} · {food.servingSize}{food.servingUnit}</p>
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <p className="text-sm font-medium text-foreground truncate">{food.name}</p>
+                      <span className={cn(
+                        "text-[10px] font-semibold px-1.5 py-0.5 rounded-full shrink-0",
+                        food.category === 'Protein' ? 'bg-blue-500/15 text-blue-600 dark:text-blue-400' :
+                        food.category === 'Carbohydrates' ? 'bg-amber-500/15 text-amber-600 dark:text-amber-400' :
+                        food.category === 'Fats' ? 'bg-purple-500/15 text-purple-600 dark:text-purple-400' :
+                        food.category === 'Fiber & Vitamins' ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400' :
+                        food.category === 'Sugar' ? 'bg-rose-500/15 text-rose-600 dark:text-rose-400' :
+                        'bg-muted text-muted-foreground'
+                      )}>
+                        {food.category}
+                      </span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      P:{(food.nutrients.protein * quantity / food.servingSize).toFixed(1)}g · C:{(food.nutrients.carbs * quantity / food.servingSize).toFixed(1)}g · F:{(food.nutrients.fats * quantity / food.servingSize).toFixed(1)}g
+                    </p>
                   </div>
-                  <span className="text-xs font-medium text-primary ml-2">{Math.round(food.nutrients.calories * quantity / food.servingSize)} kcal</span>
+                  <span className="text-xs font-medium text-primary ml-2 shrink-0">{Math.round(food.nutrients.calories * quantity / food.servingSize)} kcal</span>
                 </button>
               ))}
             </div>
