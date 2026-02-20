@@ -168,6 +168,122 @@ export const foodDatabase: FoodItem[] = [
     nutrients: { calories: 83, protein: 0.6, carbs: 22, fats: 0.1, fiber: 2, sugar: 19, vitaminA: 1.5, vitaminC: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0.8, vitaminB6: 0.1, vitaminB12: 0, calcium: 19, iron: 0.3, magnesium: 16, zinc: 0.1, potassium: 208, sodium: 1, cholesterol: 0, omega3: 0, omega6: 0 } },
   { id: 'g10', name: 'Watermelon', category: 'Fruits', servingSize: 100, servingUnit: 'g',
     nutrients: { calories: 30, protein: 0.6, carbs: 7.6, fats: 0.2, fiber: 0.4, sugar: 6.2, vitaminA: 28, vitaminC: 8.1, vitaminD: 0, vitaminE: 0, vitaminK: 0.1, vitaminB6: 0, vitaminB12: 0, calcium: 7, iron: 0.2, magnesium: 10, zinc: 0.1, potassium: 112, sodium: 1, cholesterol: 0, omega3: 0.01, omega6: 0.02 } },
+
+  // === Vegetables ===
+  { id: 'veg1', name: 'Carrot (Raw)', category: 'Fiber & Vitamins', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 41, protein: 0.9, carbs: 9.6, fats: 0.2, fiber: 2.8, sugar: 4.7, vitaminA: 835, vitaminC: 5.9, vitaminD: 0, vitaminE: 0.7, vitaminK: 13.2, vitaminB6: 0.1, vitaminB12: 0, calcium: 33, iron: 0.3, magnesium: 12, zinc: 0.2, potassium: 320, sodium: 69, cholesterol: 0, omega3: 0.01, omega6: 0.1 } },
+  { id: 'veg2', name: 'Beetroot (Boiled)', category: 'Fiber & Vitamins', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 44, protein: 1.7, carbs: 10, fats: 0.2, fiber: 2, sugar: 8, vitaminA: 2, vitaminC: 4.9, vitaminD: 0, vitaminE: 0.1, vitaminK: 0.2, vitaminB6: 0.1, vitaminB12: 0, calcium: 16, iron: 0.8, magnesium: 23, zinc: 0.4, potassium: 325, sodium: 77, cholesterol: 0, omega3: 0.01, omega6: 0.05 } },
+  { id: 'veg3', name: 'Cabbage (Raw)', category: 'Fiber & Vitamins', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 25, protein: 1.3, carbs: 5.8, fats: 0.1, fiber: 2.5, sugar: 3.2, vitaminA: 5, vitaminC: 36.6, vitaminD: 0, vitaminE: 0.1, vitaminK: 76, vitaminB6: 0.1, vitaminB12: 0, calcium: 40, iron: 0.5, magnesium: 12, zinc: 0.2, potassium: 170, sodium: 18, cholesterol: 0, omega3: 0.02, omega6: 0.02 } },
+  { id: 'veg4', name: 'Capsicum / Bell Pepper (Green)', category: 'Fiber & Vitamins', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 20, protein: 0.9, carbs: 4.6, fats: 0.2, fiber: 1.7, sugar: 2.4, vitaminA: 18, vitaminC: 80.4, vitaminD: 0, vitaminE: 0.4, vitaminK: 7.4, vitaminB6: 0.2, vitaminB12: 0, calcium: 10, iron: 0.3, magnesium: 10, zinc: 0.1, potassium: 175, sodium: 3, cholesterol: 0, omega3: 0.02, omega6: 0.04 } },
+  { id: 'veg5', name: 'Eggplant / Brinjal (Cooked)', category: 'Fiber & Vitamins', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 33, protein: 0.8, carbs: 8.7, fats: 0.2, fiber: 2.5, sugar: 3.5, vitaminA: 1, vitaminC: 1.3, vitaminD: 0, vitaminE: 0.3, vitaminK: 3.5, vitaminB6: 0.1, vitaminB12: 0, calcium: 6, iron: 0.2, magnesium: 11, zinc: 0.1, potassium: 123, sodium: 1, cholesterol: 0, omega3: 0.01, omega6: 0.04 } },
+  { id: 'veg6', name: 'Cauliflower (Cooked)', category: 'Fiber & Vitamins', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 25, protein: 1.9, carbs: 5, fats: 0.3, fiber: 2.3, sugar: 2.4, vitaminA: 0, vitaminC: 48.2, vitaminD: 0, vitaminE: 0.1, vitaminK: 16, vitaminB6: 0.2, vitaminB12: 0, calcium: 22, iron: 0.4, magnesium: 15, zinc: 0.3, potassium: 142, sodium: 15, cholesterol: 0, omega3: 0.03, omega6: 0.02 } },
+  { id: 'veg7', name: 'Turnip / Shaljam (Cooked)', category: 'Fiber & Vitamins', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 22, protein: 0.8, carbs: 5.1, fats: 0.1, fiber: 1.8, sugar: 2.9, vitaminA: 0, vitaminC: 12, vitaminD: 0, vitaminE: 0.1, vitaminK: 0.1, vitaminB6: 0.1, vitaminB12: 0, calcium: 26, iron: 0.2, magnesium: 10, zinc: 0.1, potassium: 170, sodium: 13, cholesterol: 0, omega3: 0, omega6: 0.02 } },
+  { id: 'veg8', name: 'Boiled Potato', category: 'Carbohydrates', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 87, protein: 1.9, carbs: 20, fats: 0.1, fiber: 1.8, sugar: 0.9, vitaminA: 0, vitaminC: 13, vitaminD: 0, vitaminE: 0, vitaminK: 1.6, vitaminB6: 0.3, vitaminB12: 0, calcium: 5, iron: 0.3, magnesium: 22, zinc: 0.3, potassium: 379, sodium: 4, cholesterol: 0, omega3: 0, omega6: 0.02 } },
+
+  // === Protein Sources ===
+  { id: 'pro1', name: 'Chicken Breast (Raw)', category: 'Protein', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 120, protein: 22.5, carbs: 0, fats: 2.6, fiber: 0, sugar: 0, vitaminA: 9, vitaminC: 0, vitaminD: 0.1, vitaminE: 0.3, vitaminK: 0, vitaminB6: 0.9, vitaminB12: 0.3, calcium: 11, iron: 0.7, magnesium: 28, zinc: 0.8, potassium: 220, sodium: 44, cholesterol: 64, omega3: 0.04, omega6: 0.5 } },
+  { id: 'pro2', name: 'Beef / Gosht (Raw Lean)', category: 'Protein', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 143, protein: 21.4, carbs: 0, fats: 6, fiber: 0, sugar: 0, vitaminA: 3, vitaminC: 0, vitaminD: 0.1, vitaminE: 0.3, vitaminK: 1.5, vitaminB6: 0.4, vitaminB12: 2.1, calcium: 18, iron: 2.2, magnesium: 20, zinc: 5.4, potassium: 295, sodium: 65, cholesterol: 65, omega3: 0.04, omega6: 0.3 } },
+  { id: 'pro3', name: 'Beef Mince / Qeema', category: 'Protein', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 215, protein: 18.5, carbs: 0, fats: 15, fiber: 0, sugar: 0, vitaminA: 3, vitaminC: 0, vitaminD: 0, vitaminE: 0.2, vitaminK: 1.5, vitaminB6: 0.3, vitaminB12: 2.5, calcium: 12, iron: 2.4, magnesium: 18, zinc: 5.5, potassium: 260, sodium: 75, cholesterol: 80, omega3: 0.04, omega6: 0.4 } },
+  { id: 'pro4', name: 'Fish (Rohu, Cooked)', category: 'Protein', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 97, protein: 17.8, carbs: 0, fats: 2.7, fiber: 0, sugar: 0, vitaminA: 10, vitaminC: 0, vitaminD: 5, vitaminE: 0.5, vitaminK: 0, vitaminB6: 0.3, vitaminB12: 1.5, calcium: 30, iron: 0.8, magnesium: 20, zinc: 0.7, potassium: 300, sodium: 70, cholesterol: 65, omega3: 0.5, omega6: 0.4 } },
+  { id: 'pro5', name: 'Egg (Whole, Raw)', category: 'Protein', servingSize: 60, servingUnit: 'g',
+    nutrients: { calories: 86, protein: 7.5, carbs: 0.4, fats: 6, fiber: 0, sugar: 0.4, vitaminA: 95, vitaminC: 0, vitaminD: 1.1, vitaminE: 0.5, vitaminK: 0.2, vitaminB6: 0.1, vitaminB12: 0.7, calcium: 28, iron: 1, magnesium: 6, zinc: 0.6, potassium: 69, sodium: 71, cholesterol: 210, omega3: 0.04, omega6: 0.7 } },
+  { id: 'pro6', name: 'Paneer (Indian Cottage Cheese)', category: 'Protein', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 265, protein: 18, carbs: 3.6, fats: 20, fiber: 0, sugar: 1, vitaminA: 110, vitaminC: 0, vitaminD: 0.3, vitaminE: 0.2, vitaminK: 1, vitaminB6: 0.1, vitaminB12: 0.8, calcium: 480, iron: 0.2, magnesium: 17, zinc: 0.8, potassium: 100, sodium: 18, cholesterol: 55, omega3: 0.02, omega6: 0.3 } },
+  { id: 'pro7', name: 'Mozzarella Cheese', category: 'Protein', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 280, protein: 20, carbs: 2.2, fats: 22, fiber: 0, sugar: 1, vitaminA: 182, vitaminC: 0, vitaminD: 0.4, vitaminE: 0.2, vitaminK: 2.3, vitaminB6: 0.1, vitaminB12: 0.7, calcium: 505, iron: 0.3, magnesium: 20, zinc: 2.9, potassium: 76, sodium: 486, cholesterol: 79, omega3: 0.07, omega6: 0.4 } },
+  { id: 'pro8', name: 'Chicken Spread', category: 'Protein', servingSize: 30, servingUnit: 'g',
+    nutrients: { calories: 55, protein: 4.5, carbs: 1.5, fats: 3.5, fiber: 0, sugar: 0.5, vitaminA: 8, vitaminC: 0, vitaminD: 0, vitaminE: 0.1, vitaminK: 0, vitaminB6: 0.1, vitaminB12: 0.1, calcium: 8, iron: 0.3, magnesium: 5, zinc: 0.3, potassium: 70, sodium: 200, cholesterol: 20, omega3: 0.01, omega6: 0.3 } },
+  { id: 'pro9', name: 'Shami Kebab (Homemade)', category: 'Protein', servingSize: 60, servingUnit: 'g',
+    nutrients: { calories: 148, protein: 11, carbs: 8, fats: 8.5, fiber: 1.5, sugar: 0.3, vitaminA: 5, vitaminC: 1, vitaminD: 0.1, vitaminE: 0.3, vitaminK: 1, vitaminB6: 0.2, vitaminB12: 1.5, calcium: 18, iron: 2, magnesium: 18, zinc: 2.2, potassium: 140, sodium: 275, cholesterol: 50, omega3: 0.02, omega6: 0.4 } },
+
+  // === Dairy ===
+  { id: 'dairy1', name: 'Curd / Dahi (Plain Yogurt)', category: 'Protein', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 61, protein: 3.5, carbs: 4.7, fats: 3.3, fiber: 0, sugar: 4.7, vitaminA: 27, vitaminC: 0.5, vitaminD: 0.1, vitaminE: 0.1, vitaminK: 0.2, vitaminB6: 0.05, vitaminB12: 0.4, calcium: 121, iron: 0.1, magnesium: 12, zinc: 0.6, potassium: 155, sodium: 46, cholesterol: 13, omega3: 0, omega6: 0.02 } },
+  { id: 'dairy2', name: 'Greek Yogurt', category: 'Protein', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 97, protein: 9, carbs: 3.8, fats: 5, fiber: 0, sugar: 3.2, vitaminA: 29, vitaminC: 0.5, vitaminD: 0, vitaminE: 0.1, vitaminK: 0, vitaminB6: 0.1, vitaminB12: 0.7, calcium: 110, iron: 0.1, magnesium: 11, zinc: 0.5, potassium: 141, sodium: 36, cholesterol: 17, omega3: 0.01, omega6: 0.04 } },
+  { id: 'dairy3', name: 'Milk (Full Fat)', category: 'Protein', servingSize: 244, servingUnit: 'g',
+    nutrients: { calories: 149, protein: 8, carbs: 12, fats: 8, fiber: 0, sugar: 12, vitaminA: 68, vitaminC: 0.5, vitaminD: 3.2, vitaminE: 0.1, vitaminK: 0.5, vitaminB6: 0.1, vitaminB12: 1.1, calcium: 276, iron: 0.1, magnesium: 24, zinc: 1, potassium: 322, sodium: 105, cholesterol: 24, omega3: 0.05, omega6: 0.1 } },
+  { id: 'dairy4', name: 'Cream (Fresh)', category: 'Fats', servingSize: 30, servingUnit: 'g',
+    nutrients: { calories: 103, protein: 0.6, carbs: 0.8, fats: 11, fiber: 0, sugar: 0.8, vitaminA: 42, vitaminC: 0, vitaminD: 0.1, vitaminE: 0.2, vitaminK: 1, vitaminB6: 0, vitaminB12: 0.1, calcium: 19, iron: 0, magnesium: 2, zinc: 0.1, potassium: 29, sodium: 8, cholesterol: 34, omega3: 0.01, omega6: 0.1 } },
+
+  // === Carbohydrates & Grains ===
+  { id: 'carb1', name: 'Roti / Chapati (Whole Wheat)', category: 'Carbohydrates', servingSize: 40, servingUnit: 'g',
+    nutrients: { calories: 104, protein: 3.5, carbs: 18, fats: 2.5, fiber: 1.5, sugar: 0.3, vitaminA: 0, vitaminC: 0, vitaminD: 0, vitaminE: 0.2, vitaminK: 0.5, vitaminB6: 0.1, vitaminB12: 0, calcium: 10, iron: 0.8, magnesium: 15, zinc: 0.5, potassium: 45, sodium: 180, cholesterol: 0, omega3: 0, omega6: 0.3 } },
+  { id: 'carb2', name: 'White Rice (Cooked)', category: 'Carbohydrates', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 130, protein: 2.7, carbs: 28.2, fats: 0.3, fiber: 0.4, sugar: 0.1, vitaminA: 0, vitaminC: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, vitaminB6: 0.1, vitaminB12: 0, calcium: 10, iron: 0.2, magnesium: 12, zinc: 0.5, potassium: 35, sodium: 1, cholesterol: 0, omega3: 0, omega6: 0.1 } },
+  { id: 'carb3', name: 'Brown Bread (1 slice)', category: 'Carbohydrates', servingSize: 30, servingUnit: 'g',
+    nutrients: { calories: 69, protein: 3.6, carbs: 11.9, fats: 1, fiber: 1.9, sugar: 1.4, vitaminA: 0, vitaminC: 0, vitaminD: 0, vitaminE: 0.1, vitaminK: 1, vitaminB6: 0.1, vitaminB12: 0, calcium: 20, iron: 0.9, magnesium: 15, zinc: 0.5, potassium: 70, sodium: 132, cholesterol: 0, omega3: 0, omega6: 0.3 } },
+  { id: 'carb4', name: 'White Bread (1 slice)', category: 'Carbohydrates', servingSize: 25, servingUnit: 'g',
+    nutrients: { calories: 67, protein: 2.2, carbs: 12.5, fats: 0.8, fiber: 0.6, sugar: 1.4, vitaminA: 0, vitaminC: 0, vitaminD: 0, vitaminE: 0.1, vitaminK: 0.5, vitaminB6: 0.03, vitaminB12: 0, calcium: 38, iron: 0.7, magnesium: 6, zinc: 0.2, potassium: 26, sodium: 132, cholesterol: 0, omega3: 0, omega6: 0.2 } },
+  { id: 'carb5', name: 'Oats (Dry)', category: 'Carbohydrates', servingSize: 40, servingUnit: 'g',
+    nutrients: { calories: 154, protein: 5.3, carbs: 27.4, fats: 2.8, fiber: 4, sugar: 0.4, vitaminA: 0, vitaminC: 0, vitaminD: 0, vitaminE: 0.4, vitaminK: 0, vitaminB6: 0.1, vitaminB12: 0, calcium: 21, iron: 1.5, magnesium: 44, zinc: 1.2, potassium: 130, sodium: 2, cholesterol: 0, omega3: 0.04, omega6: 0.9 } },
+  { id: 'carb6', name: 'Besan / Gram Flour', category: 'Carbohydrates', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 387, protein: 22, carbs: 58, fats: 6, fiber: 10.8, sugar: 10.8, vitaminA: 5, vitaminC: 0, vitaminD: 0, vitaminE: 0.4, vitaminK: 9, vitaminB6: 0.5, vitaminB12: 0, calcium: 45, iron: 6.2, magnesium: 166, zinc: 2.5, potassium: 846, sodium: 64, cholesterol: 0, omega3: 0.1, omega6: 2.7 } },
+  { id: 'carb7', name: 'Dal (Lentils, Cooked)', category: 'Carbohydrates', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 116, protein: 9, carbs: 20, fats: 0.4, fiber: 7.9, sugar: 1.8, vitaminA: 8, vitaminC: 1.5, vitaminD: 0, vitaminE: 0.1, vitaminK: 1.7, vitaminB6: 0.2, vitaminB12: 0, calcium: 19, iron: 3.3, magnesium: 36, zinc: 1.3, potassium: 369, sodium: 2, cholesterol: 0, omega3: 0.04, omega6: 0.1 } },
+
+  // === Fats & Oils ===
+  { id: 'fat1', name: 'Cooking Oil (Vegetable)', category: 'Fats', servingSize: 14, servingUnit: 'g',
+    nutrients: { calories: 124, protein: 0, carbs: 0, fats: 14, fiber: 0, sugar: 0, vitaminA: 0, vitaminC: 0, vitaminD: 0, vitaminE: 2, vitaminK: 10, vitaminB6: 0, vitaminB12: 0, calcium: 0, iron: 0, magnesium: 0, zinc: 0, potassium: 0, sodium: 0, cholesterol: 0, omega3: 0.1, omega6: 7.4 } },
+  { id: 'fat2', name: 'Peanuts (Raw)', category: 'Fats', servingSize: 28, servingUnit: 'g',
+    nutrients: { calories: 161, protein: 7.3, carbs: 4.6, fats: 14, fiber: 2.4, sugar: 1.1, vitaminA: 0, vitaminC: 0, vitaminD: 0, vitaminE: 2.4, vitaminK: 0, vitaminB6: 0.1, vitaminB12: 0, calcium: 18, iron: 0.7, magnesium: 49, zinc: 0.9, potassium: 200, sodium: 1, cholesterol: 0, omega3: 0, omega6: 4.4 } },
+  { id: 'fat3', name: 'Flax Seeds (Alsi)', category: 'Fats', servingSize: 15, servingUnit: 'g',
+    nutrients: { calories: 80, protein: 2.7, carbs: 4.3, fats: 6.3, fiber: 3.8, sugar: 0.2, vitaminA: 0, vitaminC: 0.3, vitaminD: 0, vitaminE: 0.1, vitaminK: 1.2, vitaminB6: 0.1, vitaminB12: 0, calcium: 52, iron: 0.6, magnesium: 40, zinc: 0.7, potassium: 117, sodium: 4, cholesterol: 0, omega3: 3.5, omega6: 0.9 } },
+  { id: 'fat4', name: 'Almonds (Badam)', category: 'Fats', servingSize: 28, servingUnit: 'g',
+    nutrients: { calories: 164, protein: 6, carbs: 6.1, fats: 14.2, fiber: 3.5, sugar: 1.2, vitaminA: 0, vitaminC: 0, vitaminD: 0, vitaminE: 7.3, vitaminK: 0, vitaminB6: 0.04, vitaminB12: 0, calcium: 76, iron: 1.1, magnesium: 77, zinc: 0.9, potassium: 208, sodium: 0, cholesterol: 0, omega3: 0, omega6: 3.5 } },
+  { id: 'fat5', name: 'Walnuts (Akhrot)', category: 'Fats', servingSize: 28, servingUnit: 'g',
+    nutrients: { calories: 185, protein: 4.3, carbs: 3.9, fats: 18.5, fiber: 1.9, sugar: 0.7, vitaminA: 0.3, vitaminC: 0.4, vitaminD: 0, vitaminE: 0.2, vitaminK: 0.8, vitaminB6: 0.2, vitaminB12: 0, calcium: 28, iron: 0.8, magnesium: 45, zinc: 0.9, potassium: 125, sodium: 1, cholesterol: 0, omega3: 2.6, omega6: 10.8 } },
+  { id: 'fat6', name: 'Cashews / Kaju', category: 'Fats', servingSize: 28, servingUnit: 'g',
+    nutrients: { calories: 157, protein: 5.2, carbs: 8.6, fats: 12.4, fiber: 0.9, sugar: 1.7, vitaminA: 0, vitaminC: 0.1, vitaminD: 0, vitaminE: 0.3, vitaminK: 9.7, vitaminB6: 0.1, vitaminB12: 0, calcium: 10, iron: 1.9, magnesium: 83, zinc: 1.6, potassium: 187, sodium: 3, cholesterol: 0, omega3: 0.02, omega6: 2.2 } },
+
+  // === Fruits ===
+  { id: 'fruit1', name: 'Apple', category: 'Fiber & Vitamins', servingSize: 182, servingUnit: 'g',
+    nutrients: { calories: 95, protein: 0.5, carbs: 25.1, fats: 0.3, fiber: 4.4, sugar: 18.9, vitaminA: 3, vitaminC: 8.4, vitaminD: 0, vitaminE: 0.3, vitaminK: 4, vitaminB6: 0.1, vitaminB12: 0, calcium: 11, iron: 0.2, magnesium: 9, zinc: 0.1, potassium: 195, sodium: 2, cholesterol: 0, omega3: 0.01, omega6: 0.05 } },
+  { id: 'fruit2', name: 'Banana', category: 'Carbohydrates', servingSize: 118, servingUnit: 'g',
+    nutrients: { calories: 105, protein: 1.3, carbs: 27, fats: 0.4, fiber: 3.1, sugar: 14.4, vitaminA: 4, vitaminC: 10.3, vitaminD: 0, vitaminE: 0.1, vitaminK: 0.6, vitaminB6: 0.4, vitaminB12: 0, calcium: 6, iron: 0.3, magnesium: 32, zinc: 0.2, potassium: 422, sodium: 1, cholesterol: 0, omega3: 0.03, omega6: 0.05 } },
+  { id: 'fruit3', name: 'Watermelon', category: 'Fiber & Vitamins', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 30, protein: 0.6, carbs: 7.6, fats: 0.2, fiber: 0.4, sugar: 6.2, vitaminA: 28, vitaminC: 8.1, vitaminD: 0, vitaminE: 0.1, vitaminK: 0.1, vitaminB6: 0.05, vitaminB12: 0, calcium: 7, iron: 0.2, magnesium: 10, zinc: 0.1, potassium: 112, sodium: 1, cholesterol: 0, omega3: 0.01, omega6: 0.02 } },
+  { id: 'fruit4', name: 'Melon / Kharbooza', category: 'Fiber & Vitamins', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 34, protein: 0.8, carbs: 8.1, fats: 0.2, fiber: 0.9, sugar: 7.9, vitaminA: 169, vitaminC: 36.7, vitaminD: 0, vitaminE: 0.1, vitaminK: 2.5, vitaminB6: 0.1, vitaminB12: 0, calcium: 9, iron: 0.2, magnesium: 12, zinc: 0.2, potassium: 267, sodium: 16, cholesterol: 0, omega3: 0.01, omega6: 0.01 } },
+  { id: 'fruit5', name: 'Strawberry', category: 'Fiber & Vitamins', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 32, protein: 0.7, carbs: 7.7, fats: 0.3, fiber: 2, sugar: 4.9, vitaminA: 1, vitaminC: 58.8, vitaminD: 0, vitaminE: 0.3, vitaminK: 2.2, vitaminB6: 0.05, vitaminB12: 0, calcium: 16, iron: 0.4, magnesium: 13, zinc: 0.1, potassium: 153, sodium: 1, cholesterol: 0, omega3: 0.07, omega6: 0.09 } },
+  { id: 'fruit6', name: 'Sugar Cane (Ganna) Juice', category: 'Sugar', servingSize: 240, servingUnit: 'g',
+    nutrients: { calories: 183, protein: 0.3, carbs: 45.8, fats: 0, fiber: 0, sugar: 43.6, vitaminA: 0, vitaminC: 3.6, vitaminD: 0, vitaminE: 0, vitaminK: 0, vitaminB6: 0, vitaminB12: 0, calcium: 18, iron: 0.7, magnesium: 15, zinc: 0.1, potassium: 42, sodium: 17, cholesterol: 0, omega3: 0, omega6: 0 } },
+  { id: 'fruit7', name: 'Lasora / Gunderiyan (Cordia Fruit)', category: 'Fiber & Vitamins', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 42, protein: 0.8, carbs: 10, fats: 0.2, fiber: 1.5, sugar: 6, vitaminA: 15, vitaminC: 5, vitaminD: 0, vitaminE: 0.1, vitaminK: 1, vitaminB6: 0.05, vitaminB12: 0, calcium: 20, iron: 0.4, magnesium: 8, zinc: 0.1, potassium: 120, sodium: 2, cholesterol: 0, omega3: 0, omega6: 0 } },
+
+  // === Condiments & Sauces ===
+  { id: 'cond1', name: 'Mint Chutney / Pudina Chutni', category: 'Fiber & Vitamins', servingSize: 30, servingUnit: 'g',
+    nutrients: { calories: 15, protein: 0.5, carbs: 2.5, fats: 0.3, fiber: 0.8, sugar: 1, vitaminA: 45, vitaminC: 8, vitaminD: 0, vitaminE: 0.2, vitaminK: 30, vitaminB6: 0.05, vitaminB12: 0, calcium: 15, iron: 0.5, magnesium: 5, zinc: 0.1, potassium: 60, sodium: 180, cholesterol: 0, omega3: 0, omega6: 0 } },
+  { id: 'cond2', name: 'Ketchup (Tomato)', category: 'Sugar', servingSize: 17, servingUnit: 'g',
+    nutrients: { calories: 17, protein: 0.2, carbs: 4.3, fats: 0, fiber: 0, sugar: 3.7, vitaminA: 7, vitaminC: 1.6, vitaminD: 0, vitaminE: 0.1, vitaminK: 1, vitaminB6: 0.02, vitaminB12: 0, calcium: 3, iron: 0.1, magnesium: 3, zinc: 0, potassium: 57, sodium: 154, cholesterol: 0, omega3: 0, omega6: 0.02 } },
+  { id: 'cond3', name: 'Mayonnaise', category: 'Fats', servingSize: 15, servingUnit: 'g',
+    nutrients: { calories: 94, protein: 0.1, carbs: 0.1, fats: 10.3, fiber: 0, sugar: 0.1, vitaminA: 7, vitaminC: 0, vitaminD: 0, vitaminE: 0.8, vitaminK: 8, vitaminB6: 0, vitaminB12: 0, calcium: 2, iron: 0.1, magnesium: 0, zinc: 0, potassium: 5, sodium: 90, cholesterol: 6, omega3: 0.4, omega6: 3.5 } },
+
+  // === Beverages ===
+  { id: 'bev1', name: 'Chai / Milk Tea (with sugar)', category: 'Sugar', servingSize: 200, servingUnit: 'g',
+    nutrients: { calories: 80, protein: 3, carbs: 12, fats: 2.5, fiber: 0, sugar: 10, vitaminA: 20, vitaminC: 0, vitaminD: 0.3, vitaminE: 0, vitaminK: 0, vitaminB6: 0, vitaminB12: 0.2, calcium: 80, iron: 0.2, magnesium: 10, zinc: 0.3, potassium: 120, sodium: 40, cholesterol: 8, omega3: 0, omega6: 0.01 } },
+  { id: 'bev2', name: 'Black Coffee (Unsweetened)', category: 'Fiber & Vitamins', servingSize: 240, servingUnit: 'g',
+    nutrients: { calories: 2, protein: 0.3, carbs: 0, fats: 0, fiber: 0, sugar: 0, vitaminA: 0, vitaminC: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, vitaminB6: 0, vitaminB12: 0, calcium: 2, iron: 0.1, magnesium: 7, zinc: 0.1, potassium: 116, sodium: 5, cholesterol: 0, omega3: 0, omega6: 0 } },
+  { id: 'bev3', name: 'Green Tea (Unsweetened)', category: 'Fiber & Vitamins', servingSize: 240, servingUnit: 'g',
+    nutrients: { calories: 2, protein: 0.2, carbs: 0, fats: 0, fiber: 0, sugar: 0, vitaminA: 0, vitaminC: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, vitaminB6: 0, vitaminB12: 0, calcium: 2, iron: 0.1, magnesium: 3, zinc: 0.1, potassium: 20, sodium: 2, cholesterol: 0, omega3: 0, omega6: 0 } },
+
+  // === Sugar & Sweeteners ===
+  { id: 'sug1', name: 'White Sugar', category: 'Sugar', servingSize: 4, servingUnit: 'g',
+    nutrients: { calories: 16, protein: 0, carbs: 4, fats: 0, fiber: 0, sugar: 4, vitaminA: 0, vitaminC: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, vitaminB6: 0, vitaminB12: 0, calcium: 0, iron: 0, magnesium: 0, zinc: 0, potassium: 0, sodium: 0, cholesterol: 0, omega3: 0, omega6: 0 } },
+  { id: 'sug2', name: 'Jaggery / Gur', category: 'Sugar', servingSize: 10, servingUnit: 'g',
+    nutrients: { calories: 38, protein: 0.1, carbs: 9.7, fats: 0.1, fiber: 0, sugar: 9.7, vitaminA: 0, vitaminC: 0.2, vitaminD: 0, vitaminE: 0, vitaminK: 0, vitaminB6: 0, vitaminB12: 0, calcium: 8, iron: 0.3, magnesium: 12, zinc: 0.03, potassium: 14, sodium: 3, cholesterol: 0, omega3: 0, omega6: 0 } },
 ];
 
 export function searchFoods(query: string): FoodItem[] {
@@ -177,3 +293,4 @@ export function searchFoods(query: string): FoodItem[] {
     f.name.toLowerCase().includes(q) || f.category.toLowerCase().includes(q)
   );
 }
+
