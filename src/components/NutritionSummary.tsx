@@ -3,14 +3,17 @@ import { formatDate, sumNutrients, calculateTargetNutrients } from '@/utils/nutr
 import { cn } from '@/lib/utils';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { motion } from 'framer-motion';
-import { Flame } from 'lucide-react';
+import { Flame, Dumbbell, TrendingDown } from 'lucide-react';
 
 export default function NutritionSummary() {
-  const { profile, selectedDate, getEntriesForDate } = useAppState();
+  const { profile, selectedDate, getEntriesForDate, getWorkoutsForDate } = useAppState();
   const dateStr = formatDate(selectedDate);
   const entries = getEntriesForDate(dateStr);
   const consumed = sumNutrients(entries);
   const target = calculateTargetNutrients(profile);
+  const workouts = getWorkoutsForDate(dateStr);
+  const totalBurned = workouts.reduce((s, w) => s + w.caloriesBurned, 0);
+  const netCalories = consumed.calories - totalBurned;
 
   const macros = [
     { name: 'Protein', consumed: consumed.protein, target: target.protein, unit: 'g', color: 'bg-info' },
@@ -41,7 +44,7 @@ export default function NutritionSummary() {
       </div>
 
       {/* Calorie ring */}
-      <div className="flex items-center gap-6 mb-6">
+      <div className="flex items-center gap-6 mb-4">
         <div className="relative w-28 h-28 flex-shrink-0">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
@@ -68,6 +71,35 @@ export default function NutritionSummary() {
               <span className="text-xs font-semibold text-foreground">{totalMacroCal > 0 ? Math.round(p.value / totalMacroCal * 100) : 0}%</span>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Net Calorie Balance */}
+      <div className="mb-4 p-3 rounded-lg bg-secondary/50 border border-border">
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-xs font-medium text-foreground flex items-center gap-1">
+            <TrendingDown className="h-3 w-3" /> Net Calorie Balance
+          </span>
+          <span className={cn('text-sm font-bold', netCalories > target.calories ? 'text-destructive' : 'text-primary')}>
+            {netCalories} kcal
+          </span>
+        </div>
+        <div className="grid grid-cols-3 gap-2 text-center text-[11px]">
+          <div className="rounded-md bg-card p-1.5">
+            <Flame className="h-3 w-3 text-warning mx-auto mb-0.5" />
+            <p className="font-semibold text-foreground">{consumed.calories}</p>
+            <p className="text-muted-foreground">Eaten</p>
+          </div>
+          <div className="rounded-md bg-card p-1.5">
+            <Dumbbell className="h-3 w-3 text-destructive mx-auto mb-0.5" />
+            <p className="font-semibold text-foreground">-{totalBurned}</p>
+            <p className="text-muted-foreground">Burned</p>
+          </div>
+          <div className="rounded-md bg-card p-1.5">
+            <TrendingDown className="h-3 w-3 text-primary mx-auto mb-0.5" />
+            <p className="font-semibold text-foreground">{netCalories}</p>
+            <p className="text-muted-foreground">Net</p>
+          </div>
         </div>
       </div>
 
