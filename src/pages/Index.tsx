@@ -8,6 +8,7 @@ import SmartRecommendations from '@/components/SmartRecommendations';
 import WeightTracker from '@/components/WeightTracker';
 import WeeklyAnalytics from '@/components/WeeklyAnalytics';
 import RecipeBuilder from '@/components/RecipeBuilder';
+import WorkoutTracker from '@/components/WorkoutTracker';
 
 const Index = () => {
   return (
@@ -27,6 +28,7 @@ const Index = () => {
           <div className="lg:col-span-5 space-y-5">
             <DailyCalendar />
             <MealLogger />
+            <WorkoutTracker />
             <WeeklyAnalytics />
           </div>
 
