@@ -9,6 +9,7 @@ import WeightTracker from '@/components/WeightTracker';
 import WeeklyAnalytics from '@/components/WeeklyAnalytics';
 import RecipeBuilder from '@/components/RecipeBuilder';
 import WorkoutTracker from '@/components/WorkoutTracker';
+import WeeklyInsights from '@/components/WeeklyInsights';
 
 const Index = () => {
   return (
@@ -35,6 +36,7 @@ const Index = () => {
           {/* Right sidebar */}
           <div className="lg:col-span-4 space-y-5">
             <NutritionSummary />
+            <WeeklyInsights />
             <MicronutrientPanel />
           </div>
         </div>
