@@ -14,8 +14,8 @@ export default function Header() {
             <Leaf className="h-5 w-5 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-foreground tracking-tight leading-none">NutriTrack</h1>
-            <p className="text-[10px] text-muted-foreground">Pakistani Nutrition Monitor</p>
+            <h1 className="text-lg font-bold text-foreground tracking-tight leading-none">NIM Fitness Tracker</h1>
+            <p className="text-[10px] text-muted-foreground">Your Complete Fitness Monitor</p>
           </div>
         </motion.div>
         <motion.span

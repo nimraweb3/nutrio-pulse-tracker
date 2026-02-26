@@ -10,6 +10,8 @@ import WeeklyAnalytics from '@/components/WeeklyAnalytics';
 import RecipeBuilder from '@/components/RecipeBuilder';
 import WorkoutTracker from '@/components/WorkoutTracker';
 import WeeklyInsights from '@/components/WeeklyInsights';
+import SupplementTracker from '@/components/SupplementTracker';
+import MonthlyCalendar from '@/components/MonthlyCalendar';
 
 const Index = () => {
   return (
@@ -21,6 +23,7 @@ const Index = () => {
           <div className="lg:col-span-3 space-y-5">
             <UserProfileCard />
             <WeightTracker />
+            <SupplementTracker />
             <RecipeBuilder />
             <SmartRecommendations />
           </div>
@@ -37,6 +40,7 @@ const Index = () => {
           <div className="lg:col-span-4 space-y-5">
             <NutritionSummary />
             <WeeklyInsights />
+            <MonthlyCalendar />
             <MicronutrientPanel />
           </div>
         </div>
