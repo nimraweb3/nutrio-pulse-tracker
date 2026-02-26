@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useCallback, useEffect } fr
 import { UserProfile, DayLog, FoodEntry, MealType } from '@/types/nutrition';
 import { formatDate } from '@/utils/nutritionCalculations';
 import type { Exercise } from '@/data/exerciseDatabase';
+import type { Supplement } from '@/data/supplementDatabase';
 
 export interface Recipe {
   id: string;
@@ -16,6 +17,12 @@ export interface WorkoutEntry {
   caloriesBurned: number;
 }
 
+export interface SupplementEntry {
+  id: string;
+  supplement: Supplement;
+  quantity: number;
+  takenAt: string;
+}
 interface AppState {
   profile: UserProfile;
   setProfile: (p: UserProfile) => void;
@@ -36,6 +43,10 @@ interface AppState {
   addWorkoutEntry: (date: string, entry: WorkoutEntry) => void;
   removeWorkoutEntry: (date: string, entryId: string) => void;
   getWorkoutsForDate: (date: string) => WorkoutEntry[];
+  supplementLogs: Record<string, SupplementEntry[]>;
+  addSupplementEntry: (date: string, entry: SupplementEntry) => void;
+  removeSupplementEntry: (date: string, entryId: string) => void;
+  getSupplementsForDate: (date: string) => SupplementEntry[];
 }
 
 function loadFromStorage<T>(key: string, fallback: T): T {
@@ -83,6 +94,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [workoutLogs, setWorkoutLogs] = useState<Record<string, WorkoutEntry[]>>(() =>
     loadFromStorage('nt_workoutLogs', {})
   );
+  const [supplementLogs, setSupplementLogs] = useState<Record<string, SupplementEntry[]>>(() =>
+    loadFromStorage('nt_supplementLogs', {})
+  );
 
   // Persist to localStorage whenever state changes
   useEffect(() => { saveToStorage('nt_profile', profile); }, [profile]);
@@ -91,6 +105,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => { saveToStorage('nt_recipes', recipes); }, [recipes]);
   useEffect(() => { saveToStorage('nt_recentFoods', recentFoods); }, [recentFoods]);
   useEffect(() => { saveToStorage('nt_workoutLogs', workoutLogs); }, [workoutLogs]);
+  useEffect(() => { saveToStorage('nt_supplementLogs', supplementLogs); }, [supplementLogs]);
 
   const setProfile = useCallback((p: UserProfile) => setProfileState(p), []);
 
@@ -149,8 +164,24 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     (dayLogs[date]?.entries || []).filter(e => e.mealType === meal), [dayLogs]);
   const getWorkoutsForDate = useCallback((date: string) => workoutLogs[date] || [], [workoutLogs]);
 
+  const addSupplementEntry = useCallback((date: string, entry: SupplementEntry) => {
+    setSupplementLogs(prev => ({
+      ...prev,
+      [date]: [...(prev[date] || []), entry],
+    }));
+  }, []);
+
+  const removeSupplementEntry = useCallback((date: string, entryId: string) => {
+    setSupplementLogs(prev => ({
+      ...prev,
+      [date]: (prev[date] || []).filter(e => e.id !== entryId),
+    }));
+  }, []);
+
+  const getSupplementsForDate = useCallback((date: string) => supplementLogs[date] || [], [supplementLogs]);
+
   return (
-    <AppContext.Provider value={{ profile, setProfile, selectedDate, setSelectedDate, dayLogs, addFoodEntry, removeFoodEntry, getEntriesForDate, getEntriesForMeal, weightLog, logWeight, recipes, addRecipe, removeRecipe, recentFoods, workoutLogs, addWorkoutEntry, removeWorkoutEntry, getWorkoutsForDate }}>
+    <AppContext.Provider value={{ profile, setProfile, selectedDate, setSelectedDate, dayLogs, addFoodEntry, removeFoodEntry, getEntriesForDate, getEntriesForMeal, weightLog, logWeight, recipes, addRecipe, removeRecipe, recentFoods, workoutLogs, addWorkoutEntry, removeWorkoutEntry, getWorkoutsForDate, supplementLogs, addSupplementEntry, removeSupplementEntry, getSupplementsForDate }}>
       {children}
     </AppContext.Provider>
   );
