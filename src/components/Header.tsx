@@ -1,7 +1,10 @@
-import { Leaf } from 'lucide-react';
+import { Leaf, LogOut } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useAuth } from '@/hooks/useAuth';
+import { Button } from '@/components/ui/button';
 
 export default function Header() {
+  const { signOut, user } = useAuth();
   return (
     <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-50">
       <div className="container flex items-center justify-between h-14 px-4">
@@ -18,14 +21,22 @@ export default function Header() {
             <p className="text-[10px] text-muted-foreground">Your Complete Fitness Monitor</p>
           </div>
         </motion.div>
-        <motion.span
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="text-xs text-muted-foreground hidden sm:block font-medium"
-        >
-          🇵🇰 Personalized for You
-        </motion.span>
+        <div className="flex items-center gap-3">
+          <motion.span
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-xs text-muted-foreground hidden sm:block font-medium"
+          >
+            🇵🇰 Personalized for You
+          </motion.span>
+          {user && (
+            <Button variant="ghost" size="sm" onClick={signOut} className="text-muted-foreground hover:text-foreground">
+              <LogOut className="h-4 w-4 mr-1" />
+              <span className="hidden sm:inline">Sign Out</span>
+            </Button>
+          )}
+        </div>
       </div>
     </header>
   );
