@@ -65,7 +65,7 @@ const defaultProfile: UserProfile = {
 const AppContext = createContext<AppState | null>(null);
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [profile, setProfileState] = useState<UserProfile>(defaultProfile);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [dayLogs, setDayLogs] = useState<Record<string, DayLog>>({});
@@ -76,9 +76,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [supplementLogs, setSupplementLogs] = useState<Record<string, SupplementEntry[]>>({});
   const [dataLoaded, setDataLoaded] = useState(false);
 
-  // Load all data from cloud on mount
+  // Load all data from cloud once auth is ready
   useEffect(() => {
-    if (!user) return;
+    if (authLoading) return; // Wait for auth session to restore
+    if (!user) {
+      setDataLoaded(true); // No user, nothing to load
+      return;
+    }
     const loadData = async () => {
       // Load user settings (profile)
       const { data: settingsData } = await supabase
@@ -180,7 +184,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       setDataLoaded(true);
     };
     loadData();
-  }, [user]);
+  }, [user, authLoading]);
 
   const setProfile = useCallback((p: UserProfile) => {
     setProfileState(p);
