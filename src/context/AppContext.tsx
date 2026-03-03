@@ -213,7 +213,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         food_item_data: entry.foodItem as any,
         quantity: entry.quantity,
         meal_type: entry.mealType,
-      });
+      }).then(({ error }) => { if (error) console.error('Failed to save food entry:', error); });
     }
   }, [user]);
 
@@ -226,7 +226,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       },
     }));
     if (user) {
-      supabase.from('food_entries').delete().eq('id', entryId);
+      supabase.from('food_entries').delete().eq('id', entryId).then(({ error }) => { if (error) console.error('Failed to delete food entry:', error); });
     }
   }, [user]);
 
@@ -237,7 +237,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         user_id: user.id,
         date,
         weight,
-      }, { onConflict: 'user_id,date' });
+      }, { onConflict: 'user_id,date' }).then(({ error }) => { if (error) console.error('Failed to save weight:', error); });
     }
   }, [user]);
 
@@ -249,14 +249,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         user_id: user.id,
         name: recipe.name,
         items: recipe.items as any,
-      });
+      }).then(({ error }) => { if (error) console.error('Failed to save recipe:', error); });
     }
   }, [user]);
 
   const removeRecipe = useCallback((id: string) => {
     setRecipes(prev => prev.filter(r => r.id !== id));
     if (user) {
-      supabase.from('recipes').delete().eq('id', id);
+      supabase.from('recipes').delete().eq('id', id).then(({ error }) => { if (error) console.error('Failed to delete recipe:', error); });
     }
   }, [user]);
 
@@ -273,7 +273,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         exercise_data: entry.exercise as any,
         duration: entry.duration,
         calories_burned: entry.caloriesBurned,
-      });
+      }).then(({ error }) => { if (error) console.error('Failed to save workout:', error); });
     }
   }, [user]);
 
@@ -283,7 +283,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       [date]: (prev[date] || []).filter(e => e.id !== entryId),
     }));
     if (user) {
-      supabase.from('workout_entries').delete().eq('id', entryId);
+      supabase.from('workout_entries').delete().eq('id', entryId).then(({ error }) => { if (error) console.error('Failed to delete workout:', error); });
     }
   }, [user]);
 
@@ -300,7 +300,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         supplement_data: entry.supplement as any,
         quantity: entry.quantity,
         taken_at: entry.takenAt,
-      });
+      }).then(({ error }) => { if (error) console.error('Failed to save supplement:', error); });
     }
   }, [user]);
 
@@ -310,7 +310,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       [date]: (prev[date] || []).filter(e => e.id !== entryId),
     }));
     if (user) {
-      supabase.from('supplement_entries').delete().eq('id', entryId);
+      supabase.from('supplement_entries').delete().eq('id', entryId).then(({ error }) => { if (error) console.error('Failed to delete supplement:', error); });
     }
   }, [user]);
 
