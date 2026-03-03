@@ -211,7 +211,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     });
     if (user) {
       supabase.from('food_entries').insert({
-        id: entry.id,
         user_id: user.id,
         date,
         food_item_data: entry.foodItem as any,
@@ -249,7 +248,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setRecipes(prev => [...prev, recipe]);
     if (user) {
       supabase.from('recipes').insert({
-        id: recipe.id,
         user_id: user.id,
         name: recipe.name,
         items: recipe.items as any,
@@ -271,7 +269,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }));
     if (user) {
       supabase.from('workout_entries').insert({
-        id: entry.id,
         user_id: user.id,
         date,
         exercise_data: entry.exercise as any,
@@ -298,7 +295,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }));
     if (user) {
       supabase.from('supplement_entries').insert({
-        id: entry.id,
         user_id: user.id,
         date,
         supplement_data: entry.supplement as any,
