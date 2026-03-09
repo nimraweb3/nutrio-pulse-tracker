@@ -193,7 +193,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         user_id: user.id,
         settings: p as any,
         updated_at: new Date().toISOString(),
-      }, { onConflict: 'user_id' });
+      }, { onConflict: 'user_id' }).then(({ error }) => {
+        if (error) console.error('Failed to save profile settings:', error);
+      });
     }
   }, [user]);
 
