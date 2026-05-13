@@ -13,6 +13,7 @@ import WeeklyInsights from '@/components/WeeklyInsights';
 import SupplementTracker from '@/components/SupplementTracker';
 import MonthlyCalendar from '@/components/MonthlyCalendar';
 import DailyGoalBanner from '@/components/DailyGoalBanner';
+import ChefChat from '@/components/ChefChat';
 import { useAppState } from '@/context/AppContext';
 import { Loader2 } from 'lucide-react';
 
@@ -69,6 +70,7 @@ const Index = () => {
           </div>
         </div>
       </main>
+      <ChefChat />
     </div>
   );
 };
