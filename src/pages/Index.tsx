@@ -70,6 +70,7 @@ const Index = () => {
           </div>
         </div>
       </main>
+      <ChefChat />
     </div>
   );
 };
