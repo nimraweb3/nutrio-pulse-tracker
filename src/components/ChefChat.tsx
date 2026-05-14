@@ -27,6 +27,8 @@ export default function ChefChat() {
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { profile, getEntriesForDate } = useAppState();
+  const { user } = useAuth();
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
@@ -36,6 +38,35 @@ export default function ChefChat() {
     if (open) setTimeout(() => inputRef.current?.focus(), 100);
   }, [open]);
 
+  const buildContext = async () => {
+    const today = formatDate(new Date());
+    const entries = getEntriesForDate(today);
+    const todayN = sumNutrients(entries);
+    const targetCalories = calculateTargetCalories(profile);
+
+    let goals: any[] = [];
+    if (user) {
+      const { data } = await supabase
+        .from('fitness_goals')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('status', 'active');
+      if (data) {
+        goals = data.map((g: any) => ({
+          ...g,
+          daysLeft: Math.max(0, Math.round((+new Date(g.end_date) - Date.now()) / 86400000)),
+        }));
+      }
+    }
+    return {
+      profile,
+      targetCalories,
+      todayCalories: Math.round(todayN.calories),
+      todayProtein: Math.round(todayN.protein),
+      goals,
+    };
+  };
+
   const send = async (text: string) => {
     if (!text.trim() || loading) return;
     const newMsgs: Msg[] = [...messages, { role: 'user', content: text.trim() }];
@@ -44,6 +75,7 @@ export default function ChefChat() {
     setLoading(true);
 
     try {
+      const context = await buildContext();
       const url = `https://${import.meta.env.VITE_SUPABASE_PROJECT_ID}.supabase.co/functions/v1/chef-chat`;
       const res = await fetch(url, {
         method: 'POST',
@@ -51,7 +83,7 @@ export default function ChefChat() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
-        body: JSON.stringify({ messages: newMsgs }),
+        body: JSON.stringify({ messages: newMsgs, context }),
       });
 
       if (!res.ok) {
