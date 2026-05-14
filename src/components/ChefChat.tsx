@@ -6,14 +6,18 @@ import { ChefHat, Send, Loader2, Sparkles } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { useAppState } from '@/context/AppContext';
+import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
+import { calculateTargetCalories, sumNutrients, formatDate } from '@/utils/nutritionCalculations';
 
 type Msg = { role: 'user' | 'assistant'; content: string };
 
 const SUGGESTIONS = [
   'I have eggs, tomato, onion, and bread',
-  'Chicken breast, rice, yogurt — what can I make?',
+  'How can I hit my weekly weight goal?',
   'Suggest a high-protein desi breakfast',
-  'I have besan and spinach — healthy ideas?',
+  'Plan my meals for fat loss this week',
 ];
 
 export default function ChefChat() {
