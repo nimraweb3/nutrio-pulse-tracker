@@ -4,7 +4,7 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
 
   try {
-    const { messages } = await req.json();
+    const { messages, context } = await req.json();
     if (!Array.isArray(messages)) {
       return new Response(JSON.stringify({ error: 'messages array required' }), {
         status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -18,15 +18,30 @@ Deno.serve(async (req) => {
       });
     }
 
-    const systemPrompt = `You are a friendly Pakistani/Desi nutrition chef assistant for the Fitness Tracker app. The user gives you ingredients they have at home. Your job:
+    let contextBlock = '';
+    if (context) {
+      contextBlock = `\n\n## User context (use this to personalize advice)\n` +
+        `- Profile: ${context.profile?.weight}kg, ${context.profile?.height}cm, ${context.profile?.age}y, ${context.profile?.gender}, ${context.profile?.activityLevel}, goal: ${context.profile?.goalType}\n` +
+        `- Daily calorie target: ${context.targetCalories} kcal\n` +
+        `- Today consumed: ${context.todayCalories ?? 0} kcal (${context.todayProtein ?? 0}g protein)\n` +
+        (context.goals?.length
+          ? `- Active goals:\n${context.goals.map((g: any) =>
+              `  • [${g.type}] ${g.title}${g.description ? ` — ${g.description}` : ''}` +
+              (g.target_weight ? ` (target weight: ${g.target_weight}kg)` : '') +
+              (g.target_calories ? ` (daily kcal: ${g.target_calories})` : '') +
+              (g.target_workouts ? ` (workouts: ${g.target_workouts})` : '') +
+              ` — ${g.daysLeft} days left`
+            ).join('\n')}\n`
+          : '- No active goals set\n');
+    }
 
-1. Suggest 2-4 healthy dishes they can make with those ingredients (prioritize Pakistani/Desi dishes like chilla, daal, karahi, omelette, sabzi, etc., plus simple healthy options).
-2. For each dish, give: name, why it's healthy, rough macros (calories/protein/carbs/fats per serving), and a quick cooking tip to make it healthier (e.g. less oil, air-fry instead of deep-fry, add veggies, use whole wheat).
-3. Be concise. Use markdown with clear headings, bullet points, and emojis.
-4. If ingredients are unhealthy (lots of sugar/fried), suggest healthier swaps.
-5. Answer follow-up questions about portion sizes, substitutions, and fitness goals (fat loss, muscle gain).
+    const systemPrompt = `You are a friendly Pakistani/Desi nutrition + fitness coach inside the NIM Fitness Tracker app.
 
-Keep responses short, practical, and motivating.`;
+You do TWO things:
+1. **Recipe mode** — when the user lists ingredients, suggest 2-4 healthy desi dishes (chilla, daal, karahi, omelette, sabzi, etc.) with macros (kcal/protein/carbs/fats) and a "make it healthier" tip per dish.
+2. **Coach mode** — when the user asks about goals, weight loss/gain, progress, or how to achieve a target, give a concrete plan: daily calorie split, protein target, sample meal ideas tied to their goal, workout suggestion, and what to avoid. Reference their active goals and current intake when relevant. Show empathy, be motivating, and keep advice practical for Pakistan (Pakistani foods, affordable options).
+
+Always use markdown: short headings, bullets, occasional emoji. Keep replies tight — no fluff.${contextBlock}`;
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',

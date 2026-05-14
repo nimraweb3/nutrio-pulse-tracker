@@ -14,6 +14,8 @@ import SupplementTracker from '@/components/SupplementTracker';
 import MonthlyCalendar from '@/components/MonthlyCalendar';
 import DailyGoalBanner from '@/components/DailyGoalBanner';
 import ChefChat from '@/components/ChefChat';
+import GoalsTracker from '@/components/GoalsTracker';
+import StravaConnect from '@/components/StravaConnect';
 import { useAppState } from '@/context/AppContext';
 import { Loader2 } from 'lucide-react';
 
@@ -47,6 +49,7 @@ const Index = () => {
           {/* Left sidebar */}
           <div className="lg:col-span-3 space-y-5">
             <UserProfileCard />
+            <StravaConnect />
             <WeightTracker />
             <SupplementTracker />
             <RecipeBuilder />
@@ -56,6 +59,7 @@ const Index = () => {
           {/* Center */}
           <div className="lg:col-span-5 space-y-5">
             <DailyCalendar />
+            <GoalsTracker />
             <MealLogger />
             <WorkoutTracker />
             <WeeklyAnalytics />
