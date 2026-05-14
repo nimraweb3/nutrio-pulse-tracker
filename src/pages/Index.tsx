@@ -65,14 +65,6 @@ const Index = () => {
             <WeeklyAnalytics />
           </div>
 
-          {/* Center */}
-          <div className="lg:col-span-5 space-y-5">
-            <DailyCalendar />
-            <MealLogger />
-            <WorkoutTracker />
-            <WeeklyAnalytics />
-          </div>
-
           {/* Right sidebar */}
           <div className="lg:col-span-4 space-y-5">
             <NutritionSummary />
