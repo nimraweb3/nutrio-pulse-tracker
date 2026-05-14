@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      fitness_goals: {
+        Row: {
+          created_at: string
+          description: string | null
+          end_date: string
+          id: string
+          start_date: string
+          status: string
+          target_calories: number | null
+          target_weight: number | null
+          target_workouts: number | null
+          title: string
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          end_date: string
+          id?: string
+          start_date: string
+          status?: string
+          target_calories?: number | null
+          target_weight?: number | null
+          target_workouts?: number | null
+          title: string
+          type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          end_date?: string
+          id?: string
+          start_date?: string
+          status?: string
+          target_calories?: number | null
+          target_weight?: number | null
+          target_workouts?: number | null
+          title?: string
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       food_entries: {
         Row: {
           created_at: string
