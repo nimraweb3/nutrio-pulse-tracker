@@ -13,7 +13,7 @@ import { Badge } from '@/components/ui/badge';
 import { Target, Plus, Trash2, CheckCircle2, Calendar, Flame, Dumbbell, Scale } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
-import { calculateNutrients } from '@/utils/nutritionCalculations';
+import { sumNutrients } from '@/utils/nutritionCalculations';
 
 export interface FitnessGoal {
   id: string;
@@ -179,7 +179,7 @@ function GoalCard({ goal, dayLogs, weightLog, workoutLogs, onRemove, onComplete 
       const d = addDays(goal.start_date, i);
       const entries = dayLogs[d]?.entries || [];
       if (entries.length) {
-        const n = calculateNutrients(entries);
+        const n = sumNutrients(entries);
         totalKcal += n.calories;
         daysWithLog++;
       }
