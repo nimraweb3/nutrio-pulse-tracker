@@ -14,7 +14,7 @@ export default function Header() {
           className="flex items-center gap-2.5"
         >
           <div className="gradient-primary rounded-xl p-2 shadow-md">
-            <Leaf className="h-5 w-5 text-primary-foreground" />
+            <Heart className="h-5 w-5 text-primary-foreground fill-primary-foreground" />
           </div>
           <div>
             <h1 className="text-lg font-bold text-foreground tracking-tight leading-none">NIM Fitness Tracker</h1>
