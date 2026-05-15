@@ -16,6 +16,7 @@ import DailyGoalBanner from '@/components/DailyGoalBanner';
 import ChefChat from '@/components/ChefChat';
 import GoalsTracker from '@/components/GoalsTracker';
 import StravaConnect from '@/components/StravaConnect';
+import CalisthenicsWorkout from '@/components/CalisthenicsWorkout';
 import { useAppState } from '@/context/AppContext';
 import { Loader2 } from 'lucide-react';
 
