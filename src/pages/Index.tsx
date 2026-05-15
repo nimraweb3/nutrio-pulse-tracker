@@ -63,7 +63,6 @@ const Index = () => {
             <GoalsTracker />
             <MealLogger />
             <WorkoutTracker />
-            <CalisthenicsWorkout />
             <WeeklyAnalytics />
           </div>
 
@@ -75,6 +74,11 @@ const Index = () => {
             <MicronutrientPanel />
           </div>
         </div>
+
+        {/* Standalone Calisthenics Workout Section */}
+        <section className="mt-8">
+          <CalisthenicsWorkout />
+        </section>
       </main>
       <ChefChat />
     </div>
