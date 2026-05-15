@@ -63,6 +63,7 @@ const Index = () => {
             <GoalsTracker />
             <MealLogger />
             <WorkoutTracker />
+            <CalisthenicsWorkout />
             <WeeklyAnalytics />
           </div>
 
