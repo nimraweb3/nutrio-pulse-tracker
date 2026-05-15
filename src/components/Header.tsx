@@ -1,4 +1,4 @@
-import { Leaf, LogOut } from 'lucide-react';
+import { Heart, LogOut, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
