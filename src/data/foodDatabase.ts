@@ -694,6 +694,18 @@ export const foodDatabase: FoodItem[] = [
     nutrients: { calories: 105, protein: 0, carbs: 26.5, fats: 0, fiber: 0, sugar: 26.5, vitaminA: 0, vitaminC: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, vitaminB6: 0, vitaminB12: 0, calcium: 0, iron: 0, magnesium: 0, zinc: 0, potassium: 0, sodium: 25, cholesterol: 0, omega3: 0, omega6: 0 } },
   { id: 'dr2', name: 'Pepsi Can (250ml)', category: 'Snacks', servingSize: 250, servingUnit: 'ml',
     nutrients: { calories: 110, protein: 0, carbs: 28, fats: 0, fiber: 0, sugar: 28, vitaminA: 0, vitaminC: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, vitaminB6: 0, vitaminB12: 0, calcium: 0, iron: 0, magnesium: 0, zinc: 0, potassium: 0, sodium: 30, cholesterol: 0, omega3: 0, omega6: 0 } },
+
+  // === Extra Requested Foods ===
+  { id: 'ex1', name: 'Fried Rice (Chicken)', category: 'Pakistani', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 180, protein: 6, carbs: 26, fats: 6, fiber: 1, sugar: 1, vitaminA: 20, vitaminC: 4, vitaminD: 0.1, vitaminE: 0.4, vitaminK: 3, vitaminB6: 0.1, vitaminB12: 0.2, calcium: 18, iron: 1, magnesium: 18, zinc: 0.8, potassium: 130, sodium: 420, cholesterol: 25, omega3: 0.02, omega6: 1 } },
+  { id: 'ex2', name: 'Chicken Pulao', category: 'Pakistani', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 165, protein: 7, carbs: 24, fats: 5, fiber: 0.8, sugar: 0.5, vitaminA: 12, vitaminC: 2, vitaminD: 0.1, vitaminE: 0.3, vitaminK: 1.5, vitaminB6: 0.2, vitaminB12: 0.2, calcium: 20, iron: 1.2, magnesium: 20, zinc: 1, potassium: 140, sodium: 350, cholesterol: 30, omega3: 0.02, omega6: 0.6 } },
+  { id: 'ex3', name: 'French Fries', category: 'Snacks', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 312, protein: 3.4, carbs: 41, fats: 15, fiber: 3.8, sugar: 0.3, vitaminA: 0, vitaminC: 10, vitaminD: 0, vitaminE: 1.5, vitaminK: 9, vitaminB6: 0.4, vitaminB12: 0, calcium: 15, iron: 0.8, magnesium: 27, zinc: 0.4, potassium: 580, sodium: 210, cholesterol: 0, omega3: 0.05, omega6: 4.5 } },
+  { id: 'ex4', name: 'Oats (Cooked, Plain)', category: 'Grains', servingSize: 100, servingUnit: 'g',
+    nutrients: { calories: 71, protein: 2.5, carbs: 12, fats: 1.5, fiber: 1.7, sugar: 0.3, vitaminA: 0, vitaminC: 0, vitaminD: 0, vitaminE: 0.1, vitaminK: 0.4, vitaminB6: 0, vitaminB12: 0, calcium: 9, iron: 0.9, magnesium: 26, zinc: 1, potassium: 70, sodium: 4, cholesterol: 0, omega3: 0.02, omega6: 0.6 } },
+  { id: 'ex5', name: 'Oats with Milk & Honey', category: 'Grains', servingSize: 200, servingUnit: 'g',
+    nutrients: { calories: 220, protein: 8, carbs: 36, fats: 5, fiber: 3.5, sugar: 14, vitaminA: 40, vitaminC: 1, vitaminD: 1, vitaminE: 0.2, vitaminK: 0.5, vitaminB6: 0.1, vitaminB12: 0.5, calcium: 180, iron: 1.4, magnesium: 50, zinc: 1.5, potassium: 280, sodium: 60, cholesterol: 8, omega3: 0.05, omega6: 1 } },
 ];
 
 export function searchFoods(query: string): FoodItem[] {
