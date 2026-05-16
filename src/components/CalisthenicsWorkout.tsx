@@ -7,6 +7,7 @@ interface Exercise {
   name: string;
   duration: string;
   image: string;
+  emoji: string;
   how: string;
   tip: string;
 }
@@ -19,58 +20,109 @@ interface Circuit {
   items: Exercise[];
 }
 
+// Reliable image sources:
+// SP = spotebi static illustrations, EDB = free-exercise-db on jsdelivr CDN
+const SP = (slug: string) => `https://www.spotebi.com/wp-content/uploads/2014/10/${slug}-exercise-illustration.gif`;
+const EDB = (slug: string) => `https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/${slug}/0.jpg`;
+
 const exercises: Circuit[] = [
   {
     category: 'warmup', emoji: '🌷', title: 'Warm Up',
     color: 'hsl(335 78% 65%)', bg: 'hsl(335 90% 96%)',
     items: [
-      { name: 'Jumping Jacks', duration: '1 min', image: 'https://media.giphy.com/media/3ohzdIuqJoo8QdKlnW/giphy.gif', how: 'Stand with feet together, arms at sides. Jump feet out wide while raising arms overhead. Jump back to start. Keep rhythm steady and breathe!', tip: 'Land softly on the balls of your feet' },
-      { name: 'High Knees', duration: '1 min', image: 'https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif', how: 'Run in place, lifting knees to hip height with each step. Pump arms for balance. Stay light on your toes and keep core tight.', tip: 'Drive knees UP — not forward' },
-      { name: 'Arm Circles', duration: '30s each way', image: 'https://media.giphy.com/media/l0HlNQ03J5JxX6lva/giphy.gif', how: 'Extend arms out to sides at shoulder height. Make big circles forward for 30 sec, then reverse. Keep shoulders relaxed.', tip: 'Make the circles as BIG as possible' },
+      { name: 'Jumping Jacks', duration: '1 min', emoji: '🤸‍♀️', image: SP('jumping-jacks'),
+        how: 'Stand with feet together, arms at sides. Jump feet out wide while raising arms overhead. Jump back to start. Keep rhythm steady and breathe!',
+        tip: 'Land softly on the balls of your feet' },
+      { name: 'High Knees', duration: '1 min', emoji: '🏃‍♀️', image: SP('high-knees'),
+        how: 'Run in place, lifting knees to hip height with each step. Pump arms for balance. Stay light on your toes and keep core tight.',
+        tip: 'Drive knees UP — not forward' },
+      { name: 'Arm Circles', duration: '30s each way', emoji: '💁‍♀️', image: EDB('Arm_Circles'),
+        how: 'Extend arms out to sides at shoulder height. Make big circles forward for 30 sec, then reverse. Keep shoulders relaxed.',
+        tip: 'Make the circles as BIG as possible' },
     ],
   },
   {
     category: 'lower', emoji: '💖', title: 'Circuit 1 — Lower Body',
     color: 'hsl(340 80% 60%)', bg: 'hsl(340 90% 96%)',
     items: [
-      { name: 'Squats', duration: '40s ON / 20s REST', image: 'https://media.giphy.com/media/26BRzozg4TCBXv6QU/giphy.gif', how: 'Feet shoulder-width apart, toes slightly out. Push hips back and bend knees like sitting on a chair. Keep chest up, heels on floor. Lower until thighs parallel, then push back up.', tip: 'Knees track over toes — never cave inward' },
-      { name: 'Sumo Squats', duration: '40s ON / 20s REST', image: 'https://media.giphy.com/media/3o7btT1T9qpQZWhNlK/giphy.gif', how: 'Feet wider than shoulder-width, toes pointing outward at 45°. Lower straight down, keeping back straight. Targets inner thighs and glutes.', tip: 'Point toes OUT — that is the key!' },
-      { name: 'Reverse Lunges', duration: '40s ON / 20s REST', image: 'https://media.giphy.com/media/3ohjV3KahwmqTHjqly/giphy.gif', how: 'Stand tall. Step one foot BACK and lower the back knee toward the floor. Front thigh parallel to ground. Push through front heel to return. Alternate legs.', tip: "Front knee above ankle — don't push it forward" },
-      { name: 'Glute Bridges', duration: '40s ON / 20s REST', image: 'https://media.giphy.com/media/l4FGGafcOHmrlQxG0/giphy.gif', how: 'Lie on back, knees bent, feet flat on floor near hips. Push hips up toward ceiling, squeezing glutes. Hold 1 sec, lower slowly.', tip: "SQUEEZE at the top — that's the magic" },
-      { name: 'Wall Sit', duration: 'Hold 40s', image: 'https://media.giphy.com/media/l46Cbqvg6gxGvh3dC/giphy.gif', how: 'Back flat against wall. Slide down until thighs parallel to floor, knees at 90°. Arms on thighs or crossed. HOLD and breathe!', tip: "Feet flat on floor — don't go on tiptoes" },
+      { name: 'Squats', duration: '40s ON / 20s REST', emoji: '🍑', image: EDB('Bodyweight_Squat'),
+        how: 'Feet shoulder-width apart, toes slightly out. Push hips back and bend knees like sitting on a chair. Keep chest up, heels on floor. Lower until thighs parallel, then push back up.',
+        tip: 'Knees track over toes — never cave inward' },
+      { name: 'Sumo Squats', duration: '40s ON / 20s REST', emoji: '🌺', image: EDB('Plie_Dumbbell_Squat'),
+        how: 'Feet wider than shoulder-width, toes pointing outward at 45°. Lower straight down, keeping back straight. Targets inner thighs and glutes.',
+        tip: 'Point toes OUT — that is the key!' },
+      { name: 'Reverse Lunges', duration: '40s ON / 20s REST', emoji: '🦩', image: EDB('Bodyweight_Walking_Lunge'),
+        how: 'Stand tall. Step one foot BACK and lower the back knee toward the floor. Front thigh parallel to ground. Push through front heel to return. Alternate legs.',
+        tip: "Front knee above ankle — don't push it forward" },
+      { name: 'Glute Bridges', duration: '40s ON / 20s REST', emoji: '🌸', image: EDB('Barbell_Glute_Bridge'),
+        how: 'Lie on back, knees bent, feet flat on floor near hips. Push hips up toward ceiling, squeezing glutes. Hold 1 sec, lower slowly.',
+        tip: "SQUEEZE at the top — that's the magic" },
+      { name: 'Wall Sit', duration: 'Hold 40s', emoji: '🧘‍♀️', image: '',
+        how: 'Back flat against wall. Slide down until thighs parallel to floor, knees at 90°. Arms on thighs or crossed. HOLD and breathe!',
+        tip: "Feet flat on floor — don't go on tiptoes" },
     ],
   },
   {
     category: 'upper', emoji: '🦋', title: 'Circuit 2 — Upper Body & Core',
     color: 'hsl(280 70% 65%)', bg: 'hsl(280 80% 96%)',
     items: [
-      { name: 'Push-Ups', duration: '40s ON / 20s REST', image: 'https://media.giphy.com/media/l3q2K5jinAlChoCLS/giphy.gif', how: 'Hands shoulder-width apart, body in straight line head to heels. Lower chest toward floor, elbows ~45°. Push back up. Knees on floor is TOTALLY FINE for beginners!', tip: "Don't let hips sag — flat plank body!" },
-      { name: 'Pike Push-Ups', duration: '40s ON / 20s REST', image: 'https://media.giphy.com/media/26BRBKqUiq586bRVm/giphy.gif', how: 'Start in downward dog — hips high, body inverted V. Bend elbows to lower head toward floor between hands. Push back up. Targets shoulders!', tip: 'Higher hips = harder. Start lower if needed' },
-      { name: 'Tricep Dips', duration: '40s ON / 20s REST', image: 'https://media.giphy.com/media/l46CyJmS9KUbokzsI/giphy.gif', how: "Sit on floor, hands behind hips, fingers forward. Lift hips off ground. Bend elbows to lower hips toward floor (don't touch!), push back up.", tip: 'Elbows pointing BACK — not out to sides' },
-      { name: 'Plank Hold', duration: 'Hold 40s', image: 'https://media.giphy.com/media/26xBwdIuRJiAIqHIA/giphy.gif', how: 'Forearms on floor, elbows under shoulders. Body straight from head to heels. Squeeze core, glutes, everything! Look at floor. BREATHE.', tip: 'Slow steady breathing through the hold' },
-      { name: 'Superman Hold', duration: '40s ON / 20s REST', image: 'https://media.giphy.com/media/3o7btUmVCKtHWK3Hgk/giphy.gif', how: 'Lie face down, arms extended overhead. Lift arms, chest, and legs off floor at the same time. Hold 2–3 sec then lower. Strengthens your back chain.', tip: "Look DOWN — don't crane your neck" },
+      { name: 'Push-Ups', duration: '40s ON / 20s REST', emoji: '💪', image: EDB('Pushups'),
+        how: 'Hands shoulder-width apart, body in straight line head to heels. Lower chest toward floor, elbows ~45°. Push back up. Knees on floor is TOTALLY FINE for beginners!',
+        tip: "Don't let hips sag — flat plank body!" },
+      { name: 'Pike Push-Ups', duration: '40s ON / 20s REST', emoji: '🧚‍♀️', image: EDB('Handstand_Push-Ups'),
+        how: 'Start in downward dog — hips high, body inverted V. Bend elbows to lower head toward floor between hands. Push back up. Targets shoulders!',
+        tip: 'Higher hips = harder. Start lower if needed' },
+      { name: 'Tricep Dips', duration: '40s ON / 20s REST', emoji: '💗', image: EDB('Bench_Dips'),
+        how: "Sit on floor, hands behind hips, fingers forward. Lift hips off ground. Bend elbows to lower hips toward floor (don't touch!), push back up.",
+        tip: 'Elbows pointing BACK — not out to sides' },
+      { name: 'Plank Hold', duration: 'Hold 40s', emoji: '🪷', image: EDB('Plank'),
+        how: 'Forearms on floor, elbows under shoulders. Body straight from head to heels. Squeeze core, glutes, everything! Look at floor. BREATHE.',
+        tip: 'Slow steady breathing through the hold' },
+      { name: 'Superman Hold', duration: '40s ON / 20s REST', emoji: '🦋', image: EDB('Superman'),
+        how: 'Lie face down, arms extended overhead. Lift arms, chest, and legs off floor at the same time. Hold 2–3 sec then lower. Strengthens your back chain.',
+        tip: "Look DOWN — don't crane your neck" },
     ],
   },
   {
     category: 'fatburn', emoji: '🌸', title: 'Circuit 3 — Full Body Fat Burn',
     color: 'hsl(15 90% 65%)', bg: 'hsl(20 100% 96%)',
     items: [
-      { name: 'Burpees', duration: '40s ON / 20s REST', image: 'https://media.giphy.com/media/23hPPMRbFgm9pOmRgI/giphy.gif', how: 'Stand → squat hands on floor → jump feet back to plank → push-up (optional) → jump feet forward → jump up arms overhead. The QUEEN of calorie burn!', tip: 'No jump at top as a beginner — just stand up!' },
-      { name: 'Mountain Climbers', duration: '40s ON / 20s REST', image: 'https://media.giphy.com/media/l3q2Z0fHBNFglHUvS/giphy.gif', how: "High plank, hands under shoulders. Drive one knee toward chest, quickly switch in a running motion. Keep hips level — don't bounce!", tip: 'The FASTER you go, the more cardio' },
-      { name: 'Jump Squats', duration: '40s ON / 20s REST', image: 'https://media.giphy.com/media/26BRBKqUiq586bRVm/giphy.gif', how: 'Regular squat, then explode upward into a jump! Land softly with bent knees and go straight into the next squat.', tip: 'Land toe-heel, softly — protect knees!' },
-      { name: 'Lateral Shuffles', duration: '40s ON / 20s REST', image: 'https://media.giphy.com/media/3o6ZtpxSZbQRRnwCKQ/giphy.gif', how: 'Slight squat, stay low. Shuffle 3 steps right, tap foot, shuffle 3 steps left, tap. Stay in the athletic low position.', tip: "Don't stand up between shuffles — stay LOW" },
-      { name: 'Squat to Kick', duration: '40s ON / 20s REST', image: 'https://media.giphy.com/media/3ohzdMDbNXvnntM6Aw/giphy.gif', how: 'Do a squat, as you stand kick one leg out front or side. Next squat, kick the other leg. Challenges balance, works glutes!', tip: "Keep standing leg slightly bent — don't lock" },
+      { name: 'Burpees', duration: '40s ON / 20s REST', emoji: '🔥', image: '',
+        how: 'Stand → squat hands on floor → jump feet back to plank → push-up (optional) → jump feet forward → jump up arms overhead. The QUEEN of calorie burn!',
+        tip: 'No jump at top as a beginner — just stand up!' },
+      { name: 'Mountain Climbers', duration: '40s ON / 20s REST', emoji: '⛰️', image: EDB('Mountain_Climbers'),
+        how: "High plank, hands under shoulders. Drive one knee toward chest, quickly switch in a running motion. Keep hips level — don't bounce!",
+        tip: 'The FASTER you go, the more cardio' },
+      { name: 'Jump Squats', duration: '40s ON / 20s REST', emoji: '🌟', image: EDB('Freehand_Jump_Squat'),
+        how: 'Regular squat, then explode upward into a jump! Land softly with bent knees and go straight into the next squat.',
+        tip: 'Land toe-heel, softly — protect knees!' },
+      { name: 'Lateral Shuffles', duration: '40s ON / 20s REST', emoji: '🦄', image: EDB('Lateral_Bound'),
+        how: 'Slight squat, stay low. Shuffle 3 steps right, tap foot, shuffle 3 steps left, tap. Stay in the athletic low position.',
+        tip: "Don't stand up between shuffles — stay LOW" },
+      { name: 'Squat to Kick', duration: '40s ON / 20s REST', emoji: '🌈', image: '',
+        how: 'Do a squat, as you stand kick one leg out front or side. Next squat, kick the other leg. Challenges balance, works glutes!',
+        tip: "Keep standing leg slightly bent — don't lock" },
     ],
   },
   {
     category: 'core', emoji: '🎀', title: 'Circuit 4 — Core Finisher',
     color: 'hsl(180 60% 55%)', bg: 'hsl(180 70% 95%)',
     items: [
-      { name: 'Crunches', duration: '30 sec', image: 'https://media.giphy.com/media/26BRBKqUiq586bRVm/giphy.gif', how: "Lie on back, knees bent, hands behind head (don't pull neck!). Curl shoulders off floor toward knees. Lower slowly.", tip: 'Exhale UP, inhale DOWN' },
-      { name: 'Bicycle Crunches', duration: '30 sec', image: 'https://media.giphy.com/media/3o7btT1T9qpQZWhNlK/giphy.gif', how: 'Lie on back, hands behind head. Bring right elbow to left knee while right leg extends. Switch — left elbow to right knee. Like pedaling a bike!', tip: 'SLOW & controlled beats fast and sloppy' },
-      { name: 'Leg Raises', duration: '30 sec', image: 'https://media.giphy.com/media/3ohzdR1pX1RSPNZP4c/giphy.gif', how: 'Lie flat on back, hands under hips. Legs straight. Raise both legs to 90°, then lower SLOWLY without touching floor.', tip: 'Press lower back INTO the floor' },
-      { name: 'Russian Twists', duration: '30 sec', image: 'https://media.giphy.com/media/26BRzozg4TCBXv6QU/giphy.gif', how: 'Sit on floor, knees bent, feet lifted or on floor. Lean back slightly. Clasp hands and twist torso right, then left.', tip: 'Feet up = harder, feet down = easier' },
-      { name: 'Dead Bug Hold', duration: '30 sec', image: 'https://media.giphy.com/media/l0HlNQ03J5JxX6lva/giphy.gif', how: 'Lie on back. Arms up toward ceiling, knees bent at 90°. Slowly lower right arm overhead AND left leg down — without arching back. Switch.', tip: 'Press lower back FLAT into the floor' },
+      { name: 'Crunches', duration: '30 sec', emoji: '🎀', image: EDB('Crunches'),
+        how: "Lie on back, knees bent, hands behind head (don't pull neck!). Curl shoulders off floor toward knees. Lower slowly.",
+        tip: 'Exhale UP, inhale DOWN' },
+      { name: 'Bicycle Crunches', duration: '30 sec', emoji: '🚲', image: EDB('Air_Bike'),
+        how: 'Lie on back, hands behind head. Bring right elbow to left knee while right leg extends. Switch — left elbow to right knee. Like pedaling a bike!',
+        tip: 'SLOW & controlled beats fast and sloppy' },
+      { name: 'Leg Raises', duration: '30 sec', emoji: '🦵', image: EDB('Flat_Bench_Lying_Leg_Raise'),
+        how: 'Lie flat on back, hands under hips. Legs straight. Raise both legs to 90°, then lower SLOWLY without touching floor.',
+        tip: 'Press lower back INTO the floor' },
+      { name: 'Russian Twists', duration: '30 sec', emoji: '🌀', image: EDB('Russian_Twist'),
+        how: 'Sit on floor, knees bent, feet lifted or on floor. Lean back slightly. Clasp hands and twist torso right, then left.',
+        tip: 'Feet up = harder, feet down = easier' },
+      { name: 'Dead Bug Hold', duration: '30 sec', emoji: '🐞', image: EDB('Dead_Bug'),
+        how: 'Lie on back. Arms up toward ceiling, knees bent at 90°. Slowly lower right arm overhead AND left leg down — without arching back. Switch.',
+        tip: 'Press lower back FLAT into the floor' },
     ],
   },
 ];
@@ -82,11 +134,26 @@ export default function CalisthenicsWorkout() {
 
   const visible = filter === 'all' ? exercises : exercises.filter(c => c.category === filter);
 
+  const renderFallback = (ex: Exercise, color: string) => (
+    <div
+      className="h-full w-full flex flex-col items-center justify-center text-center p-4 relative overflow-hidden"
+      style={{
+        background: `radial-gradient(circle at 30% 20%, ${color}25 0%, transparent 60%), radial-gradient(circle at 70% 80%, ${color}20 0%, transparent 55%)`,
+      }}
+    >
+      <Sparkles className="absolute top-3 right-3 h-3.5 w-3.5 opacity-60" style={{ color }} />
+      <Heart className="absolute bottom-3 left-3 h-3 w-3 opacity-50" style={{ color, fill: color }} />
+      <Flower2 className="absolute top-4 left-4 h-3.5 w-3.5 opacity-40" style={{ color }} />
+      <div className="text-6xl mb-2 drop-shadow-sm">{ex.emoji}</div>
+      <div className="text-xs font-bold tracking-wide" style={{ color }}>{ex.name}</div>
+    </div>
+  );
+
   return (
-    <Card className="overflow-hidden border-primary/20 shadow-card">
+    <Card className="overflow-hidden border-primary/20 shadow-card rounded-[2rem]">
       {/* Hero Header */}
       <div
-        className="relative px-6 sm:px-10 py-10 text-center overflow-hidden"
+        className="relative px-6 sm:px-10 py-12 text-center overflow-hidden"
         style={{
           background:
             'radial-gradient(ellipse at top, hsl(335 95% 92%) 0%, hsl(300 85% 94%) 45%, hsl(280 80% 96%) 100%)',
@@ -99,6 +166,8 @@ export default function CalisthenicsWorkout() {
         <Flower2 className="absolute bottom-8 right-8 h-6 w-6 text-accent/50 rotate-12" />
         <Sparkles className="absolute top-1/2 left-4 h-4 w-4 text-primary/40" />
         <Sparkles className="absolute top-1/3 right-6 h-4 w-4 text-accent/50" />
+        <Heart className="absolute top-20 left-1/4 h-3 w-3 text-primary/40 fill-primary/30" />
+        <Star className="absolute bottom-12 right-1/4 h-3 w-3 text-accent/50 fill-accent/30" />
 
         <motion.div
           initial={{ scale: 0, rotate: -20 }}
@@ -173,6 +242,7 @@ export default function CalisthenicsWorkout() {
               {circuit.items.map((ex, ei) => {
                 const key = `${circuit.category}-${ei}`;
                 const isOpen = active === key;
+                const showFallback = !ex.image || imgErrors[key];
                 return (
                   <motion.div
                     key={ei}
@@ -188,24 +258,21 @@ export default function CalisthenicsWorkout() {
                     <div className={isOpen ? 'sm:flex' : ''}>
                       {/* Image */}
                       <div
-                        className={`relative ${isOpen ? 'sm:w-1/2 h-64 sm:h-auto' : 'h-44'}`}
+                        className={`relative ${isOpen ? 'sm:w-1/2 h-64 sm:h-auto' : 'h-48'}`}
                         style={{ background: circuit.bg }}
                       >
-                        {imgErrors[key] ? (
-                          <div className="h-full w-full flex flex-col items-center justify-center text-center p-4">
-                            <div className="text-5xl mb-2">🏋️‍♀️</div>
-                            <div className="text-xs font-bold" style={{ color: circuit.color }}>{ex.name}</div>
-                          </div>
+                        {showFallback ? (
+                          renderFallback(ex, circuit.color)
                         ) : (
                           <img
                             src={ex.image}
                             alt={ex.name}
                             loading="lazy"
                             onError={() => setImgErrors(p => ({ ...p, [key]: true }))}
-                            className="h-full w-full object-cover"
+                            className="h-full w-full object-contain bg-white p-2"
                           />
                         )}
-                        <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full text-[10px] font-bold backdrop-blur bg-card/85 shadow-sm" style={{ color: circuit.color }}>
+                        <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full text-[10px] font-bold backdrop-blur bg-card/90 shadow-sm" style={{ color: circuit.color }}>
                           {ex.duration}
                         </div>
                         <Heart className="absolute top-2 left-2 h-4 w-4 text-primary fill-primary/80 drop-shadow" />
@@ -215,7 +282,7 @@ export default function CalisthenicsWorkout() {
                       <div className={`p-4 ${isOpen ? 'sm:w-1/2 sm:p-5' : ''}`}>
                         <div className="flex items-start justify-between gap-2 mb-1">
                           <h4 className="font-bold text-sm sm:text-base text-foreground leading-tight">
-                            {ex.name}
+                            <span className="mr-1.5">{ex.emoji}</span>{ex.name}
                           </h4>
                           <ChevronDown
                             className="h-4 w-4 text-muted-foreground shrink-0 mt-1 transition-transform"
