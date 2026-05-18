@@ -20,10 +20,33 @@ interface Circuit {
   items: Exercise[];
 }
 
-// Reliable image sources:
-// SP = spotebi static illustrations, EDB = free-exercise-db on jsdelivr CDN
-const SP = (slug: string) => `https://www.spotebi.com/wp-content/uploads/2014/10/${slug}-exercise-illustration.gif`;
-const EDB = (slug: string) => `https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/${slug}/0.jpg`;
+// Verified spotebi GIF URLs (each one manually resolved to its actual path)
+const SP = (path: string) => `https://spotebi.com/wp-content/uploads/${path}`;
+const GIFS = {
+  jumpingJacks: SP('2014/10/jumping-jacks-exercise-illustration.gif'),
+  highKnees: SP('2014/10/high-knees-exercise-illustration.gif'),
+  armCircles: SP('2014/10/arm-circles-exercise-illustration.gif'),
+  squat: SP('2014/10/squat-exercise-illustration.gif'),
+  sumoSquat: SP('2015/05/sumo-squat-exercise-illustration-spotebi.gif'),
+  reverseLunge: SP('2017/06/reverse-lunge-medicine-ball-overhead-press-exercise-illustration-spotebi.gif'),
+  gluteBridge: SP('2015/01/glute-bridge-exercise-illustration-spotebi.gif'),
+  wallSit: SP('2015/05/wall-sit-exercise-illustration.gif'),
+  pushUp: SP('2014/10/push-up-exercise-illustration.gif'),
+  pikePushUp: SP('2016/03/pike-push-up-exercise-illustration-spotebi.gif'),
+  tricepDips: SP('2015/04/tricep-dips-exercise-illustration-spotebi.gif'),
+  plank: SP('2014/10/plank-exercise-illustration.gif'),
+  superman: SP('2016/02/superman-exercise-illustration-spotebi.gif'),
+  burpees: SP('2014/10/burpees-exercise-illustration.gif'),
+  mountainClimbers: SP('2014/10/mountain-climbers-exercise-illustration-spotebi.gif'),
+  jumpSquat: SP('2015/08/jump-squat-exercise-illustration.gif'),
+  squatKick: SP('2015/04/squat-kickback-exercise-illustration-spotebi.gif'),
+  lateralShuffle: '', // no good match — falls back to emoji card
+  crunches: SP('2014/10/crunches-exercise-illustration.gif'),
+  bicycleCrunches: SP('2014/10/bicycle-crunches-exercise-illustration.gif'),
+  legRaise: SP('2014/10/straight-leg-raise-exercise-illustration.gif'),
+  russianTwist: SP('2015/04/russian-twist-exercise-illustration.gif'),
+  deadBug: SP('2015/05/dead-bug-exercise-illustration.gif'),
+};
 
 const exercises: Circuit[] = [
   {
