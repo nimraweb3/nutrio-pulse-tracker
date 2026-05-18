@@ -40,7 +40,7 @@ const GIFS = {
   mountainClimbers: SP('2014/10/mountain-climbers-exercise-illustration-spotebi.gif'),
   jumpSquat: SP('2015/08/jump-squat-exercise-illustration.gif'),
   squatKick: SP('2015/04/squat-kickback-exercise-illustration-spotebi.gif'),
-  lateralShuffle: '', // no good match — falls back to emoji card
+  lateralShuffle: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Side_to_Side_Box_Shuffle/0.jpg',
   crunches: SP('2014/10/crunches-exercise-illustration.gif'),
   bicycleCrunches: SP('2014/10/bicycle-crunches-exercise-illustration.gif'),
   legRaise: SP('2014/10/straight-leg-raise-exercise-illustration.gif'),
