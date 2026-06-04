@@ -2,94 +2,96 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Pacifico&family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
 
 @layer base {
   :root {
-    /* 🌸 Pinterest girly pink theme */
-    --background: 340 100% 98%;
-    --foreground: 335 45% 18%;
+    /* Modern fitness SaaS — slate base + emerald accent */
+    --background: 210 20% 98%;
+    --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
-    --card-foreground: 335 45% 18%;
+    --card-foreground: 222 47% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 335 45% 18%;
+    --popover-foreground: 222 47% 11%;
 
-    --primary: 335 78% 65%;
+    --primary: 158 64% 40%;            /* emerald-600 */
     --primary-foreground: 0 0% 100%;
+    --primary-glow: 158 70% 55%;
 
-    --secondary: 340 80% 95%;
-    --secondary-foreground: 335 50% 30%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 18%;
 
-    --muted: 340 50% 96%;
-    --muted-foreground: 335 20% 50%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 280 70% 75%;
-    --accent-foreground: 280 50% 20%;
+    --accent: 38 92% 50%;              /* amber-500 for energy/highlights */
+    --accent-foreground: 222 47% 11%;
 
-    --destructive: 0 75% 65%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 150 55% 60%;
+    --success: 158 64% 40%;
     --success-foreground: 0 0% 100%;
 
-    --warning: 35 95% 65%;
-    --warning-foreground: 35 80% 20%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 30 80% 15%;
 
-    --info: 200 80% 70%;
+    --info: 217 91% 60%;
     --info-foreground: 0 0% 100%;
 
-    --protein: 200 75% 65%;
-    --carbs: 35 95% 65%;
-    --fats: 320 70% 65%;
-    --fiber: 150 55% 60%;
-    --calories: 335 78% 65%;
+    --protein: 217 91% 60%;
+    --carbs: 38 92% 50%;
+    --fats: 280 70% 60%;
+    --fiber: 158 64% 40%;
+    --calories: 158 64% 40%;
 
-    --border: 335 60% 90%;
-    --input: 335 60% 92%;
-    --ring: 335 78% 65%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 158 64% 40%;
 
-    --radius: 1.25rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 340 100% 98%;
-    --sidebar-foreground: 335 45% 18%;
-    --sidebar-primary: 335 78% 65%;
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 158 70% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 340 80% 95%;
-    --sidebar-accent-foreground: 335 50% 30%;
-    --sidebar-border: 335 60% 90%;
-    --sidebar-ring: 335 78% 65%;
+    --sidebar-accent: 222 40% 16%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 222 40% 20%;
+    --sidebar-ring: 158 70% 50%;
   }
 
   .dark {
-    --background: 335 30% 10%;
-    --foreground: 340 50% 95%;
+    --background: 222 47% 8%;
+    --foreground: 210 40% 96%;
 
-    --card: 335 30% 14%;
-    --card-foreground: 340 50% 95%;
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 96%;
 
-    --popover: 335 30% 14%;
-    --popover-foreground: 340 50% 95%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 96%;
 
-    --primary: 335 78% 70%;
-    --primary-foreground: 335 50% 12%;
+    --primary: 158 70% 50%;
+    --primary-foreground: 222 47% 8%;
+    --primary-glow: 158 75% 60%;
 
-    --secondary: 335 25% 22%;
-    --secondary-foreground: 340 50% 95%;
+    --secondary: 222 40% 16%;
+    --secondary-foreground: 210 40% 96%;
 
-    --muted: 335 25% 20%;
-    --muted-foreground: 340 30% 70%;
+    --muted: 222 40% 14%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 280 60% 70%;
-    --accent-foreground: 280 50% 15%;
+    --accent: 38 92% 55%;
+    --accent-foreground: 30 80% 12%;
 
-    --destructive: 0 70% 60%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 335 25% 25%;
-    --input: 335 25% 25%;
-    --ring: 335 78% 70%;
+    --border: 222 40% 18%;
+    --input: 222 40% 18%;
+    --ring: 158 70% 50%;
   }
 }
 
@@ -100,43 +102,49 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Quicksand', 'Inter', system-ui, sans-serif;
-    background-image:
-      radial-gradient(at 12% 8%, hsl(335 90% 92% / 0.7) 0px, transparent 50%),
-      radial-gradient(at 88% 12%, hsl(280 80% 92% / 0.6) 0px, transparent 50%),
-      radial-gradient(at 50% 95%, hsl(340 90% 94% / 0.5) 0px, transparent 50%);
-    background-attachment: fixed;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-feature-settings: 'cv11', 'ss01';
   }
 
-  h1, h2, h3 {
-    font-family: 'Quicksand', system-ui, sans-serif;
-    letter-spacing: -0.01em;
+  h1, h2, h3, h4 {
+    font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+    letter-spacing: -0.02em;
+    font-weight: 700;
   }
 
   .font-display {
-    font-family: 'Pacifico', cursive;
-    letter-spacing: 0.5px;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+  }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
   }
 }
 
 @layer utilities {
   .gradient-primary {
-    background: linear-gradient(135deg, hsl(335 80% 70%), hsl(300 75% 72%));
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
   }
   .gradient-card {
-    background: linear-gradient(135deg, hsl(0 0% 100%), hsl(340 100% 98%));
+    background: linear-gradient(180deg, hsl(var(--card)), hsl(var(--muted)));
   }
-  .gradient-pink {
-    background: linear-gradient(135deg, hsl(335 90% 88%), hsl(280 80% 90%));
+  .gradient-hero {
+    background: linear-gradient(135deg, hsl(158 64% 40%) 0%, hsl(217 91% 50%) 100%);
   }
   .shadow-card {
-    box-shadow: 0 2px 6px hsl(335 60% 50% / 0.08), 0 8px 20px hsl(335 60% 50% / 0.06);
+    box-shadow: 0 1px 2px hsl(222 47% 11% / 0.04), 0 1px 3px hsl(222 47% 11% / 0.06);
   }
   .shadow-card-hover {
-    box-shadow: 0 6px 16px hsl(335 60% 50% / 0.15), 0 12px 28px hsl(335 60% 50% / 0.08);
+    box-shadow: 0 4px 12px hsl(222 47% 11% / 0.08), 0 8px 24px hsl(222 47% 11% / 0.06);
   }
   .shadow-cute {
-    box-shadow: 0 4px 14px hsl(335 80% 70% / 0.25);
+    box-shadow: 0 4px 14px hsl(var(--primary) / 0.25);
+  }
+  .glass {
+    background: hsl(var(--card) / 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 }
-

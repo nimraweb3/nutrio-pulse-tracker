@@ -1,26 +1,27 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Sparkles, Heart, Flower2, Star } from 'lucide-react';
+import { ChevronDown, Flame, CheckCircle2, Circle, Trophy, RotateCcw } from 'lucide-react';
 import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { useAppState, WorkoutEntry } from '@/context/AppContext';
+import { formatDate } from '@/utils/nutritionCalculations';
+import { toast } from 'sonner';
 
 interface Exercise {
   name: string;
   duration: string;
   image: string;
-  emoji: string;
   how: string;
   tip: string;
+  kcal: number; // estimated calories burned per set (70kg reference)
 }
 interface Circuit {
   category: string;
-  emoji: string;
   title: string;
-  color: string;
-  bg: string;
+  accent: string;
   items: Exercise[];
 }
 
-// Verified spotebi GIF URLs (each one manually resolved to its actual path)
 const SP = (path: string) => `https://spotebi.com/wp-content/uploads/${path}`;
 const GIFS = {
   jumpingJacks: SP('2014/10/jumping-jacks-exercise-illustration.gif'),
@@ -37,7 +38,7 @@ const GIFS = {
   plank: SP('2014/10/plank-exercise-illustration.gif'),
   superman: SP('2016/02/superman-exercise-illustration-spotebi.gif'),
   burpees: SP('2014/10/burpees-exercise-illustration.gif'),
-  mountainClimbers: SP('2014/10/mountain-climbers-exercise-illustration-spotebi.gif'),
+  mountainClimbers: SP('2014/10/mountain-climbers-exercise-illustration.gif'),
   jumpSquat: SP('2015/08/jump-squat-exercise-illustration.gif'),
   squatKick: SP('2015/04/squat-kickback-exercise-illustration-spotebi.gif'),
   lateralShuffle: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Side_to_Side_Box_Shuffle/0.jpg',
@@ -48,323 +49,333 @@ const GIFS = {
   deadBug: SP('2015/05/dead-bug-exercise-illustration.gif'),
 };
 
-const exercises: Circuit[] = [
+const circuits: Circuit[] = [
   {
-    category: 'warmup', emoji: '🌷', title: 'Warm Up',
-    color: 'hsl(335 78% 65%)', bg: 'hsl(335 90% 96%)',
+    category: 'warmup', title: 'Warm Up', accent: 'hsl(38 92% 50%)',
     items: [
-      { name: 'Jumping Jacks', duration: '1 min', emoji: '🤸‍♀️', image: GIFS.jumpingJacks,
-        how: 'Stand with feet together, arms at sides. Jump feet out wide while raising arms overhead. Jump back to start. Keep rhythm steady and breathe!',
+      { name: 'Jumping Jacks', duration: '1 min', kcal: 8, image: GIFS.jumpingJacks,
+        how: 'Stand with feet together, arms at sides. Jump feet out wide while raising arms overhead. Jump back to start. Keep rhythm steady and breathe.',
         tip: 'Land softly on the balls of your feet' },
-      { name: 'High Knees', duration: '1 min', emoji: '🏃‍♀️', image: GIFS.highKnees,
+      { name: 'High Knees', duration: '1 min', kcal: 10, image: GIFS.highKnees,
         how: 'Run in place, lifting knees to hip height with each step. Pump arms for balance. Stay light on your toes and keep core tight.',
         tip: 'Drive knees UP — not forward' },
-      { name: 'Arm Circles', duration: '30s each way', emoji: '💁‍♀️', image: GIFS.armCircles,
+      { name: 'Arm Circles', duration: '30s each way', kcal: 3, image: GIFS.armCircles,
         how: 'Extend arms out to sides at shoulder height. Make big circles forward for 30 sec, then reverse. Keep shoulders relaxed.',
         tip: 'Make the circles as BIG as possible' },
     ],
   },
   {
-    category: 'lower', emoji: '💖', title: 'Circuit 1 — Lower Body',
-    color: 'hsl(340 80% 60%)', bg: 'hsl(340 90% 96%)',
+    category: 'lower', title: 'Circuit 1 — Lower Body', accent: 'hsl(158 64% 40%)',
     items: [
-      { name: 'Squats', duration: '40s ON / 20s REST', emoji: '🍑', image: GIFS.squat,
-        how: 'Feet shoulder-width apart, toes slightly out. Push hips back and bend knees like sitting on a chair. Keep chest up, heels on floor. Lower until thighs parallel, then push back up.',
+      { name: 'Squats', duration: '40s ON / 20s REST', kcal: 6, image: GIFS.squat,
+        how: 'Feet shoulder-width apart, toes slightly out. Push hips back and bend knees like sitting on a chair. Keep chest up, heels on floor.',
         tip: 'Knees track over toes — never cave inward' },
-      { name: 'Sumo Squats', duration: '40s ON / 20s REST', emoji: '🌺', image: GIFS.sumoSquat,
-        how: 'Feet wider than shoulder-width, toes pointing outward at 45°. Lower straight down, keeping back straight. Targets inner thighs and glutes.',
-        tip: 'Point toes OUT — that is the key!' },
-      { name: 'Reverse Lunges', duration: '40s ON / 20s REST', emoji: '🦩', image: GIFS.reverseLunge,
-        how: 'Stand tall. Step one foot BACK and lower the back knee toward the floor. Front thigh parallel to ground. Push through front heel to return. Alternate legs.',
+      { name: 'Sumo Squats', duration: '40s ON / 20s REST', kcal: 6, image: GIFS.sumoSquat,
+        how: 'Feet wider than shoulder-width, toes at 45°. Lower straight down, keeping back straight. Targets inner thighs and glutes.',
+        tip: 'Point toes OUT — that is the key' },
+      { name: 'Reverse Lunges', duration: '40s ON / 20s REST', kcal: 7, image: GIFS.reverseLunge,
+        how: 'Stand tall. Step one foot BACK and lower the back knee toward the floor. Front thigh parallel to ground. Push through front heel to return.',
         tip: "Front knee above ankle — don't push it forward" },
-      { name: 'Glute Bridges', duration: '40s ON / 20s REST', emoji: '🌸', image: GIFS.gluteBridge,
-        how: 'Lie on back, knees bent, feet flat on floor near hips. Push hips up toward ceiling, squeezing glutes. Hold 1 sec, lower slowly.',
-        tip: "SQUEEZE at the top — that's the magic" },
-      { name: 'Wall Sit', duration: 'Hold 40s', emoji: '🧘‍♀️', image: GIFS.wallSit,
-        how: 'Back flat against wall. Slide down until thighs parallel to floor, knees at 90°. Arms on thighs or crossed. HOLD and breathe!',
-        tip: "Feet flat on floor — don't go on tiptoes" },
+      { name: 'Glute Bridges', duration: '40s ON / 20s REST', kcal: 4, image: GIFS.gluteBridge,
+        how: 'Lie on back, knees bent, feet flat near hips. Push hips up toward ceiling, squeezing glutes. Hold 1 sec, lower slowly.',
+        tip: 'SQUEEZE at the top' },
+      { name: 'Wall Sit', duration: 'Hold 40s', kcal: 5, image: GIFS.wallSit,
+        how: 'Back flat against wall. Slide down until thighs parallel to floor, knees at 90°. Arms on thighs or crossed. Hold and breathe.',
+        tip: "Feet flat — don't go on tiptoes" },
     ],
   },
   {
-    category: 'upper', emoji: '🦋', title: 'Circuit 2 — Upper Body & Core',
-    color: 'hsl(280 70% 65%)', bg: 'hsl(280 80% 96%)',
+    category: 'upper', title: 'Circuit 2 — Upper Body & Core', accent: 'hsl(217 91% 60%)',
     items: [
-      { name: 'Push-Ups', duration: '40s ON / 20s REST', emoji: '💪', image: GIFS.pushUp,
-        how: 'Hands shoulder-width apart, body in straight line head to heels. Lower chest toward floor, elbows ~45°. Push back up. Knees on floor is TOTALLY FINE for beginners!',
-        tip: "Don't let hips sag — flat plank body!" },
-      { name: 'Pike Push-Ups', duration: '40s ON / 20s REST', emoji: '🧚‍♀️', image: GIFS.pikePushUp,
-        how: 'Start in downward dog — hips high, body inverted V. Bend elbows to lower head toward floor between hands. Push back up. Targets shoulders!',
-        tip: 'Higher hips = harder. Start lower if needed' },
-      { name: 'Tricep Dips', duration: '40s ON / 20s REST', emoji: '💗', image: GIFS.tricepDips,
-        how: "Sit on floor, hands behind hips, fingers forward. Lift hips off ground. Bend elbows to lower hips toward floor (don't touch!), push back up.",
+      { name: 'Push-Ups', duration: '40s ON / 20s REST', kcal: 7, image: GIFS.pushUp,
+        how: 'Hands shoulder-width apart, body in straight line head to heels. Lower chest toward floor, elbows ~45°. Push back up. Knees on floor is fine for beginners.',
+        tip: "Don't let hips sag — flat plank body" },
+      { name: 'Pike Push-Ups', duration: '40s ON / 20s REST', kcal: 7, image: GIFS.pikePushUp,
+        how: 'Start in downward dog — hips high, body inverted V. Bend elbows to lower head toward floor between hands. Push back up. Targets shoulders.',
+        tip: 'Higher hips = harder' },
+      { name: 'Tricep Dips', duration: '40s ON / 20s REST', kcal: 5, image: GIFS.tricepDips,
+        how: 'Sit on floor, hands behind hips, fingers forward. Lift hips off ground. Bend elbows to lower hips toward floor, push back up.',
         tip: 'Elbows pointing BACK — not out to sides' },
-      { name: 'Plank Hold', duration: 'Hold 40s', emoji: '🪷', image: GIFS.plank,
-        how: 'Forearms on floor, elbows under shoulders. Body straight from head to heels. Squeeze core, glutes, everything! Look at floor. BREATHE.',
+      { name: 'Plank Hold', duration: 'Hold 40s', kcal: 4, image: GIFS.plank,
+        how: 'Forearms on floor, elbows under shoulders. Body straight from head to heels. Squeeze core and glutes. Breathe.',
         tip: 'Slow steady breathing through the hold' },
-      { name: 'Superman Hold', duration: '40s ON / 20s REST', emoji: '🦋', image: GIFS.superman,
-        how: 'Lie face down, arms extended overhead. Lift arms, chest, and legs off floor at the same time. Hold 2–3 sec then lower. Strengthens your back chain.',
+      { name: 'Superman Hold', duration: '40s ON / 20s REST', kcal: 4, image: GIFS.superman,
+        how: 'Lie face down, arms extended overhead. Lift arms, chest, and legs off floor at the same time. Hold 2–3 sec then lower.',
         tip: "Look DOWN — don't crane your neck" },
     ],
   },
   {
-    category: 'fatburn', emoji: '🌸', title: 'Circuit 3 — Full Body Fat Burn',
-    color: 'hsl(15 90% 65%)', bg: 'hsl(20 100% 96%)',
+    category: 'fatburn', title: 'Circuit 3 — Full Body Fat Burn', accent: 'hsl(0 84% 60%)',
     items: [
-      { name: 'Burpees', duration: '40s ON / 20s REST', emoji: '🔥', image: GIFS.burpees,
-        how: 'Stand → squat hands on floor → jump feet back to plank → push-up (optional) → jump feet forward → jump up arms overhead. The QUEEN of calorie burn!',
-        tip: 'No jump at top as a beginner — just stand up!' },
-      { name: 'Mountain Climbers', duration: '40s ON / 20s REST', emoji: '⛰️', image: GIFS.mountainClimbers,
-        how: "High plank, hands under shoulders. Drive one knee toward chest, quickly switch in a running motion. Keep hips level — don't bounce!",
-        tip: 'The FASTER you go, the more cardio' },
-      { name: 'Jump Squats', duration: '40s ON / 20s REST', emoji: '🌟', image: GIFS.jumpSquat,
-        how: 'Regular squat, then explode upward into a jump! Land softly with bent knees and go straight into the next squat.',
-        tip: 'Land toe-heel, softly — protect knees!' },
-      { name: 'Lateral Shuffles', duration: '40s ON / 20s REST', emoji: '🦄', image: GIFS.lateralShuffle,
+      { name: 'Burpees', duration: '40s ON / 20s REST', kcal: 12, image: GIFS.burpees,
+        how: 'Stand → squat hands on floor → jump feet back to plank → push-up (optional) → jump feet forward → jump up arms overhead.',
+        tip: 'Skip the jump as a beginner — just stand up' },
+      { name: 'Mountain Climbers', duration: '40s ON / 20s REST', kcal: 10, image: GIFS.mountainClimbers,
+        how: "High plank, hands under shoulders. Drive one knee toward chest, quickly switch in a running motion. Keep hips level.",
+        tip: 'Faster = more cardio' },
+      { name: 'Jump Squats', duration: '40s ON / 20s REST', kcal: 11, image: GIFS.jumpSquat,
+        how: 'Regular squat, then explode upward into a jump. Land softly with bent knees and go straight into the next squat.',
+        tip: 'Land toe-heel, softly' },
+      { name: 'Lateral Shuffles', duration: '40s ON / 20s REST', kcal: 8, image: GIFS.lateralShuffle,
         how: 'Slight squat, stay low. Shuffle 3 steps right, tap foot, shuffle 3 steps left, tap. Stay in the athletic low position.',
-        tip: "Don't stand up between shuffles — stay LOW" },
-      { name: 'Squat to Kick', duration: '40s ON / 20s REST', emoji: '🌈', image: GIFS.squatKick,
-        how: 'Do a squat, as you stand kick one leg out front or side. Next squat, kick the other leg. Challenges balance, works glutes!',
-        tip: "Keep standing leg slightly bent — don't lock" },
+        tip: "Don't stand up between shuffles" },
+      { name: 'Squat to Kick', duration: '40s ON / 20s REST', kcal: 8, image: GIFS.squatKick,
+        how: 'Do a squat, as you stand kick one leg out front or side. Alternate legs.',
+        tip: "Keep standing leg slightly bent" },
     ],
   },
   {
-    category: 'core', emoji: '🎀', title: 'Circuit 4 — Core Finisher',
-    color: 'hsl(180 60% 55%)', bg: 'hsl(180 70% 95%)',
+    category: 'core', title: 'Circuit 4 — Core Finisher', accent: 'hsl(280 70% 60%)',
     items: [
-      { name: 'Crunches', duration: '30 sec', emoji: '🎀', image: GIFS.crunches,
-        how: "Lie on back, knees bent, hands behind head (don't pull neck!). Curl shoulders off floor toward knees. Lower slowly.",
+      { name: 'Crunches', duration: '30 sec', kcal: 4, image: GIFS.crunches,
+        how: "Lie on back, knees bent, hands behind head (don't pull neck). Curl shoulders off floor toward knees. Lower slowly.",
         tip: 'Exhale UP, inhale DOWN' },
-      { name: 'Bicycle Crunches', duration: '30 sec', emoji: '🚲', image: GIFS.bicycleCrunches,
-        how: 'Lie on back, hands behind head. Bring right elbow to left knee while right leg extends. Switch — left elbow to right knee. Like pedaling a bike!',
-        tip: 'SLOW & controlled beats fast and sloppy' },
-      { name: 'Leg Raises', duration: '30 sec', emoji: '🦵', image: GIFS.legRaise,
+      { name: 'Bicycle Crunches', duration: '30 sec', kcal: 5, image: GIFS.bicycleCrunches,
+        how: 'Lie on back, hands behind head. Bring right elbow to left knee while right leg extends. Switch — left elbow to right knee.',
+        tip: 'SLOW & controlled beats fast' },
+      { name: 'Leg Raises', duration: '30 sec', kcal: 4, image: GIFS.legRaise,
         how: 'Lie flat on back, hands under hips. Legs straight. Raise both legs to 90°, then lower SLOWLY without touching floor.',
         tip: 'Press lower back INTO the floor' },
-      { name: 'Russian Twists', duration: '30 sec', emoji: '🌀', image: GIFS.russianTwist,
+      { name: 'Russian Twists', duration: '30 sec', kcal: 4, image: GIFS.russianTwist,
         how: 'Sit on floor, knees bent, feet lifted or on floor. Lean back slightly. Clasp hands and twist torso right, then left.',
-        tip: 'Feet up = harder, feet down = easier' },
-      { name: 'Dead Bug Hold', duration: '30 sec', emoji: '🐞', image: GIFS.deadBug,
-        how: 'Lie on back. Arms up toward ceiling, knees bent at 90°. Slowly lower right arm overhead AND left leg down — without arching back. Switch.',
-        tip: 'Press lower back FLAT into the floor' },
+        tip: 'Feet up = harder' },
+      { name: 'Dead Bug Hold', duration: '30 sec', kcal: 3, image: GIFS.deadBug,
+        how: 'Lie on back. Arms up toward ceiling, knees bent 90°. Slowly lower right arm overhead AND left leg down. Switch.',
+        tip: 'Press lower back FLAT' },
     ],
   },
 ];
 
 export default function CalisthenicsWorkout() {
+  const { addWorkoutEntry, selectedDate } = useAppState();
   const [active, setActive] = useState<string | null>(null);
   const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
+  const [completed, setCompleted] = useState<Record<string, boolean>>({});
   const [filter, setFilter] = useState<string>('all');
 
-  const visible = filter === 'all' ? exercises : exercises.filter(c => c.category === filter);
+  const visible = filter === 'all' ? circuits : circuits.filter(c => c.category === filter);
 
-  const renderFallback = (ex: Exercise, color: string) => (
-    <div
-      className="h-full w-full flex flex-col items-center justify-center text-center p-4 relative overflow-hidden"
-      style={{
-        background: `radial-gradient(circle at 30% 20%, ${color}25 0%, transparent 60%), radial-gradient(circle at 70% 80%, ${color}20 0%, transparent 55%)`,
-      }}
-    >
-      <Sparkles className="absolute top-3 right-3 h-3.5 w-3.5 opacity-60" style={{ color }} />
-      <Heart className="absolute bottom-3 left-3 h-3 w-3 opacity-50" style={{ color, fill: color }} />
-      <Flower2 className="absolute top-4 left-4 h-3.5 w-3.5 opacity-40" style={{ color }} />
-      <div className="text-6xl mb-2 drop-shadow-sm">{ex.emoji}</div>
-      <div className="text-xs font-bold tracking-wide" style={{ color }}>{ex.name}</div>
-    </div>
-  );
+  const stats = useMemo(() => {
+    const all = circuits.flatMap((c, ci) => c.items.map((ex, ei) => ({ key: `${c.category}-${ei}`, kcal: ex.kcal })));
+    const doneItems = all.filter(a => completed[a.key]);
+    return {
+      total: all.length,
+      done: doneItems.length,
+      totalKcal: all.reduce((s, a) => s + a.kcal, 0),
+      doneKcal: doneItems.reduce((s, a) => s + a.kcal, 0),
+    };
+  }, [completed]);
+
+  const toggleComplete = (key: string, ex: Exercise, circuitTitle: string) => {
+    const isCompleting = !completed[key];
+    setCompleted(prev => ({ ...prev, [key]: isCompleting }));
+
+    if (isCompleting) {
+      const entry: WorkoutEntry = {
+        id: crypto.randomUUID(),
+        exercise: {
+          id: `calisthenics-${key}`,
+          name: ex.name,
+          category: 'HIIT',
+          caloriesPer30Min: ex.kcal * 30,
+          unit: 'minutes',
+          defaultDuration: 1,
+          icon: '💪',
+        } as any,
+        duration: 1,
+        caloriesBurned: ex.kcal,
+      };
+      addWorkoutEntry(formatDate(selectedDate), entry);
+      toast.success(`+${ex.kcal} kcal · ${ex.name}`, {
+        description: `Logged to ${circuitTitle}`,
+        duration: 2000,
+      });
+    }
+  };
+
+  const resetSession = () => {
+    setCompleted({});
+    toast('Session reset', { description: 'All exercises marked incomplete' });
+  };
+
+  const progressPct = stats.total ? (stats.done / stats.total) * 100 : 0;
 
   return (
-    <Card className="overflow-hidden border-primary/20 shadow-card rounded-[2rem]">
-      {/* Hero Header */}
-      <div
-        className="relative px-6 sm:px-10 py-12 text-center overflow-hidden"
-        style={{
-          background:
-            'radial-gradient(ellipse at top, hsl(335 95% 92%) 0%, hsl(300 85% 94%) 45%, hsl(280 80% 96%) 100%)',
-        }}
-      >
-        {/* Floating decorations */}
-        <Flower2 className="absolute top-6 left-6 h-8 w-8 text-primary/40 -rotate-12" />
-        <Star className="absolute top-10 right-10 h-5 w-5 text-accent/60 fill-accent/40" />
-        <Heart className="absolute bottom-6 left-12 h-4 w-4 text-primary/50 fill-primary/30" />
-        <Flower2 className="absolute bottom-8 right-8 h-6 w-6 text-accent/50 rotate-12" />
-        <Sparkles className="absolute top-1/2 left-4 h-4 w-4 text-primary/40" />
-        <Sparkles className="absolute top-1/3 right-6 h-4 w-4 text-accent/50" />
-        <Heart className="absolute top-20 left-1/4 h-3 w-3 text-primary/40 fill-primary/30" />
-        <Star className="absolute bottom-12 right-1/4 h-3 w-3 text-accent/50 fill-accent/30" />
-
-        <motion.div
-          initial={{ scale: 0, rotate: -20 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ type: 'spring', stiffness: 200 }}
-          className="inline-flex items-center justify-center h-16 w-16 rounded-3xl mb-3 shadow-cute gradient-primary"
-        >
-          <Sparkles className="h-7 w-7 text-primary-foreground" />
-        </motion.div>
-        <h2 className="font-display text-3xl sm:text-4xl text-primary mb-2">
-          Calisthenics Workout
-        </h2>
-        <p className="text-sm text-foreground/70 max-w-md mx-auto">
-          A 45-min no-equipment routine made just for you ✨ Tap any exercise to see how to do it perfectly
-        </p>
-
-        <div className="flex flex-wrap justify-center gap-2 mt-4">
-          {['🔥 Burn Fat', '💪 Build Strength', '🏠 Home Friendly', '⏱ 45 Min', '🌸 Beginner OK'].map(t => (
-            <span
-              key={t}
-              className="text-[11px] font-bold px-3 py-1.5 rounded-full bg-card/80 backdrop-blur text-primary border border-primary/30 shadow-sm"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Filter chips */}
-      <div className="flex flex-wrap gap-2 px-5 sm:px-8 pt-5 pb-1">
-        {[
-          { id: 'all', label: '✨ All' },
-          ...exercises.map(c => ({ id: c.category, label: `${c.emoji} ${c.title.replace(/Circuit \d+ — /, '')}` })),
-        ].map(f => (
-          <button
-            key={f.id}
-            onClick={() => setFilter(f.id)}
-            className={`text-xs font-semibold px-3.5 py-1.5 rounded-full border transition-all ${
-              filter === f.id
-                ? 'bg-primary text-primary-foreground border-primary shadow-cute'
-                : 'bg-card text-foreground/70 border-border hover:border-primary/40 hover:text-primary'
-            }`}
-          >
-            {f.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Circuits */}
-      <div className="px-5 sm:px-8 py-6 space-y-10">
-        {visible.map((circuit, ci) => (
-          <div key={ci}>
-            {/* Circuit Header */}
-            <div className="flex items-center gap-3 mb-5">
-              <div
-                className="h-10 w-10 rounded-2xl flex items-center justify-center text-xl shadow-sm"
-                style={{ background: circuit.bg, border: `2px solid ${circuit.color}40` }}
-              >
-                {circuit.emoji}
-              </div>
-              <div className="flex-1">
-                <h3 className="text-base sm:text-lg font-bold text-foreground">{circuit.title}</h3>
-                <div className="text-[11px] text-muted-foreground font-medium">
-                  {circuit.items.length} exercises
-                </div>
-              </div>
-              <div className="hidden sm:block flex-1 h-px" style={{ background: `linear-gradient(to right, ${circuit.color}40, transparent)` }} />
+    <div className="space-y-5">
+      {/* Stats hero */}
+      <Card className="overflow-hidden border-border shadow-card">
+        <div className="bg-gradient-to-br from-primary/95 via-primary to-info p-6 sm:p-8 text-primary-foreground">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider opacity-80 mb-1">No Equipment · 45 min</p>
+              <h2 className="text-3xl sm:text-4xl font-display">Calisthenics Workout</h2>
+              <p className="text-sm opacity-90 mt-1 max-w-md">
+                Full-body bodyweight routine. Tick each move as you finish — calories auto-log to your daily burn.
+              </p>
             </div>
+            <Button size="sm" variant="secondary" onClick={resetSession} className="gap-1.5">
+              <RotateCcw className="h-3.5 w-3.5" /> Reset
+            </Button>
+          </div>
 
-            {/* Exercise Grid — pic always visible */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {circuit.items.map((ex, ei) => {
-                const key = `${circuit.category}-${ei}`;
-                const isOpen = active === key;
-                const showFallback = !ex.image || imgErrors[key];
-                return (
-                  <motion.div
-                    key={ei}
-                    layout
-                    whileHover={{ y: -4 }}
-                    transition={{ type: 'spring', stiffness: 300 }}
-                    className={`rounded-3xl overflow-hidden bg-card border shadow-card hover:shadow-card-hover cursor-pointer ${
-                      isOpen ? 'sm:col-span-2 lg:col-span-3' : ''
-                    }`}
-                    style={{ borderColor: isOpen ? circuit.color + '80' : undefined }}
-                    onClick={() => setActive(isOpen ? null : key)}
-                  >
-                    <div className={isOpen ? 'sm:flex' : ''}>
-                      {/* Image */}
-                      <div
-                        className={`relative ${isOpen ? 'sm:w-1/2 h-64 sm:h-auto' : 'h-48'}`}
-                        style={{ background: circuit.bg }}
-                      >
-                        {showFallback ? (
-                          renderFallback(ex, circuit.color)
-                        ) : (
-                          <img
-                            src={ex.image}
-                            alt={ex.name}
-                            loading="lazy"
-                            onError={() => setImgErrors(p => ({ ...p, [key]: true }))}
-                            className="h-full w-full object-contain bg-white p-2"
-                          />
-                        )}
-                        <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full text-[10px] font-bold backdrop-blur bg-card/90 shadow-sm" style={{ color: circuit.color }}>
-                          {ex.duration}
-                        </div>
-                        <Heart className="absolute top-2 left-2 h-4 w-4 text-primary fill-primary/80 drop-shadow" />
-                      </div>
-
-                      {/* Body */}
-                      <div className={`p-4 ${isOpen ? 'sm:w-1/2 sm:p-5' : ''}`}>
-                        <div className="flex items-start justify-between gap-2 mb-1">
-                          <h4 className="font-bold text-sm sm:text-base text-foreground leading-tight">
-                            <span className="mr-1.5">{ex.emoji}</span>{ex.name}
-                          </h4>
-                          <ChevronDown
-                            className="h-4 w-4 text-muted-foreground shrink-0 mt-1 transition-transform"
-                            style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0)' }}
-                          />
-                        </div>
-                        <div className="text-[11px] font-semibold mb-3" style={{ color: circuit.color }}>
-                          ⏱ {ex.duration}
-                        </div>
-
-                        {!isOpen && (
-                          <p className="text-xs text-muted-foreground line-clamp-2">
-                            Tap to see step-by-step form & tips ✨
-                          </p>
-                        )}
-
-                        <AnimatePresence initial={false}>
-                          {isOpen && (
-                            <motion.div
-                              initial={{ opacity: 0, y: 8 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0 }}
-                              className="space-y-3"
-                            >
-                              <div className="rounded-2xl p-3" style={{ background: circuit.bg }}>
-                                <div className="text-[10px] font-extrabold uppercase tracking-wider mb-1.5" style={{ color: circuit.color }}>
-                                  📋 How to do it
-                                </div>
-                                <p className="text-xs leading-relaxed text-foreground/85 m-0">{ex.how}</p>
-                              </div>
-
-                              <div
-                                className="rounded-r-2xl p-3"
-                                style={{ background: `${circuit.color}18`, borderLeft: `3px solid ${circuit.color}` }}
-                              >
-                                <div className="text-[10px] font-extrabold uppercase tracking-wider mb-1" style={{ color: circuit.color }}>
-                                  💡 Pro tip
-                                </div>
-                                <p className="text-xs text-foreground/85 m-0">{ex.tip}</p>
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
+          <div className="mt-6 grid grid-cols-3 gap-3">
+            <div className="rounded-xl bg-white/15 backdrop-blur p-3">
+              <div className="text-xs opacity-80 font-semibold">Completed</div>
+              <div className="text-2xl font-display font-bold mt-0.5">
+                {stats.done}<span className="text-sm opacity-70">/{stats.total}</span>
+              </div>
+            </div>
+            <div className="rounded-xl bg-white/15 backdrop-blur p-3">
+              <div className="text-xs opacity-80 font-semibold flex items-center gap-1"><Flame className="h-3 w-3" />Burned</div>
+              <div className="text-2xl font-display font-bold mt-0.5">{stats.doneKcal}<span className="text-sm opacity-70"> kcal</span></div>
+            </div>
+            <div className="rounded-xl bg-white/15 backdrop-blur p-3">
+              <div className="text-xs opacity-80 font-semibold flex items-center gap-1"><Trophy className="h-3 w-3" />Max</div>
+              <div className="text-2xl font-display font-bold mt-0.5">{stats.totalKcal}<span className="text-sm opacity-70"> kcal</span></div>
             </div>
           </div>
-        ))}
-      </div>
 
-      {/* Footer love note */}
-      <div className="text-center px-6 py-5 border-t border-border/60 bg-secondary/30">
-        <p className="text-xs text-muted-foreground inline-flex items-center gap-1.5">
-          Made with <Heart className="h-3 w-3 text-primary fill-primary inline" /> for your strongest, softest self
-        </p>
-      </div>
-    </Card>
+          <div className="mt-4 h-2 rounded-full bg-white/20 overflow-hidden">
+            <motion.div
+              className="h-full bg-white rounded-full"
+              initial={{ width: 0 }}
+              animate={{ width: `${progressPct}%` }}
+              transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+            />
+          </div>
+        </div>
+
+        {/* Filter chips */}
+        <div className="flex flex-wrap gap-2 px-5 sm:px-6 py-4 border-t border-border">
+          {[
+            { id: 'all', label: 'All' },
+            ...circuits.map(c => ({ id: c.category, label: c.title.replace(/Circuit \d+ — /, '') })),
+          ].map(f => (
+            <button
+              key={f.id}
+              onClick={() => setFilter(f.id)}
+              className={`text-xs font-semibold px-3 py-1.5 rounded-full border transition-all ${
+                filter === f.id
+                  ? 'bg-primary text-primary-foreground border-primary'
+                  : 'bg-card text-muted-foreground border-border hover:border-primary/40 hover:text-foreground'
+              }`}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+      </Card>
+
+      {/* Circuits */}
+      {visible.map((circuit) => (
+        <Card key={circuit.category} className="overflow-hidden border-border shadow-card">
+          <div
+            className="px-5 sm:px-6 py-4 border-b border-border flex items-center gap-3"
+            style={{ background: `linear-gradient(90deg, ${circuit.accent}15 0%, transparent 60%)` }}
+          >
+            <div className="h-2 w-2 rounded-full" style={{ background: circuit.accent }} />
+            <h3 className="font-display text-lg text-foreground flex-1">{circuit.title}</h3>
+            <span className="text-xs text-muted-foreground font-medium">{circuit.items.length} exercises</span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 sm:p-5">
+            {circuit.items.map((ex, ei) => {
+              const key = `${circuit.category}-${ei}`;
+              const isOpen = active === key;
+              const isDone = !!completed[key];
+              const showFallback = !ex.image || imgErrors[key];
+
+              return (
+                <motion.div
+                  key={ei}
+                  layout
+                  transition={{ type: 'spring', stiffness: 300, damping: 28 }}
+                  className={`rounded-xl overflow-hidden bg-card border transition-all ${
+                    isOpen ? 'sm:col-span-2 lg:col-span-3' : ''
+                  } ${isDone ? 'border-primary/50 ring-1 ring-primary/30' : 'border-border hover:border-primary/30'}`}
+                >
+                  <div className={isOpen ? 'sm:flex' : ''}>
+                    <button
+                      onClick={() => setActive(isOpen ? null : key)}
+                      className={`relative block ${isOpen ? 'sm:w-1/2 h-56 sm:h-auto' : 'h-44'} w-full bg-secondary/40 group`}
+                      aria-label={`View ${ex.name} instructions`}
+                    >
+                      {showFallback ? (
+                        <div className="h-full w-full flex items-center justify-center text-sm font-semibold text-muted-foreground">
+                          {ex.name}
+                        </div>
+                      ) : (
+                        <img
+                          src={ex.image}
+                          alt={`${ex.name} demonstration`}
+                          loading="lazy"
+                          onError={() => setImgErrors(p => ({ ...p, [key]: true }))}
+                          className="h-full w-full object-contain bg-white p-2 group-hover:scale-105 transition-transform"
+                        />
+                      )}
+                      <div
+                        className="absolute top-2 right-2 px-2 py-0.5 rounded-md text-[10px] font-bold bg-card/95 backdrop-blur shadow-sm flex items-center gap-1"
+                        style={{ color: circuit.accent }}
+                      >
+                        <Flame className="h-3 w-3" /> {ex.kcal} kcal
+                      </div>
+                    </button>
+
+                    <div className={`p-4 ${isOpen ? 'sm:w-1/2' : ''} flex flex-col`}>
+                      <div className="flex items-start justify-between gap-2 mb-1">
+                        <button
+                          onClick={() => toggleComplete(key, ex, circuit.title)}
+                          className="flex items-center gap-2 text-left flex-1 min-w-0"
+                          aria-label={isDone ? `Mark ${ex.name} incomplete` : `Mark ${ex.name} complete`}
+                        >
+                          {isDone ? (
+                            <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
+                          ) : (
+                            <Circle className="h-5 w-5 text-muted-foreground shrink-0 hover:text-primary transition-colors" />
+                          )}
+                          <h4 className={`font-bold text-sm text-foreground leading-tight ${isDone ? 'line-through opacity-60' : ''}`}>
+                            {ex.name}
+                          </h4>
+                        </button>
+                        <button onClick={() => setActive(isOpen ? null : key)} aria-label="Toggle details">
+                          <ChevronDown
+                            className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5 transition-transform"
+                            style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0)' }}
+                          />
+                        </button>
+                      </div>
+
+                      <div className="text-[11px] font-semibold mb-3 text-muted-foreground">
+                        ⏱ {ex.duration}
+                      </div>
+
+                      <AnimatePresence initial={false}>
+                        {isOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0 }}
+                            className="space-y-2"
+                          >
+                            <div className="rounded-lg p-3 bg-secondary/60">
+                              <div className="text-[10px] font-bold uppercase tracking-wider mb-1 text-foreground">How to do it</div>
+                              <p className="text-xs leading-relaxed text-muted-foreground m-0">{ex.how}</p>
+                            </div>
+                            <div className="rounded-lg p-3 border-l-2" style={{ background: `${circuit.accent}10`, borderColor: circuit.accent }}>
+                              <div className="text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: circuit.accent }}>Pro tip</div>
+                              <p className="text-xs text-foreground/85 m-0">{ex.tip}</p>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </Card>
+      ))}
+    </div>
   );
 }
