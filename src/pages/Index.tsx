@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import Header from '@/components/Header';
+import { DesktopSidebar, MobileBottomNav, MoreMenu, type AppView, NAV_ITEMS } from '@/components/AppNav';
 import UserProfileCard from '@/components/UserProfileCard';
 import DailyCalendar from '@/components/DailyCalendar';
 import MealLogger from '@/components/MealLogger';
@@ -15,13 +17,13 @@ import MonthlyCalendar from '@/components/MonthlyCalendar';
 import DailyGoalBanner from '@/components/DailyGoalBanner';
 import ChefChat from '@/components/ChefChat';
 import GoalsTracker from '@/components/GoalsTracker';
-import StravaConnect from '@/components/StravaConnect';
 import CalisthenicsWorkout from '@/components/CalisthenicsWorkout';
 import { useAppState } from '@/context/AppContext';
 import { Loader2 } from 'lucide-react';
 
 const Index = () => {
   const { dataLoaded } = useAppState();
+  const [view, setView] = useState<AppView>('dashboard');
 
   if (!dataLoaded) {
     return (
@@ -37,49 +39,108 @@ const Index = () => {
     );
   }
 
+  const activeMeta = NAV_ITEMS.find(n => n.id === view)!;
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="container px-4 py-6 max-w-7xl mx-auto">
-        {/* Daily Goal Banner */}
-        <div className="mb-5">
-          <DailyGoalBanner />
-        </div>
+      <div className="flex max-w-7xl mx-auto">
+        <DesktopSidebar view={view} onChange={setView} />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
-          {/* Left sidebar */}
-          <div className="lg:col-span-3 space-y-5">
-            <UserProfileCard />
-            <StravaConnect />
-            <WeightTracker />
-            <SupplementTracker />
-            <RecipeBuilder />
-            <SmartRecommendations />
+        <main className="flex-1 min-w-0 px-4 sm:px-6 py-6 pb-24 lg:pb-8">
+          {/* Page header */}
+          <div className="mb-5 flex items-center gap-3">
+            <div className="gradient-primary p-2 rounded-lg shadow-cute hidden sm:flex">
+              <activeMeta.icon className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
+            </div>
+            <div className="min-w-0">
+              <h1 className="text-2xl font-display text-foreground">{activeMeta.label}</h1>
+              <p className="text-xs text-muted-foreground">
+                {view === 'dashboard'   && 'Your complete daily overview at a glance'}
+                {view === 'food'        && 'Log meals and track macros for the day'}
+                {view === 'workouts'    && 'Cardio, gym & home workout tracking'}
+                {view === 'calisthenics'&& 'Guided no-equipment routine with calorie tracking'}
+                {view === 'calendar'    && 'Monthly view of your nutrition history'}
+                {view === 'analytics'   && 'Weekly trends and progress charts'}
+                {view === 'insights'    && 'Smart recommendations based on your data'}
+              </p>
+            </div>
           </div>
 
-          {/* Center */}
-          <div className="lg:col-span-5 space-y-5">
-            <DailyCalendar />
-            <GoalsTracker />
-            <MealLogger />
-            <WorkoutTracker />
-            <WeeklyAnalytics />
-          </div>
+          <MoreMenu view={view} onChange={setView} />
 
-          {/* Right sidebar */}
-          <div className="lg:col-span-4 space-y-5">
-            <NutritionSummary />
-            <WeeklyInsights />
-            <MonthlyCalendar />
-            <MicronutrientPanel />
-          </div>
-        </div>
+          {view === 'dashboard' && (
+            <div className="space-y-5">
+              <DailyGoalBanner />
+              <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
+                <div className="space-y-5 xl:col-span-1">
+                  <UserProfileCard />
+                  <WeightTracker />
+                  <GoalsTracker />
+                </div>
+                <div className="space-y-5 xl:col-span-2">
+                  <DailyCalendar />
+                  <NutritionSummary />
+                  <SmartRecommendations />
+                </div>
+              </div>
+            </div>
+          )}
 
-        {/* Standalone Calisthenics Workout Section */}
-        <section className="mt-8">
-          <CalisthenicsWorkout />
-        </section>
-      </main>
+          {view === 'food' && (
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
+              <div className="xl:col-span-2 space-y-5">
+                <DailyCalendar />
+                <MealLogger />
+                <NutritionSummary />
+              </div>
+              <div className="space-y-5">
+                <RecipeBuilder />
+                <SupplementTracker />
+                <MicronutrientPanel />
+              </div>
+            </div>
+          )}
+
+          {view === 'workouts' && (
+            <div className="space-y-5">
+              <DailyCalendar />
+              <WorkoutTracker />
+            </div>
+          )}
+
+          {view === 'calisthenics' && (
+            <CalisthenicsWorkout />
+          )}
+
+          {view === 'calendar' && (
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
+              <div className="xl:col-span-2">
+                <MonthlyCalendar />
+              </div>
+              <div>
+                <DailyCalendar />
+              </div>
+            </div>
+          )}
+
+          {view === 'analytics' && (
+            <div className="space-y-5">
+              <WeeklyAnalytics />
+              <WeightTracker />
+            </div>
+          )}
+
+          {view === 'insights' && (
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
+              <SmartRecommendations />
+              <WeeklyInsights />
+            </div>
+          )}
+        </main>
+      </div>
+
+      <MobileBottomNav view={view} onChange={setView} />
       <ChefChat />
     </div>
   );
