@@ -322,25 +322,44 @@ export default function CalisthenicsWorkout() {
         </div>
 
         {/* Filter chips */}
-        <div className="flex flex-wrap gap-2 px-5 sm:px-6 py-4 border-t border-border">
-          {[
-            { id: 'all', label: 'All' },
-            ...circuits.map(c => ({ id: c.category, label: c.title.replace(/Circuit \d+ — /, '') })),
-          ].map(f => (
-            <button
-              key={f.id}
-              onClick={() => setFilter(f.id)}
-              className={`text-xs font-semibold px-3 py-1.5 rounded-full border transition-all ${
-                filter === f.id
-                  ? 'bg-primary text-primary-foreground border-primary'
-                  : 'bg-card text-muted-foreground border-border hover:border-primary/40 hover:text-foreground'
-              }`}
-            >
-              {f.label}
-            </button>
-          ))}
+        <div className="border-t border-border">
+          <div className="flex flex-wrap gap-2 px-4 sm:px-6 pt-4">
+            {[
+              { id: 'all', label: 'All circuits' },
+              ...circuits.map(c => ({ id: c.category, label: c.title.replace(/Circuit \d+ — /, '') })),
+            ].map(f => (
+              <button
+                key={f.id}
+                onClick={() => setFilter(f.id)}
+                className={`text-xs font-semibold px-3 py-1.5 rounded-full border transition-all ${
+                  filter === f.id
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-card text-muted-foreground border-border hover:border-primary/40 hover:text-foreground'
+                }`}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+          <div className="flex flex-wrap items-center gap-2 px-4 sm:px-6 py-3">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mr-1">Level:</span>
+            {(['all', ...DIFFICULTIES] as const).map(d => (
+              <button
+                key={d}
+                onClick={() => setDiffFilter(d)}
+                className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border transition-all ${
+                  diffFilter === d
+                    ? 'bg-foreground text-background border-foreground'
+                    : 'bg-card text-muted-foreground border-border hover:text-foreground'
+                }`}
+              >
+                {d === 'all' ? 'All levels' : d}
+              </button>
+            ))}
+          </div>
         </div>
       </Card>
+
 
       {/* Circuits */}
       {visible.map((circuit) => (
