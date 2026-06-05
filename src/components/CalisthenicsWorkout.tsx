@@ -440,9 +440,13 @@ export default function CalisthenicsWorkout() {
                         </button>
                       </div>
 
-                      <div className="text-[11px] font-semibold mb-3 text-muted-foreground">
-                        ⏱ {ex.duration}
+                      <div className="flex items-center gap-2 mb-3 flex-wrap">
+                        <span className="text-[11px] font-semibold text-muted-foreground">⏱ {ex.duration}</span>
+                        <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${DIFFICULTY_STYLES[ex.difficulty]}`}>
+                          {ex.difficulty}
+                        </span>
                       </div>
+
 
                       <AnimatePresence initial={false}>
                         {isOpen && (
