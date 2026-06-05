@@ -47,15 +47,16 @@ const Index = () => {
       <div className="flex max-w-7xl mx-auto">
         <DesktopSidebar view={view} onChange={setView} />
 
-        <main className="flex-1 min-w-0 px-4 sm:px-6 py-6 pb-24 lg:pb-8">
+        <main className="flex-1 min-w-0 px-4 sm:px-6 py-5 sm:py-6 pb-10">
           {/* Page header */}
           <div className="mb-5 flex items-center gap-3">
+            <MobileNavTrigger view={view} onChange={setView} />
             <div className="gradient-primary p-2 rounded-lg shadow-cute hidden sm:flex">
               <activeMeta.icon className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
             </div>
-            <div className="min-w-0">
-              <h1 className="text-2xl font-display text-foreground">{activeMeta.label}</h1>
-              <p className="text-xs text-muted-foreground">
+            <div className="min-w-0 flex-1">
+              <h1 className="text-xl sm:text-2xl font-display text-foreground truncate">{activeMeta.label}</h1>
+              <p className="text-xs text-muted-foreground truncate">
                 {view === 'dashboard'   && 'Your complete daily overview at a glance'}
                 {view === 'food'        && 'Log meals and track macros for the day'}
                 {view === 'workouts'    && 'Cardio, gym & home workout tracking'}
@@ -67,7 +68,7 @@ const Index = () => {
             </div>
           </div>
 
-          <MoreMenu view={view} onChange={setView} />
+
 
           {view === 'dashboard' && (
             <div className="space-y-5">
