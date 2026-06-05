@@ -141,8 +141,8 @@ const Index = () => {
         </main>
       </div>
 
-      <MobileBottomNav view={view} onChange={setView} />
       <ChefChat />
+
     </div>
   );
 };
