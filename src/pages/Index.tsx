@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Header from '@/components/Header';
-import { DesktopSidebar, MobileBottomNav, MoreMenu, type AppView, NAV_ITEMS } from '@/components/AppNav';
+import { DesktopSidebar, MobileNavTrigger, type AppView, NAV_ITEMS } from '@/components/AppNav';
 import UserProfileCard from '@/components/UserProfileCard';
 import DailyCalendar from '@/components/DailyCalendar';
 import MealLogger from '@/components/MealLogger';
