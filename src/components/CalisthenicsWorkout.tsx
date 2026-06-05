@@ -222,8 +222,14 @@ export default function CalisthenicsWorkout() {
   const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
   const [completed, setCompleted] = useState<Record<string, boolean>>({});
   const [filter, setFilter] = useState<string>('all');
+  const [diffFilter, setDiffFilter] = useState<Difficulty | 'all'>('all');
 
-  const visible = filter === 'all' ? circuits : circuits.filter(c => c.category === filter);
+  const visible = (filter === 'all' ? circuits : circuits.filter(c => c.category === filter))
+    .map(c => ({
+      ...c,
+      items: diffFilter === 'all' ? c.items : c.items.filter(i => i.difficulty === diffFilter),
+    }))
+    .filter(c => c.items.length > 0);
 
   const stats = useMemo(() => {
     const all = circuits.flatMap((c, ci) => c.items.map((ex, ei) => ({ key: `${c.category}-${ei}`, kcal: ex.kcal })));
