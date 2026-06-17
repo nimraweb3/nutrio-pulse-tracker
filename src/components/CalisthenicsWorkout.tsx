@@ -119,9 +119,6 @@ const circuits: Circuit[] = [
       { name: 'Superman Hold', duration: '40s ON / 20s REST', kcal: 4, difficulty: 'Beginner', image: GIFS.superman,
         how: 'Lie face down, arms extended overhead. Lift arms, chest, and legs off floor at the same time. Hold 2–3 sec then lower.',
         tip: "Look DOWN — don't crane your neck" },
-      { name: 'Bear Crawl', duration: '30s ON / 20s REST', kcal: 9, difficulty: 'Intermediate', image: GIFS.bearCrawl,
-        how: 'Hands & knees on floor, knees hovering just off the ground. Crawl forward moving opposite hand and foot together. Keep hips low.',
-        tip: 'Knees stay 2 inches OFF the floor' },
     ],
   },
   {
