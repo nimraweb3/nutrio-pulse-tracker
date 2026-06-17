@@ -1,73 +1,164 @@
-# Welcome to your Lovable project
+# NIM — Calisthenics & Nutrition Dashboard
 
-## Project info
+> A production-grade fitness companion that pairs a **calisthenics training library** with a **Pakistani + global nutrition tracker** and a clean, Apple-Fitness–inspired **analytics dashboard**.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+Built as a portfolio / hackathon project to demonstrate full-stack product thinking: real domain data, accessible UX, secure auth, RLS-protected cloud sync, and a polished design system.
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## ✨ Highlights
 
-**Use Lovable**
+- **Calisthenics library** — 30+ bodyweight exercises with animated GIF demos, difficulty tiers (Beginner / Intermediate / Advanced), MET-based calorie burn estimates, and one-tap session logging.
+- **Pakistani-first food database** — 150+ items including Biryani, Nihari, Haleem, Karahi, Seekh Kebab, Sajji, BBQ, street food (Bun Kebab, Gol Gappay, Chana Chaat) and global staples.
+- **Smart meal logger** — natural-language quick-add ("2 rotis and dal"), auto meal-type detection by time of day, recent-items shortcuts and a custom recipe builder.
+- **Macro + micro tracking** — calories, P/C/F, fiber, sugar plus 14 micronutrients (vitamins A–K, iron, zinc, magnesium, omega-3/6, …).
+- **Analytics dashboard** — weekly calorie & macro charts (Recharts), weight trend with forecast, weekly insights and goal progress.
+- **Goals & streaks** — workout streaks, weight-change goals, daily calorie banner.
+- **AI Chef chat** — ingredient-aware meal suggestions via Lovable AI Gateway (Gemini).
+- **Responsive shell** — desktop sidebar + mobile slide-in drawer, no overlapping bottom nav.
+- **Secure by default** — Supabase Auth (email/password + HIBP leaked-password protection), Row Level Security on every user table, no service-role keys in the client.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🧱 Tech Stack
 
-**Use your preferred IDE**
+| Layer       | Choice                                              |
+| ----------- | --------------------------------------------------- |
+| Framework   | **React 18** + **Vite 5** + **TypeScript**          |
+| Styling     | **Tailwind CSS** + **shadcn/ui** + semantic tokens  |
+| Motion      | **Framer Motion**                                   |
+| Charts      | **Recharts**                                        |
+| Backend     | **Supabase** (Postgres, Auth, Edge Functions, RLS)  |
+| AI          | **Lovable AI Gateway** (Google Gemini)              |
+| State       | React Context + TanStack Query                      |
+| Forms       | React Hook Form + Zod validation                    |
+| Routing     | React Router v6                                     |
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 📁 Project Structure
 
-Follow these steps:
+```
+src/
+├── components/        # Feature + UI components (shadcn primitives in ui/)
+│   ├── CalisthenicsWorkout.tsx
+│   ├── MealLogger.tsx
+│   ├── WeeklyAnalytics.tsx
+│   ├── NutritionSummary.tsx
+│   └── ...
+├── context/           # AppContext — global app state & data sync
+├── data/              # Static datasets (foodDatabase, exerciseDatabase, supplements)
+├── hooks/             # useAuth, use-mobile, use-toast
+├── integrations/
+│   └── supabase/      # Auto-generated client & types (do not edit)
+├── pages/             # Route-level pages (Index, Auth, NotFound)
+├── types/             # Shared TypeScript types
+├── utils/             # Pure helpers (nutritionCalculations, formatters)
+└── index.css          # Design tokens & global styles
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+supabase/
+├── functions/         # Edge Functions (chef-chat)
+└── migrations/        # Versioned SQL migrations
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+---
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 🚀 Getting Started
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+### Prerequisites
+
+- Node.js **18+** (or **Bun**)
+- A Supabase project (free tier works)
+
+### Local setup
+
+```bash
+# 1. Clone
+git clone https://github.com/<your-username>/nim-fitness.git
+cd nim-fitness
+
+# 2. Install
+npm install        # or: bun install
+
+# 3. Configure environment
+cp .env.example .env
+# fill in:
+#   VITE_SUPABASE_URL=
+#   VITE_SUPABASE_PUBLISHABLE_KEY=
+#   VITE_SUPABASE_PROJECT_ID=
+
+# 4. Run migrations against your Supabase project
+#    (apply files in supabase/migrations/ in order)
+
+# 5. Start the dev server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+App runs at **http://localhost:8080**.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Scripts
 
-**Use GitHub Codespaces**
+| Command           | Description                       |
+| ----------------- | --------------------------------- |
+| `npm run dev`     | Vite dev server with HMR          |
+| `npm run build`   | Production build to `dist/`      |
+| `npm run preview` | Preview the production build      |
+| `npm run lint`    | ESLint                            |
+| `npm test`        | Vitest                            |
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
+## 🔐 Security
 
-This project is built with:
+- **RLS everywhere** — every `public.*` user table is protected by `auth.uid() = user_id` policies.
+- **Roles in a dedicated table** — never on the profile row (prevents privilege escalation).
+- **HIBP protection** — leaked-password check enabled on Supabase Auth.
+- **Server-only keys** — `LOVABLE_API_KEY` lives in Edge Function secrets; no service-role key in the browser.
+- **Validation** — Zod schemas on form input, length and type guards on user-submitted strings.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+---
 
-## How can I deploy this project?
+## 🧮 Nutrition Engine (in short)
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+- **BMR** — Mifflin–St Jeor.
+- **TDEE** — BMR × activity multiplier (sedentary → very_active).
+- **Goal adjustment** — −20% (fat loss), 0% (maintenance), +15% (muscle gain).
+- **Macros** — protein 1.6–2.2 g/kg, fats 25–30% of kcal, carbs fill the remainder.
+- **Workout net calories** — `intake − burned`, surfaced on the daily banner.
 
-## Can I connect a custom domain to my Lovable project?
+See `src/utils/nutritionCalculations.ts`.
 
-Yes, you can!
+---
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 🗺️ Roadmap
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- [ ] Photo-based meal logging (vision API)
+- [ ] Apple Health / Google Fit import
+- [ ] Workout plan generator (periodised calisthenics)
+- [ ] Social — share workouts & recipes
+- [ ] PWA install + offline-first cache
+
+---
+
+## 🤝 Contributing
+
+PRs welcome. Please:
+1. Open an issue to discuss the change first.
+2. Keep components small and use the existing design tokens.
+3. Run `npm run lint` and `npm test` before submitting.
+
+---
+
+## 📸 Screenshots
+
+> Add screenshots to `docs/screenshots/` and reference them here.
+
+| Dashboard | Calisthenics | Analytics |
+| --- | --- | --- |
+| _coming soon_ | _coming soon_ | _coming soon_ |
+
+---
+
+## 📄 License
+
+MIT © NIM Fitness — built with [Lovable](https://lovable.dev).
