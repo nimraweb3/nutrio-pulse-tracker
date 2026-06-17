@@ -101,18 +101,9 @@ const circuits: Circuit[] = [
   {
     category: 'upper', title: 'Circuit 2 — Upper Body & Core', accent: 'hsl(217 91% 60%)',
     items: [
-      { name: 'Knee Push-Ups', duration: '40s ON / 20s REST', kcal: 5, difficulty: 'Beginner', image: GIFS.kneePushUp,
-        how: 'Hands shoulder-width, knees on floor. Body in a straight line from head to knees. Lower chest, push back up.',
-        tip: 'Hips stay in line — don\'t pike up' },
       { name: 'Push-Ups', duration: '40s ON / 20s REST', kcal: 7, difficulty: 'Intermediate', image: GIFS.pushUp,
         how: 'Hands shoulder-width apart, body in straight line head to heels. Lower chest toward floor, elbows ~45°. Push back up.',
         tip: "Don't let hips sag — flat plank body" },
-      { name: 'Diamond Push-Ups', duration: '30s ON / 20s REST', kcal: 8, difficulty: 'Advanced', image: GIFS.diamondPushUp,
-        how: 'Push-up with hands close together, thumbs & index fingers forming a diamond. Lower chest to hands. Triceps-dominant.',
-        tip: 'Keep elbows tucked close to ribs' },
-      { name: 'Decline Push-Ups', duration: '30s ON / 20s REST', kcal: 9, difficulty: 'Advanced', image: GIFS.declinePushUp,
-        how: 'Feet elevated on a step or bench, hands on floor. Push-up while keeping body straight. Targets upper chest & shoulders.',
-        tip: 'Higher feet = more difficulty' },
       { name: 'Pike Push-Ups', duration: '40s ON / 20s REST', kcal: 7, difficulty: 'Intermediate', image: GIFS.pikePushUp,
         how: 'Start in downward dog — hips high, body inverted V. Bend elbows to lower head toward floor between hands. Push back up.',
         tip: 'Higher hips = harder' },
