@@ -239,42 +239,46 @@ export default function CalisthenicsWorkout() {
 
   return (
     <div className="space-y-5">
-      {/* Stats hero */}
+      {/* Stats hero — MFP style: clean white card, blue numbers, progress bar */}
       <Card className="overflow-hidden border-border shadow-card">
-        <div className="bg-gradient-to-br from-primary/95 via-primary to-info p-6 sm:p-8 text-primary-foreground">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-wider opacity-80 mb-1">No Equipment · 45 min</p>
-              <h2 className="text-3xl sm:text-4xl font-display">Calisthenics Workout</h2>
-              <p className="text-sm opacity-90 mt-1 max-w-md">
-                Full-body bodyweight routine. Tick each move as you finish — calories auto-log to your daily burn.
+        <div className="px-5 sm:px-7 py-5 sm:py-6 border-b border-border">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div className="min-w-0">
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-primary mb-1.5">No Equipment · 45 min · Full Body</p>
+              <h2 className="text-2xl sm:text-3xl font-display text-foreground">Calisthenics Workout</h2>
+              <p className="text-sm text-muted-foreground mt-1 max-w-xl">
+                Tick each move as you finish — calories auto-log to your daily burn.
               </p>
             </div>
-            <Button size="sm" variant="secondary" onClick={resetSession} className="gap-1.5">
+            <Button size="sm" variant="outline" onClick={resetSession} className="gap-1.5">
               <RotateCcw className="h-3.5 w-3.5" /> Reset
             </Button>
           </div>
 
-          <div className="mt-6 grid grid-cols-3 gap-3">
-            <div className="rounded-xl bg-white/15 backdrop-blur p-3">
-              <div className="text-xs opacity-80 font-semibold">Completed</div>
-              <div className="text-2xl font-display font-bold mt-0.5">
-                {stats.done}<span className="text-sm opacity-70">/{stats.total}</span>
+          <div className="mt-5 grid grid-cols-3 gap-3 sm:gap-4">
+            <div className="rounded-lg border border-border bg-secondary/40 px-3 py-3">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Completed</div>
+              <div className="text-2xl sm:text-3xl font-display font-extrabold text-primary mt-1 leading-none">
+                {stats.done}<span className="text-base font-bold text-muted-foreground">/{stats.total}</span>
               </div>
             </div>
-            <div className="rounded-xl bg-white/15 backdrop-blur p-3">
-              <div className="text-xs opacity-80 font-semibold flex items-center gap-1"><Flame className="h-3 w-3" />Burned</div>
-              <div className="text-2xl font-display font-bold mt-0.5">{stats.doneKcal}<span className="text-sm opacity-70"> kcal</span></div>
+            <div className="rounded-lg border border-border bg-secondary/40 px-3 py-3">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1"><Flame className="h-3 w-3" />Burned</div>
+              <div className="text-2xl sm:text-3xl font-display font-extrabold text-accent mt-1 leading-none">
+                {stats.doneKcal}<span className="text-sm font-bold text-muted-foreground"> kcal</span>
+              </div>
             </div>
-            <div className="rounded-xl bg-white/15 backdrop-blur p-3">
-              <div className="text-xs opacity-80 font-semibold flex items-center gap-1"><Trophy className="h-3 w-3" />Max</div>
-              <div className="text-2xl font-display font-bold mt-0.5">{stats.totalKcal}<span className="text-sm opacity-70"> kcal</span></div>
+            <div className="rounded-lg border border-border bg-secondary/40 px-3 py-3">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1"><Trophy className="h-3 w-3" />Goal</div>
+              <div className="text-2xl sm:text-3xl font-display font-extrabold text-foreground mt-1 leading-none">
+                {stats.totalKcal}<span className="text-sm font-bold text-muted-foreground"> kcal</span>
+              </div>
             </div>
           </div>
 
-          <div className="mt-4 h-2 rounded-full bg-white/20 overflow-hidden">
+          <div className="mt-4 h-1.5 rounded-full bg-secondary overflow-hidden">
             <motion.div
-              className="h-full bg-white rounded-full"
+              className="h-full bg-primary rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${progressPct}%` }}
               transition={{ type: 'spring', stiffness: 100, damping: 20 }}
@@ -283,8 +287,8 @@ export default function CalisthenicsWorkout() {
         </div>
 
         {/* Filter chips */}
-        <div className="border-t border-border">
-          <div className="flex flex-wrap gap-2 px-4 sm:px-6 pt-4">
+        <div className="bg-secondary/30">
+          <div className="flex flex-wrap gap-1.5 px-4 sm:px-6 pt-3">
             {[
               { id: 'all', label: 'All circuits' },
               ...circuits.map(c => ({ id: c.category, label: c.title.replace(/Circuit \d+ — /, '') })),
@@ -302,7 +306,7 @@ export default function CalisthenicsWorkout() {
               </button>
             ))}
           </div>
-          <div className="flex flex-wrap items-center gap-2 px-4 sm:px-6 py-3">
+          <div className="flex flex-wrap items-center gap-1.5 px-4 sm:px-6 py-3">
             <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mr-1">Level:</span>
             {(['all', ...DIFFICULTIES] as const).map(d => (
               <button
