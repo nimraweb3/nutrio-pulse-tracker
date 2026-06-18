@@ -5,15 +5,15 @@ import { Button } from '@/components/ui/button';
 export default function Header() {
   const { signOut, user } = useAuth();
   return (
-    <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-40">
+    <header className="border-b border-border bg-card sticky top-0 z-40">
       <div className="container flex items-center justify-between h-14 px-4 max-w-7xl">
         <div className="flex items-center gap-2.5">
-          <div className="gradient-primary rounded-lg p-2 shadow-cute">
+          <div className="bg-primary rounded-md p-2 shadow-cute">
             <Dumbbell className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
           </div>
           <div>
-            <h1 className="text-base font-display text-foreground leading-none">NIM Fitness</h1>
-            <p className="text-[10px] text-muted-foreground font-medium tracking-wide uppercase mt-0.5">
+            <h1 className="text-base font-display text-foreground leading-none tracking-tight">NIM Fitness</h1>
+            <p className="text-[10px] text-muted-foreground font-semibold tracking-wide uppercase mt-0.5">
               Nutrition · Workout · Insights
             </p>
           </div>
