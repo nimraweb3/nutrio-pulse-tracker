@@ -329,16 +329,25 @@ export default function CalisthenicsWorkout() {
       {/* Circuits */}
       {visible.map((circuit) => (
         <Card key={circuit.category} className="overflow-hidden border-border shadow-card">
-          <div
-            className="px-5 sm:px-6 py-4 border-b border-border flex items-center gap-3"
-            style={{ background: `linear-gradient(90deg, ${circuit.accent}15 0%, transparent 60%)` }}
-          >
-            <div className="h-2 w-2 rounded-full" style={{ background: circuit.accent }} />
-            <h3 className="font-display text-lg text-foreground flex-1">{circuit.title}</h3>
-            <span className="text-xs text-muted-foreground font-medium">{circuit.items.length} exercises</span>
+      {/* Circuits — MFP-style list rows */}
+      {visible.map((circuit) => {
+        const circuitDone = circuit.items.filter((_, i) => completed[`${circuit.category}-${i}`]).length;
+        return (
+        <Card key={circuit.category} className="overflow-hidden border-border shadow-card">
+          <div className="px-5 sm:px-6 py-3.5 border-b border-border flex items-center gap-3 bg-secondary/30">
+            <div className="h-8 w-1 rounded-full" style={{ background: circuit.accent }} />
+            <div className="flex-1 min-w-0">
+              <h3 className="font-display font-extrabold text-base text-foreground leading-tight">{circuit.title}</h3>
+              <p className="text-[11px] text-muted-foreground font-medium mt-0.5">
+                {circuitDone} of {circuit.items.length} complete
+              </p>
+            </div>
+            <span className="text-[11px] text-muted-foreground font-semibold tabular-nums">
+              {circuit.items.reduce((s, e) => s + e.kcal, 0)} kcal
+            </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 sm:p-5">
+          <ul className="divide-y divide-border">
             {circuit.items.map((ex, ei) => {
               const key = `${circuit.category}-${ei}`;
               const isOpen = active === key;
@@ -346,22 +355,29 @@ export default function CalisthenicsWorkout() {
               const showFallback = !ex.image || imgErrors[key];
 
               return (
-                <motion.div
-                  key={ei}
-                  layout
-                  transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-                  className={`rounded-xl overflow-hidden bg-card border transition-all ${
-                    isOpen ? 'sm:col-span-2 lg:col-span-3' : ''
-                  } ${isDone ? 'border-primary/50 ring-1 ring-primary/30' : 'border-border hover:border-primary/30'}`}
-                >
-                  <div className={isOpen ? 'sm:flex' : ''}>
+                <li key={ei} className={isDone ? 'bg-primary/[0.03]' : ''}>
+                  <div className="flex items-center gap-3 sm:gap-4 px-4 sm:px-6 py-3">
+                    {/* Check */}
+                    <button
+                      onClick={() => toggleComplete(key, ex, circuit.title)}
+                      className="shrink-0"
+                      aria-label={isDone ? `Mark ${ex.name} incomplete` : `Mark ${ex.name} complete`}
+                    >
+                      {isDone ? (
+                        <CheckCircle2 className="h-6 w-6 text-primary" />
+                      ) : (
+                        <Circle className="h-6 w-6 text-muted-foreground/50 hover:text-primary transition-colors" />
+                      )}
+                    </button>
+
+                    {/* Thumb */}
                     <button
                       onClick={() => setActive(isOpen ? null : key)}
-                      className={`relative block ${isOpen ? 'sm:w-1/2 h-56 sm:h-auto' : 'h-44'} w-full bg-secondary/40 group`}
+                      className="shrink-0 h-14 w-14 rounded-md overflow-hidden bg-secondary/60 border border-border"
                       aria-label={`View ${ex.name} instructions`}
                     >
                       {showFallback ? (
-                        <div className="h-full w-full flex items-center justify-center text-sm font-semibold text-muted-foreground">
+                        <div className="h-full w-full flex items-center justify-center text-[9px] font-bold text-muted-foreground text-center px-1 leading-tight">
                           {ex.name}
                         </div>
                       ) : (
@@ -370,76 +386,76 @@ export default function CalisthenicsWorkout() {
                           alt={`${ex.name} demonstration`}
                           loading="lazy"
                           onError={() => setImgErrors(p => ({ ...p, [key]: true }))}
-                          className="h-full w-full object-contain bg-white p-2 group-hover:scale-105 transition-transform"
+                          className="h-full w-full object-contain bg-white"
                         />
                       )}
-                      <div
-                        className="absolute top-2 right-2 px-2 py-0.5 rounded-md text-[10px] font-bold bg-card/95 backdrop-blur shadow-sm flex items-center gap-1"
-                        style={{ color: circuit.accent }}
-                      >
-                        <Flame className="h-3 w-3" /> {ex.kcal} kcal
-                      </div>
                     </button>
 
-                    <div className={`p-4 ${isOpen ? 'sm:w-1/2' : ''} flex flex-col`}>
-                      <div className="flex items-start justify-between gap-2 mb-1">
-                        <button
-                          onClick={() => toggleComplete(key, ex, circuit.title)}
-                          className="flex items-center gap-2 text-left flex-1 min-w-0"
-                          aria-label={isDone ? `Mark ${ex.name} incomplete` : `Mark ${ex.name} complete`}
-                        >
-                          {isDone ? (
-                            <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
-                          ) : (
-                            <Circle className="h-5 w-5 text-muted-foreground shrink-0 hover:text-primary transition-colors" />
-                          )}
-                          <h4 className={`font-bold text-sm text-foreground leading-tight ${isDone ? 'line-through opacity-60' : ''}`}>
-                            {ex.name}
-                          </h4>
-                        </button>
-                        <button onClick={() => setActive(isOpen ? null : key)} aria-label="Toggle details">
-                          <ChevronDown
-                            className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5 transition-transform"
-                            style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0)' }}
-                          />
-                        </button>
+                    {/* Name + meta */}
+                    <button
+                      onClick={() => setActive(isOpen ? null : key)}
+                      className="flex-1 min-w-0 text-left"
+                    >
+                      <div className={`font-semibold text-sm text-foreground leading-tight ${isDone ? 'line-through opacity-60' : ''}`}>
+                        {ex.name}
                       </div>
-
-                      <div className="flex items-center gap-2 mb-3 flex-wrap">
-                        <span className="text-[11px] font-semibold text-muted-foreground">⏱ {ex.duration}</span>
+                      <div className="flex items-center gap-2 mt-1 flex-wrap">
+                        <span className="text-[11px] text-muted-foreground font-medium">{ex.duration}</span>
+                        <span className="text-muted-foreground/40">·</span>
                         <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${DIFFICULTY_STYLES[ex.difficulty]}`}>
                           {ex.difficulty}
                         </span>
                       </div>
+                    </button>
 
+                    {/* kcal */}
+                    <div className="shrink-0 text-right">
+                      <div className="text-base font-display font-extrabold text-foreground tabular-nums leading-none">{ex.kcal}</div>
+                      <div className="text-[9px] uppercase tracking-wider font-bold text-muted-foreground mt-1">kcal</div>
+                    </div>
 
-                      <AnimatePresence initial={false}>
-                        {isOpen && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0 }}
-                            className="space-y-2"
-                          >
-                            <div className="rounded-lg p-3 bg-secondary/60">
+                    <button onClick={() => setActive(isOpen ? null : key)} aria-label="Toggle details" className="shrink-0 p-1 -mr-1">
+                      <ChevronDown
+                        className="h-4 w-4 text-muted-foreground transition-transform"
+                        style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0)' }}
+                      />
+                    </button>
+                  </div>
+
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-4 sm:px-6 pb-4 pt-1 grid grid-cols-1 sm:grid-cols-[180px_1fr] gap-4">
+                          <div className="h-40 sm:h-full rounded-md overflow-hidden bg-white border border-border">
+                            {!showFallback && (
+                              <img src={ex.image} alt="" className="h-full w-full object-contain p-1" />
+                            )}
+                          </div>
+                          <div className="space-y-2">
+                            <div className="rounded-md p-3 bg-secondary/60 border border-border">
                               <div className="text-[10px] font-bold uppercase tracking-wider mb-1 text-foreground">How to do it</div>
                               <p className="text-xs leading-relaxed text-muted-foreground m-0">{ex.how}</p>
                             </div>
-                            <div className="rounded-lg p-3 border-l-2" style={{ background: `${circuit.accent}10`, borderColor: circuit.accent }}>
+                            <div className="rounded-md p-3 border-l-[3px]" style={{ background: `${circuit.accent}10`, borderColor: circuit.accent }}>
                               <div className="text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: circuit.accent }}>Pro tip</div>
                               <p className="text-xs text-foreground/85 m-0">{ex.tip}</p>
                             </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  </div>
-                </motion.div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </li>
               );
             })}
-          </div>
+          </ul>
         </Card>
-      ))}
+      );})}
     </div>
   );
 }
