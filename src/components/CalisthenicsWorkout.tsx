@@ -326,9 +326,6 @@ export default function CalisthenicsWorkout() {
       </Card>
 
 
-      {/* Circuits */}
-      {visible.map((circuit) => (
-        <Card key={circuit.category} className="overflow-hidden border-border shadow-card">
       {/* Circuits — MFP-style list rows */}
       {visible.map((circuit) => {
         const circuitDone = circuit.items.filter((_, i) => completed[`${circuit.category}-${i}`]).length;
