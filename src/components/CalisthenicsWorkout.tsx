@@ -439,7 +439,7 @@ export default function CalisthenicsWorkout() {
                               <p className="text-xs leading-relaxed text-muted-foreground m-0">{ex.how}</p>
                             </div>
                             <div className="rounded-md p-3 border-l-[3px]" style={{ background: `${circuit.accent}10`, borderColor: circuit.accent }}>
-                              <div className="text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: circuit.accent }}>Pro tip</div>
+                              <div className="text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: circuit.accent }}>Tip</div>
                               <p className="text-xs text-foreground/85 m-0">{ex.tip}</p>
                             </div>
                           </div>
