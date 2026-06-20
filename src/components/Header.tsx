@@ -1,6 +1,7 @@
 import { Dumbbell, LogOut } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
+import ThemeToggle from '@/components/ThemeToggle';
 
 export default function Header() {
   const { signOut, user } = useAuth();
