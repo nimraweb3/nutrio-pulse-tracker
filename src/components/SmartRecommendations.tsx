@@ -21,13 +21,13 @@ export default function SmartRecommendations() {
     >
       <div className="flex items-center gap-2 mb-3">
         <Lightbulb className="h-4 w-4 text-primary" />
-        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Smart Insights</h2>
+        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Insights</h2>
       </div>
 
       {entries.length === 0 ? (
-        <p className="text-xs text-muted-foreground italic">Log meals to get personalized insights</p>
+        <p className="text-xs text-muted-foreground italic">Log a meal to see insights here</p>
       ) : recs.length === 0 ? (
-        <p className="text-xs text-muted-foreground italic">Keep logging for more insights</p>
+        <p className="text-xs text-muted-foreground italic">Looking good — keep logging</p>
       ) : (
         <div className="space-y-2">
           {recs.map((r, i) => (
