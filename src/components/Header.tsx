@@ -12,9 +12,9 @@ export default function Header() {
             <Dumbbell className="h-5 w-5 text-primary-foreground" strokeWidth={2.5} />
           </div>
           <div>
-            <h1 className="text-base font-display text-foreground leading-none tracking-tight">NIM Fitness</h1>
+            <h1 className="text-base font-display text-foreground leading-none tracking-tight">My Fitness</h1>
             <p className="text-[10px] text-muted-foreground font-semibold tracking-wide uppercase mt-0.5">
-              Nutrition · Workout · Insights
+              NUTRITION · WORKOUT&nbsp;
             </p>
           </div>
         </div>
