@@ -1,6 +1,7 @@
 import { Dumbbell, LogOut } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
+import ThemeToggle from '@/components/ThemeToggle';
 
 export default function Header() {
   const { signOut, user } = useAuth();
@@ -18,7 +19,8 @@ export default function Header() {
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
+          <ThemeToggle />
           {user && (
             <>
               <span className="text-xs text-muted-foreground hidden sm:inline font-medium truncate max-w-[160px]">
