@@ -57,13 +57,13 @@ const Index = () => {
             <div className="min-w-0 flex-1">
               <h1 className="text-xl sm:text-2xl font-display text-foreground truncate">{activeMeta.label}</h1>
               <p className="text-xs text-muted-foreground truncate">
-                {view === 'dashboard'   && 'Your complete daily overview at a glance'}
+                {view === 'dashboard'   && "Today's totals, goals and weight"}
                 {view === 'food'        && 'Log meals and track macros for the day'}
-                {view === 'workouts'    && 'Cardio, gym & home workout tracking'}
-                {view === 'calisthenics'&& 'Guided no-equipment routine with calorie tracking'}
+                {view === 'workouts'    && 'Cardio, gym and home workouts'}
+                {view === 'calisthenics'&& 'No-equipment routine that logs calories'}
                 {view === 'calendar'    && 'Monthly view of your nutrition history'}
                 {view === 'analytics'   && 'Weekly trends and progress charts'}
-                {view === 'insights'    && 'Smart recommendations based on your data'}
+                {view === 'insights'    && 'Tips based on what you logged this week'}
               </p>
             </div>
           </div>
