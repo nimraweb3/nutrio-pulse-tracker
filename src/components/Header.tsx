@@ -19,7 +19,8 @@ export default function Header() {
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
+          <ThemeToggle />
           {user && (
             <>
               <span className="text-xs text-muted-foreground hidden sm:inline font-medium truncate max-w-[160px]">
