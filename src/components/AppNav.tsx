@@ -13,7 +13,7 @@ export const NAV_ITEMS: { id: AppView; label: string; icon: typeof LayoutDashboa
   { id: 'calisthenics', label: 'Calisthenics',  icon: Activity,        hint: 'No-equipment routine' },
   { id: 'calendar',     label: 'Calendar',      icon: CalendarDays,    hint: 'Monthly history' },
   { id: 'analytics',    label: 'Analytics',     icon: BarChart3,       hint: 'Trends & charts' },
-  { id: 'insights',     label: 'Insights',      icon: Lightbulb,       hint: 'Smart tips' },
+  { id: 'insights',     label: 'Insights',      icon: Lightbulb,       hint: 'Tips & nudges' },
 ];
 
 interface Props {

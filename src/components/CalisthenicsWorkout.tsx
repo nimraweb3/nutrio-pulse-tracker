@@ -244,10 +244,10 @@ export default function CalisthenicsWorkout() {
         <div className="px-5 sm:px-7 py-5 sm:py-6 border-b border-border">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="min-w-0">
-              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-primary mb-1.5">No Equipment · 45 min · Full Body</p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-primary mb-1.5">No equipment · 45 min · Full body</p>
               <h2 className="text-2xl sm:text-3xl font-display text-foreground">Calisthenics Workout</h2>
               <p className="text-sm text-muted-foreground mt-1 max-w-xl">
-                Tick each move as you finish — calories auto-log to your daily burn.
+                Check off each move as you finish it. Calories add to your daily burn.
               </p>
             </div>
             <Button size="sm" variant="outline" onClick={resetSession} className="gap-1.5">
@@ -439,7 +439,7 @@ export default function CalisthenicsWorkout() {
                               <p className="text-xs leading-relaxed text-muted-foreground m-0">{ex.how}</p>
                             </div>
                             <div className="rounded-md p-3 border-l-[3px]" style={{ background: `${circuit.accent}10`, borderColor: circuit.accent }}>
-                              <div className="text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: circuit.accent }}>Pro tip</div>
+                              <div className="text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: circuit.accent }}>Tip</div>
                               <p className="text-xs text-foreground/85 m-0">{ex.tip}</p>
                             </div>
                           </div>
