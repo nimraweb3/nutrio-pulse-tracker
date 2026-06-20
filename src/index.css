@@ -6,8 +6,8 @@
 
 @layer base {
   :root {
-    /* MyFitnessPal-inspired — clean white surfaces, MFP blue primary, MFP orange accent */
-    --background: 220 20% 97%;
+    /* Emerald primary + amber accent on clean white surfaces */
+    --background: 150 20% 98%;
     --foreground: 222 28% 14%;
 
     --card: 0 0% 100%;
@@ -16,51 +16,51 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 28% 14%;
 
-    --primary: 206 100% 40%;            /* MFP blue #0072CE */
+    --primary: 158 64% 40%;            /* emerald */
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 206 100% 50%;
+    --primary-glow: 158 70% 48%;
 
-    --secondary: 220 16% 96%;
+    --secondary: 150 18% 96%;
     --secondary-foreground: 222 28% 18%;
 
-    --muted: 220 16% 96%;
-    --muted-foreground: 220 9% 46%;
+    --muted: 150 14% 95%;
+    --muted-foreground: 220 9% 42%;
 
-    --accent: 14 100% 57%;              /* MFP orange #FF5C24 */
-    --accent-foreground: 0 0% 100%;
+    --accent: 38 92% 50%;              /* amber */
+    --accent-foreground: 30 80% 15%;
 
     --destructive: 0 78% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 142 64% 42%;
+    --success: 158 64% 40%;
     --success-foreground: 0 0% 100%;
 
     --warning: 38 92% 50%;
     --warning-foreground: 30 80% 15%;
 
-    --info: 206 100% 40%;
+    --info: 206 90% 45%;
     --info-foreground: 0 0% 100%;
 
-    --protein: 206 100% 40%;
+    --protein: 158 64% 40%;
     --carbs: 38 92% 50%;
-    --fats: 14 100% 57%;
-    --fiber: 142 64% 42%;
-    --calories: 206 100% 40%;
+    --fats: 14 90% 55%;
+    --fiber: 158 50% 35%;
+    --calories: 158 64% 40%;
 
-    --border: 220 14% 90%;
-    --input: 220 14% 90%;
-    --ring: 206 100% 40%;
+    --border: 150 12% 88%;
+    --input: 150 12% 88%;
+    --ring: 158 64% 40%;
 
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 222 28% 22%;
-    --sidebar-primary: 206 100% 40%;
+    --sidebar-primary: 158 64% 40%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 16% 96%;
+    --sidebar-accent: 150 18% 96%;
     --sidebar-accent-foreground: 222 28% 14%;
-    --sidebar-border: 220 14% 90%;
-    --sidebar-ring: 206 100% 40%;
+    --sidebar-border: 150 12% 88%;
+    --sidebar-ring: 158 64% 40%;
   }
 
   .dark {
