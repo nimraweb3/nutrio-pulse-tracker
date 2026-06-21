@@ -1,8 +1,10 @@
 #  Nutrio Pulse Tracker
 
-> A personal health dashboard for tracking nutrition, workouts, and daily fitness goals — built with vibe coding and Lovable AI.
+> Nutrio Pulse Tracker is a personal health dashboard designed to track nutrition, workouts, body metrics, and daily fitness goals in one place.
 
-This is a real tool I built for myself. I wanted something that actually fits how I eat (Pakistani + global food), tracks calisthenics properly, and shows my data without needing a subscription. If it works for you too, go ahead and use it.
+Built with the help of Lovable AI and a vibe-coding approach.
+
+The tracker supports both Pakistani and international food items, calorie and macro tracking, workout logging, and progress monitoring. It is especially useful for users who follow calisthenics, strength training, or general fitness routines and want a clean, data-driven overview of their health journey.
 
 ---
 
