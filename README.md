@@ -1,4 +1,4 @@
-# 🥗 Nutrio Pulse Tracker
+#  Nutrio Pulse Tracker
 
 > A personal health dashboard for tracking nutrition, workouts, and daily fitness goals — built with vibe coding and Lovable AI.
 
@@ -6,7 +6,7 @@ This is a real tool I built for myself. I wanted something that actually fits ho
 
 ---
 
-## ✨ What It Does
+##  What It Does
 
 - **Nutrition Logging** — Log meals with a food database that includes Pakistani staples (biryani, nihari, roti, daal, parathas) alongside global foods
 - **Macro Tracker** — Daily calories, protein, carbs, fats, and fiber at a glance
@@ -30,7 +30,7 @@ This is a real tool I built for myself. I wanted something that actually fits ho
 
 ---
 
-## 🚀 Run It Locally
+##  Run It Locally
 
 ### Prerequisites
 
@@ -74,7 +74,7 @@ Open [http://localhost:8080](http://localhost:8080) in your browser.
 
 ---
 
-## 🔑 Environment Variables
+## Environment Variables
 
 Create a `.env` file in the project root. **Never commit this file.**
 
@@ -90,7 +90,7 @@ A `.env.example` template is included in the repo — copy it and fill in your o
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 nutrio-pulse-tracker/
@@ -136,7 +136,7 @@ See [SECURITY.md](./SECURITY.md) for full details.
 
 ---
 
-## 🌐 Deployment
+##  Deployment
 
 Built with Lovable — deploy in one click from the Lovable dashboard. You can also deploy manually:
 
