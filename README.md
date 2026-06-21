@@ -1,35 +1,41 @@
-# My Fitness — Personal Health Dashboard
+# 🥗 Nutrio Pulse Tracker
 
-> **This is a personal project I built to track my own health, workouts and nutrition.**
-> Nothing fancy — just a clean dashboard where I log meals, track bodyweight exercises, and see if I'm hitting my daily targets. If it helps you too, feel free to use it.
->
-> **Built with vibe coding** — I iterated on this with AI prompts, not traditional software planning. It works well for what I need.
+> A personal health dashboard for tracking nutrition, workouts, and daily fitness goals — built with vibe coding and Lovable AI.
 
----
-
-## What It Does
-
-- **Nutrition tracking** — log meals using a Pakistani + global food database (biryani, nihari, roti, eggs, oats, etc.)
-- **Calisthenics workouts** — bodyweight exercises with difficulty levels and calorie estimates
-- **Daily dashboard** — calories, protein, carbs, fats, water intake, weight log
-- **Weekly analytics** — simple charts to see trends over time
-- **AI meal suggestions** — chat with an AI chef based on ingredients you have
+This is a real tool I built for myself. I wanted something that actually fits how I eat (Pakistani + global food), tracks calisthenics properly, and shows my data without needing a subscription. If it works for you too, go ahead and use it.
 
 ---
 
-## Tech Stack
+## ✨ What It Does
 
-| Layer | Choice |
-|-------|--------|
-| Frontend | React 18 + Vite + TypeScript |
-| Styling | Tailwind CSS + shadcn/ui |
-| Charts | Recharts |
-| Backend | Supabase (Auth, Postgres, RLS) |
-| AI | Lovable AI Gateway (Gemini) |
+- **Nutrition Logging** — Log meals with a food database that includes Pakistani staples (biryani, nihari, roti, daal, parathas) alongside global foods
+- **Macro Tracker** — Daily calories, protein, carbs, fats, and fiber at a glance
+- **Calisthenics Workouts** — Bodyweight exercises with difficulty levels and calorie burn estimates
+- **Daily Dashboard** — Weight log, water intake, and progress toward your daily targets
+- **Weekly Analytics** — Charts to spot trends in your nutrition and fitness over time
+- **AI Chef Chat** — Describe what ingredients you have and get meal suggestions
 
 ---
 
-## Step by Step — Run It Locally
+## 🛠️ Tech Stack
+
+| Layer      | Technology                         |
+|------------|------------------------------------|
+| Frontend   | React 18 + TypeScript + Vite       |
+| Styling    | Tailwind CSS + shadcn/ui           |
+| Charts     | Recharts                           |
+| Backend/DB | Supabase (Auth + PostgreSQL + RLS) |
+| AI         | Lovable AI Gateway (Gemini)        |
+| Build      | Bun + Vite                         |
+
+---
+
+## 🚀 Run It Locally
+
+### Prerequisites
+
+- Node.js `v18+` or Bun
+- A free [Supabase](https://supabase.com) account
 
 ### 1. Clone the repo
 
@@ -42,45 +48,23 @@ cd nutrio-pulse-tracker
 
 ```bash
 npm install
+# or
+bun install
 ```
 
-### 3. Set up Supabase
-
-- Create a free project at [supabase.com](https://supabase.com)
-- Go to Project Settings → API
-- Copy the **Project URL** and **anon public key**
-
-### 4. Add environment variables
+### 3. Set up environment variables
 
 ```bash
 cp .env.example .env
 ```
 
-Open `.env` and fill in:
+Fill in your values (see [Environment Variables](#-environment-variables) below).
 
-```env
-VITE_SUPABASE_URL=your-project-url
-VITE_SUPABASE_PUBLISHABLE_KEY=your-anon-key
-VITE_SUPABASE_PROJECT_ID=your-project-ref
-```
+### 4. Run Supabase migrations
 
-### 5. Run database migrations
+In your Supabase project → SQL Editor, run the migration files from `supabase/migrations/` in order (sorted by date).
 
-In your Supabase project, go to the SQL Editor and run the migration files from `supabase/migrations/` in order (by date).
-
-### 6. Deploy the AI chat function (optional)
-
-If you want the AI chef chat to work:
-
-```bash
-# Install Supabase CLI if you haven't
-# Then deploy the edge function
-supabase functions deploy chef-chat --project-ref your-project-ref
-```
-
-Add your `LOVABLE_API_KEY` in Supabase Edge Function secrets.
-
-### 7. Start the app
+### 5. Start the dev server
 
 ```bash
 npm run dev
@@ -90,44 +74,84 @@ Open [http://localhost:8080](http://localhost:8080) in your browser.
 
 ---
 
-## Available Scripts
+## 🔑 Environment Variables
 
-| Command | What it does |
-|---------|-------------|
-| `npm run dev` | Start dev server with hot reload |
-| `npm run build` | Build for production |
+Create a `.env` file in the project root. **Never commit this file.**
+
+```env
+VITE_SUPABASE_URL=https://your-project-id.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=your-anon-key
+VITE_SUPABASE_PROJECT_ID=your-project-ref-id
+```
+
+You can find these in your Supabase project under **Settings → API**.
+
+A `.env.example` template is included in the repo — copy it and fill in your own values.
+
+---
+
+## 📁 Project Structure
+
+```
+nutrio-pulse-tracker/
+├── public/
+├── src/
+│   ├── components/     # UI components (dashboard, meal logger, workout tracker)
+│   ├── context/        # Global app state (auth, user data)
+│   ├── data/           # Static food + exercise databases
+│   ├── pages/          # Route-level pages (Dashboard, Auth)
+│   ├── utils/          # Nutrition calculation helpers
+│   └── index.css       # Global styles and design tokens
+├── supabase/
+│   ├── functions/      # Edge functions (AI chef chat)
+│   └── migrations/     # Database setup SQL files
+├── .env.example        # Template — copy this to .env
+├── .gitignore
+├── package.json
+└── vite.config.ts
+```
+
+---
+
+## 🧪 Scripts
+
+| Command           | Description                      |
+|-------------------|----------------------------------|
+| `npm run dev`     | Start dev server with hot reload |
+| `npm run build`   | Build for production             |
 | `npm run preview` | Preview production build locally |
-| `npm run lint` | Check code with ESLint |
-| `npm test` | Run tests with Vitest |
+| `npm run lint`    | Run ESLint                       |
+| `npm test`        | Run tests with Vitest            |
 
 ---
 
-## Project Structure
+## 🔒 Security
 
-```
-src/
-├── components/     # UI components (dashboard, meal logger, workouts, etc.)
-├── context/        # Global app state
-├── data/           # Static food and exercise databases
-├── pages/          # Main pages (Dashboard, Auth)
-├── utils/          # Nutrition calculation helpers
-└── index.css       # Theme and design tokens
+- All API keys are stored in `.env` — never hardcoded
+- `.env` is listed in `.gitignore` and not committed to the repo
+- Supabase Row Level Security (RLS) is enabled on all tables — users can only access their own data
+- Only the `anon` public key is used on the frontend — the `service_role` key is never exposed
 
-supabase/
-├── functions/      # Edge functions (AI chat)
-└── migrations/     # Database setup SQL
-```
+See [SECURITY.md](./SECURITY.md) for full details.
 
 ---
 
-## A Note on This Project
+## 🌐 Deployment
 
-This isn't a commercial product or a startup. It's just something I put together because I wanted a simple, focused tool for my own fitness tracking. The code is "vibe coded" — I described what I wanted, iterated with AI, and refined until it felt right.
+Built with Lovable — deploy in one click from the Lovable dashboard. You can also deploy manually:
 
-If you're a developer looking at this repo, don't expect enterprise architecture. It works, it's clean enough, and it solves my problem. That's the goal.
+**Vercel:** Connect your GitHub repo → add environment variables in Project Settings → Deploy
+
+**Netlify:** Same process — add env vars under Site Settings → Environment Variables
 
 ---
 
-## License
+## 📄 License
 
 MIT — use it however you want.
+
+---
+
+## 👩‍💻 Author
+
+Built by [@nimraweb3](https://github.com/nimraweb3)
