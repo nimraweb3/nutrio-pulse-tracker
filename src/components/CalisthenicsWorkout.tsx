@@ -193,7 +193,8 @@ const DIFFICULTY_STYLES: Record<Difficulty, string> = {
 
 
 export default function CalisthenicsWorkout() {
-  const { addWorkoutEntry, selectedDate } = useAppState();
+  const { profile, addWorkoutEntry, selectedDate } = useAppState();
+  const weight = profile.weight || 70;
   const [active, setActive] = useState<string | null>(null);
   const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
   const [completed, setCompleted] = useState<Record<string, boolean>>({});
@@ -208,7 +209,7 @@ export default function CalisthenicsWorkout() {
     .filter(c => c.items.length > 0);
 
   const stats = useMemo(() => {
-    const all = circuits.flatMap((c, ci) => c.items.map((ex, ei) => ({ key: `${c.category}-${ei}`, kcal: ex.kcal })));
+    const all = circuits.flatMap((c) => c.items.map((ex, ei) => ({ key: `${c.category}-${ei}`, kcal: kcalFor(ex, weight) })));
     const doneItems = all.filter(a => completed[a.key]);
     return {
       total: all.length,
@@ -216,29 +217,30 @@ export default function CalisthenicsWorkout() {
       totalKcal: all.reduce((s, a) => s + a.kcal, 0),
       doneKcal: doneItems.reduce((s, a) => s + a.kcal, 0),
     };
-  }, [completed]);
+  }, [completed, weight]);
 
   const toggleComplete = (key: string, ex: Exercise, circuitTitle: string) => {
     const isCompleting = !completed[key];
     setCompleted(prev => ({ ...prev, [key]: isCompleting }));
 
     if (isCompleting) {
+      const kcal = kcalFor(ex, weight);
       const entry: WorkoutEntry = {
         id: crypto.randomUUID(),
         exercise: {
           id: `calisthenics-${key}`,
           name: ex.name,
           category: 'HIIT',
-          caloriesPer30Min: ex.kcal * 30,
+          caloriesPer30Min: Math.round(ex.met * weight * 0.5),
           unit: 'minutes',
-          defaultDuration: 1,
+          defaultDuration: ex.minutes,
           icon: '💪',
         } as any,
-        duration: 1,
-        caloriesBurned: ex.kcal,
+        duration: ex.minutes,
+        caloriesBurned: kcal,
       };
       addWorkoutEntry(formatDate(selectedDate), entry);
-      toast.success(`+${ex.kcal} kcal · ${ex.name}`, {
+      toast.success(`+${kcal} kcal · ${ex.name}`, {
         description: `Logged to ${circuitTitle}`,
         duration: 2000,
       });
