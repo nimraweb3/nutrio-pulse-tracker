@@ -357,7 +357,7 @@ export default function CalisthenicsWorkout() {
               </p>
             </div>
             <span className="text-[11px] text-muted-foreground font-semibold tabular-nums">
-              {circuit.items.reduce((s, e) => s + e.kcal, 0)} kcal
+              {circuit.items.reduce((s, e) => s + kcalFor(e, weight), 0)} kcal
             </span>
           </div>
 
