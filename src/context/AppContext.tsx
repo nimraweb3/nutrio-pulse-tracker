@@ -6,6 +6,7 @@ import { supabase } from '@/integrations/supabase/client';
 import type { Exercise } from '@/data/exerciseDatabase';
 import type { Supplement } from '@/data/supplementDatabase';
 
+
 export interface Recipe {
   id: string;
   name: string;
