@@ -424,7 +424,7 @@ export default function CalisthenicsWorkout() {
 
                     {/* kcal */}
                     <div className="shrink-0 text-right">
-                      <div className="text-base font-display font-extrabold text-foreground tabular-nums leading-none">{ex.kcal}</div>
+                      <div className="text-base font-display font-extrabold text-foreground tabular-nums leading-none">{kcalFor(ex, weight)}</div>
                       <div className="text-[9px] uppercase tracking-wider font-bold text-muted-foreground mt-1">kcal</div>
                     </div>
 
