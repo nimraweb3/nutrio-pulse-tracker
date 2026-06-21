@@ -14,7 +14,10 @@ interface Exercise {
   image: string;
   how: string;
   tip: string;
-  kcal: number; // estimated calories burned per set (70kg reference)
+  /** MET value (Compendium of Physical Activities, Ainsworth et al. 2011) */
+  met: number;
+  /** Active minutes for ONE set of this exercise (excludes rest) */
+  minutes: number;
   difficulty: Difficulty;
 }
 interface Circuit {
@@ -22,6 +25,16 @@ interface Circuit {
   title: string;
   accent: string;
   items: Exercise[];
+}
+
+/**
+ * Accurate calorie burn using the standard MET formula:
+ *   kcal = MET × bodyWeight(kg) × time(hours)
+ * Source: Ainsworth BE et al., "2011 Compendium of Physical Activities".
+ * This is the same formula used by ACSM, Mayo Clinic and Harvard Health.
+ */
+export function kcalFor(ex: Pick<Exercise, 'met' | 'minutes'>, weightKg: number): number {
+  return Math.round(ex.met * weightKg * (ex.minutes / 60));
 }
 
 const SP = (path: string) => `https://spotebi.com/wp-content/uploads/${path}`;
