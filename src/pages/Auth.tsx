@@ -58,8 +58,8 @@ export default function Auth() {
             <Leaf className="h-6 w-6 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-foreground">NIM Fitness Tracker</h1>
-            <p className="text-xs text-muted-foreground">Your Complete Fitness Monitor</p>
+            <h1 className="text-xl font-bold text-foreground">My Fitness</h1>
+            <p className="text-xs text-muted-foreground">NUTRITION · WORKOUT</p>
           </div>
         </div>
 

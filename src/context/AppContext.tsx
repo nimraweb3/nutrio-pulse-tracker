@@ -80,111 +80,124 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   // Load all data from cloud once auth is ready
   useEffect(() => {
     if (authLoading) return; // Wait for auth session to restore
+    setDataLoaded(false);
     if (!user) {
       setDataLoaded(true); // No user, nothing to load
       return;
     }
+    let cancelled = false;
     const loadData = async () => {
-      // Load user settings (profile)
-      const { data: settingsData } = await supabase
-        .from('user_settings')
-        .select('settings')
-        .eq('user_id', user.id)
-        .maybeSingle();
-      if (settingsData?.settings) {
-        setProfileState(settingsData.settings as unknown as UserProfile);
-      }
-
-      // Load food entries
-      const { data: foodData } = await supabase
-        .from('food_entries')
-        .select('*')
-        .eq('user_id', user.id);
-      if (foodData) {
-        const logs: Record<string, DayLog> = {};
-        const recent: FoodEntry[] = [];
-        for (const row of foodData) {
-          const entry: FoodEntry = {
-            id: row.id,
-            foodItem: row.food_item_data as any,
-            quantity: Number(row.quantity),
-            mealType: row.meal_type as MealType,
-          };
-          if (!logs[row.date]) logs[row.date] = { date: row.date, entries: [] };
-          logs[row.date].entries.push(entry);
-          recent.push(entry);
+      try {
+        // Load user settings (profile)
+        const { data: settingsData, error: settingsError } = await supabase
+          .from('user_settings')
+          .select('settings')
+          .eq('user_id', user.id)
+          .maybeSingle();
+        if (settingsError) console.error('Failed to load profile settings:', settingsError);
+        if (!cancelled && settingsData?.settings) {
+          setProfileState({ ...defaultProfile, ...(settingsData.settings as unknown as Partial<UserProfile>) });
         }
-        setDayLogs(logs);
-        setRecentFoods(recent.slice(-10).reverse());
-      }
 
-      // Load weight logs
-      const { data: weightData } = await supabase
-        .from('weight_logs')
-        .select('*')
-        .eq('user_id', user.id);
-      if (weightData) {
-        const wl: Record<string, number> = {};
-        for (const row of weightData) wl[row.date] = Number(row.weight);
-        setWeightLog(wl);
-      }
-
-      // Load recipes
-      const { data: recipeData } = await supabase
-        .from('recipes')
-        .select('*')
-        .eq('user_id', user.id);
-      if (recipeData) {
-        setRecipes(recipeData.map(r => ({
-          id: r.id,
-          name: r.name,
-          items: r.items as any,
-        })));
-      }
-
-      // Load workout entries
-      const { data: workoutData } = await supabase
-        .from('workout_entries')
-        .select('*')
-        .eq('user_id', user.id);
-      if (workoutData) {
-        const wl: Record<string, WorkoutEntry[]> = {};
-        for (const row of workoutData) {
-          const entry: WorkoutEntry = {
-            id: row.id,
-            exercise: row.exercise_data as any,
-            duration: Number(row.duration),
-            caloriesBurned: Number(row.calories_burned),
-          };
-          if (!wl[row.date]) wl[row.date] = [];
-          wl[row.date].push(entry);
+        // Load food entries
+        const { data: foodData, error: foodError } = await supabase
+          .from('food_entries')
+          .select('*')
+          .eq('user_id', user.id);
+        if (foodError) console.error('Failed to load food entries:', foodError);
+        if (!cancelled && foodData) {
+          const logs: Record<string, DayLog> = {};
+          const recent: FoodEntry[] = [];
+          for (const row of foodData) {
+            const entry: FoodEntry = {
+              id: row.id,
+              foodItem: row.food_item_data as any,
+              quantity: Number(row.quantity),
+              mealType: row.meal_type as MealType,
+            };
+            if (!logs[row.date]) logs[row.date] = { date: row.date, entries: [] };
+            logs[row.date].entries.push(entry);
+            recent.push(entry);
+          }
+          setDayLogs(logs);
+          setRecentFoods(recent.slice(-10).reverse());
         }
-        setWorkoutLogs(wl);
-      }
 
-      // Load supplement entries
-      const { data: suppData } = await supabase
-        .from('supplement_entries')
-        .select('*')
-        .eq('user_id', user.id);
-      if (suppData) {
-        const sl: Record<string, SupplementEntry[]> = {};
-        for (const row of suppData) {
-          const entry: SupplementEntry = {
-            id: row.id,
-            supplement: row.supplement_data as any,
-            quantity: Number(row.quantity),
-            takenAt: row.taken_at,
-          };
-          if (!sl[row.date]) sl[row.date] = [];
-          sl[row.date].push(entry);
+        // Load weight logs
+        const { data: weightData, error: weightError } = await supabase
+          .from('weight_logs')
+          .select('*')
+          .eq('user_id', user.id);
+        if (weightError) console.error('Failed to load weight logs:', weightError);
+        if (!cancelled && weightData) {
+          const wl: Record<string, number> = {};
+          for (const row of weightData) wl[row.date] = Number(row.weight);
+          setWeightLog(wl);
         }
-        setSupplementLogs(sl);
-      }
 
-      setDataLoaded(true);
+        // Load recipes
+        const { data: recipeData, error: recipeError } = await supabase
+          .from('recipes')
+          .select('*')
+          .eq('user_id', user.id);
+        if (recipeError) console.error('Failed to load recipes:', recipeError);
+        if (!cancelled && recipeData) {
+          setRecipes(recipeData.map(r => ({
+            id: r.id,
+            name: r.name,
+            items: r.items as any,
+          })));
+        }
+
+        // Load workout entries
+        const { data: workoutData, error: workoutError } = await supabase
+          .from('workout_entries')
+          .select('*')
+          .eq('user_id', user.id);
+        if (workoutError) console.error('Failed to load workouts:', workoutError);
+        if (!cancelled && workoutData) {
+          const wl: Record<string, WorkoutEntry[]> = {};
+          for (const row of workoutData) {
+            const entry: WorkoutEntry = {
+              id: row.id,
+              exercise: row.exercise_data as any,
+              duration: Number(row.duration),
+              caloriesBurned: Number(row.calories_burned),
+            };
+            if (!wl[row.date]) wl[row.date] = [];
+            wl[row.date].push(entry);
+          }
+          setWorkoutLogs(wl);
+        }
+
+        // Load supplement entries
+        const { data: suppData, error: suppError } = await supabase
+          .from('supplement_entries')
+          .select('*')
+          .eq('user_id', user.id);
+        if (suppError) console.error('Failed to load supplements:', suppError);
+        if (!cancelled && suppData) {
+          const sl: Record<string, SupplementEntry[]> = {};
+          for (const row of suppData) {
+            const entry: SupplementEntry = {
+              id: row.id,
+              supplement: row.supplement_data as any,
+              quantity: Number(row.quantity),
+              takenAt: row.taken_at,
+            };
+            if (!sl[row.date]) sl[row.date] = [];
+            sl[row.date].push(entry);
+          }
+          setSupplementLogs(sl);
+        }
+      } catch (error) {
+        console.error('Failed to load app data:', error);
+      } finally {
+        if (!cancelled) setDataLoaded(true);
+      }
     };
     loadData();
+    return () => { cancelled = true; };
   }, [user, authLoading]);
 
   const setProfile = useCallback((p: UserProfile) => {

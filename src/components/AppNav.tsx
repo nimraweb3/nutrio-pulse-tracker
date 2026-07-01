@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { LayoutDashboard, Utensils, Dumbbell, Activity, CalendarDays, BarChart3, Lightbulb, Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 
 export type AppView = 'dashboard' | 'food' | 'workouts' | 'calisthenics' | 'calendar' | 'analytics' | 'insights';
@@ -86,11 +86,13 @@ export function MobileNavTrigger({ view, onChange }: Props) {
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="w-72 p-0 flex flex-col">
+        <SheetTitle className="sr-only">Main menu</SheetTitle>
+        <SheetDescription className="sr-only">Choose a fitness dashboard section.</SheetDescription>
         <div className="p-4 border-b border-border bg-gradient-to-br from-primary/5 to-info/5">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-[10px] font-bold uppercase tracking-wider text-primary">Menu</p>
-              <h2 className="text-lg font-display text-foreground">NIM Fitness</h2>
+              <h2 className="text-lg font-display text-foreground">My Fitness</h2>
             </div>
           </div>
         </div>
@@ -99,7 +101,7 @@ export function MobileNavTrigger({ view, onChange }: Props) {
         </div>
         <div className="p-3 border-t border-border">
           <div className="px-3 py-3 rounded-lg bg-gradient-to-br from-primary/10 to-info/10 border border-primary/15">
-            <p className="text-[11px] font-semibold text-foreground">Stay consistent 💪</p>
+            <p className="text-[11px] font-semibold text-foreground">Keep going 💪</p>
             <p className="text-[10px] text-muted-foreground mt-0.5 leading-snug">
               Small daily logs compound into big results.
             </p>
