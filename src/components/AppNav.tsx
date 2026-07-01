@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { LayoutDashboard, Utensils, Dumbbell, Activity, CalendarDays, BarChart3, Lightbulb, Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 
 export type AppView = 'dashboard' | 'food' | 'workouts' | 'calisthenics' | 'calendar' | 'analytics' | 'insights';
@@ -86,6 +86,8 @@ export function MobileNavTrigger({ view, onChange }: Props) {
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="w-72 p-0 flex flex-col">
+        <SheetTitle className="sr-only">Main menu</SheetTitle>
+        <SheetDescription className="sr-only">Choose a fitness dashboard section.</SheetDescription>
         <div className="p-4 border-b border-border bg-gradient-to-br from-primary/5 to-info/5">
           <div className="flex items-center justify-between">
             <div>
