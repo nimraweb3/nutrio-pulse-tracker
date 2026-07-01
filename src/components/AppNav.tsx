@@ -90,7 +90,7 @@ export function MobileNavTrigger({ view, onChange }: Props) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-[10px] font-bold uppercase tracking-wider text-primary">Menu</p>
-              <h2 className="text-lg font-display text-foreground">NIM Fitness</h2>
+              <h2 className="text-lg font-display text-foreground">My Fitness</h2>
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@ export function MobileNavTrigger({ view, onChange }: Props) {
         </div>
         <div className="p-3 border-t border-border">
           <div className="px-3 py-3 rounded-lg bg-gradient-to-br from-primary/10 to-info/10 border border-primary/15">
-            <p className="text-[11px] font-semibold text-foreground">Stay consistent 💪</p>
+            <p className="text-[11px] font-semibold text-foreground">Keep going 💪</p>
             <p className="text-[10px] text-muted-foreground mt-0.5 leading-snug">
               Small daily logs compound into big results.
             </p>
